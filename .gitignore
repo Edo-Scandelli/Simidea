@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# editor
+.vscode/
+.idea/
+*.swp
+
+# varie
+node_modules/
+*.log
