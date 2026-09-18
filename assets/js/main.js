@@ -14,6 +14,41 @@
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const lerp  = (a, b, t) => a + (b - a) * t;
 
+  /* ------------------------------------------------ intro neon al caricamento */
+  /* Tre fasi: il tubo si traccia, si accende, lo strato si ritira.
+     Un timeout di sicurezza smonta tutto comunque, così un'animazione
+     mancata non può lasciare la pagina coperta. */
+  const intro = $('#intro');
+  if (intro && !reduced) {
+    const root = document.documentElement;
+    const T_TRACCIA = 1250;   // marchio + wordmark
+    const T_ACCENDI = 780;
+    const T_VIA     = 600;    // totale ~2,6s
+
+    root.classList.add('intro-on', 'intro-draw');
+    document.body.classList.add('is-locked');
+
+    let smontato = false;
+    const smonta = () => {
+      if (smontato) return;
+      smontato = true;
+      root.classList.remove('intro-on', 'intro-draw', 'intro-on-light', 'intro-out');
+      document.body.classList.remove('is-locked');
+      intro.remove();
+    };
+
+    setTimeout(() => root.classList.add('intro-on-light'), T_TRACCIA);
+    setTimeout(() => root.classList.add('intro-out'), T_TRACCIA + T_ACCENDI);
+    setTimeout(smonta, T_TRACCIA + T_ACCENDI + T_VIA);
+    // rete di sicurezza: qualunque cosa vada storta, dopo 6s lo strato non c'è più
+    setTimeout(smonta, 6000);
+    // e si può sempre saltare
+    intro.addEventListener('click', smonta);
+    addEventListener('keydown', e => { if (e.key === 'Escape') smonta(); }, { once: true });
+  } else if (intro) {
+    intro.remove();
+  }
+
   /* ---------------------------------------------------------------- anno */
   const year = $('#year');
   if (year) year.textContent = new Date().getFullYear();

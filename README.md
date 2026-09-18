@@ -42,6 +42,28 @@ Font: **Anton** (titoli poster), **Archivo** (headline/UI), **Inter** (testo).
 7. Processo — 3 step
 8. CTA contatti + footer
 
+## Intro neon al caricamento
+
+Al primo disegno della pagina uno strato copre lo schermo e il marchio viene
+**tracciato come un tubo di neon**, poi si accende con uno sfarfallio. Durata
+complessiva ~2,6s, poi lo strato si ritira e viene rimosso dal DOM.
+
+Il tracciato anima `stroke-dashoffset`: le lunghezze dei percorsi sono
+misurate sul posto (marchio 1671, wordmark 1932) e scritte nel CSS. Se il
+logo viene rivettorializzato, vanno rimisurate con `path.getTotalLength()`.
+
+I percorsi dello sprite **non dichiarano `fill`**: lo assegna la regola
+`svg use { fill: currentColor }`. Serve all'intro, che deve poter imporre
+`fill: none` per tracciare il contorno. Togliendo quella regola i loghi
+diventano neri.
+
+Tre reti di sicurezza: lo strato è `display: none` per difetto e si mostra
+solo se il JS lo attiva; un timeout a 6s lo smonta comunque; si salta con
+un clic o con Esc. Con `prefers-reduced-motion` non viene creato affatto.
+
+Ora parte a **ogni caricamento**. Per limitarlo al primo della sessione,
+avvolgere l'attivazione in un controllo su `sessionStorage`.
+
 ## Banner SIMIDEA (header)
 
 L'header è il banner in vetro del sito: resta **sempre visibile**, non si

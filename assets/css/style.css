@@ -145,6 +145,106 @@ p { text-wrap: pretty; }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
 
+/* i percorsi dello sprite non dichiarano più fill (serve all'intro, che deve
+   poterlo azzerare per tracciare il contorno): glielo diamo qui */
+svg use { fill: currentColor; }
+
+/* ==========================================================================
+   3a. Intro al caricamento — logo neon tracciato
+   Lunghezze dei percorsi misurate sul posto: marchio 1671, wordmark 1932.
+   ========================================================================== */
+.intro {
+  position: fixed; inset: 0; z-index: 300;
+  display: grid; place-items: center;
+  background: var(--ink-deep);
+  /* nascosto per difetto: si mostra solo se il JS lo attiva, così un
+     errore o il JS disabilitato non lasciano la pagina coperta */
+  display: none;
+}
+html.intro-on .intro { display: grid; }
+
+.intro__stage {
+  display: grid; justify-items: center;
+  gap: clamp(1.4rem, 3vw, 2.4rem);
+  color: var(--orange);
+}
+.intro__mark, .intro__word { overflow: visible; }   /* il bagliore non va tagliato */
+.intro__mark { width: clamp(96px, 13vw, 168px); height: auto; }
+.intro__word { width: clamp(150px, 21vw, 280px); height: auto; }
+
+/* fase 1 — il tubo si traccia */
+.intro__mark use, .intro__word use {
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.intro__mark use { stroke-dasharray: 1671; stroke-dashoffset: 1671; }
+.intro__word use { stroke-dasharray: 1932; stroke-dashoffset: 1932; }
+
+html.intro-draw .intro__mark use {
+  animation: traccia 1.05s cubic-bezier(.5, 0, .3, 1) forwards;
+}
+html.intro-draw .intro__word use {
+  animation: traccia 0.8s cubic-bezier(.5, 0, .3, 1) .45s forwards;
+}
+@keyframes traccia { to { stroke-dashoffset: 0; } }
+
+/* fase 2 — accensione: il tubo si riempie e il neon sfarfalla */
+html.intro-on-light .intro__mark use,
+html.intro-on-light .intro__word use {
+  animation: accendi .78s steps(1, end) forwards;
+}
+@keyframes accendi {
+  0%   { fill: rgb(255 153 0 / 0);   stroke: var(--orange); }
+  12%  { fill: rgb(255 240 214 / 1); stroke: #fff5e2; }
+  20%  { fill: rgb(255 153 0 / .25); stroke: var(--orange); }
+  30%  { fill: rgb(255 240 214 / 1); stroke: #fff5e2; }
+  38%  { fill: rgb(255 153 0 / .5);  stroke: var(--orange); }
+  100% { fill: rgb(255 243 224 / 1); stroke: #fff6e6; }
+}
+
+/* il bagliore sfarfalla insieme, ma applicato all'SVG: sul clone il
+   filtro veniva tagliato dal riquadro dell'SVG e lasciava un alone quadrato */
+html.intro-on-light .intro__mark,
+html.intro-on-light .intro__word {
+  animation: bagliore .78s steps(1, end) forwards;
+}
+@keyframes bagliore {
+  0%   { filter: none; }
+  12%  { filter: drop-shadow(0 0 7px rgb(255 153 0 / .95)) drop-shadow(0 0 26px rgb(255 153 0 / .6)); }
+  20%  { filter: drop-shadow(0 0 3px rgb(255 153 0 / .35)); }
+  30%  { filter: drop-shadow(0 0 8px rgb(255 153 0 / .95)) drop-shadow(0 0 30px rgb(255 153 0 / .65)); }
+  38%  { filter: drop-shadow(0 0 4px rgb(255 153 0 / .45)); }
+  100% { filter: drop-shadow(0 0 9px rgb(255 153 0 / .85)) drop-shadow(0 0 34px rgb(255 153 0 / .5)); }
+}
+
+/* alone dietro al logo, che cresce con l'accensione */
+.intro__stage::before {
+  content: "";
+  position: absolute; left: 50%; top: 45%;
+  width: 46vmax; aspect-ratio: 1; translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 153 0 / .3) 0%, rgb(255 153 0 / 0) 62%);
+  opacity: 0; pointer-events: none;
+}
+html.intro-on-light .intro__stage::before { animation: alone .85s var(--ease) forwards; }
+@keyframes alone { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: scale(1); } }
+
+/* fase 3 — lo strato si ritira */
+html.intro-out .intro {
+  animation: intro-via .6s var(--ease) forwards;
+  pointer-events: none;
+}
+@keyframes intro-via {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.intro-on .intro { display: none; }
+}
+
 /* -------------------------------------------------- 3b. Cursore */
 /* Il cursore è "la luce": un punto con un anello che lo insegue.
    L'arancione compare solo dove c'è qualcosa da toccare. */
