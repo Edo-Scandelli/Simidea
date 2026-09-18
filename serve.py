@@ -15,8 +15,9 @@ class NoCache(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a):
         pass
 
-class Server(socketserver.TCPServer):
+class Server(socketserver.ThreadingTCPServer):
     allow_reuse_address = True
+    daemon_threads = True
     address_family = __import__("socket").AF_INET6   # accetta anche IPv4
 
 handler = functools.partial(NoCache, directory=os.path.dirname(os.path.abspath(__file__)))
