@@ -717,8 +717,15 @@ html.has-cursor * { cursor: none !important; }
 }
 .photo__head {
   display: grid; gap: 1.3rem;
-  max-width: 40ch;
   margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+/* niente max-width qui: a 40ch il titolo andava su tre righe invece di due */
+.photo__head .section-title { max-width: 14ch; }
+.photo__head .section-lead { max-width: none; }
+/* una frase per riga, interruzione sul punto */
+.photo__head .section-lead span { display: block; }
+@media (max-width: 720px) {
+  .photo__head .section-lead span { display: inline; }
 }
 .photo__grid {
   display: grid;
