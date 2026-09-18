@@ -117,7 +117,6 @@
   const nav = $('#nav');
   if (nav) {
     const sections = $$('[data-nav]');
-    let lastY = window.scrollY;
 
     const paintNav = () => {
       const y = window.scrollY;
@@ -132,10 +131,8 @@
       nav.dataset.theme = theme;
       nav.dataset.surface = theme;   // serve anche al cursore
 
-      // auto-hide scorrendo verso il basso
-      const goingDown = y > lastY && y > 320;
-      nav.dataset.hidden = String(goingDown && menu?.dataset.open !== 'true');
-      lastY = y;
+      // resta sempre visibile: scorrendo si limita a compattarsi
+      nav.dataset.compact = String(y > 40);
     };
 
     onScroll(paintNav);

@@ -42,6 +42,17 @@ Font: **Anton** (titoli poster), **Archivo** (headline/UI), **Inter** (testo).
 7. Processo — 3 step
 8. CTA contatti + footer
 
+## Banner SIMIDEA (header)
+
+L'header è il banner in vetro del sito: resta **sempre visibile**, non si
+nasconde scorrendo. Scorrendo si compatta (da 64 a 50px di altezza e da
+1361 a 1120px di larghezza) tramite `data-compact` sul tag `<header>`,
+impostato dal JS oltre i 40px di scroll.
+
+Il colore si adatta da solo alla sezione sotto la barra, leggendo
+`data-nav="dark|light"`. Quando faremo le altre pagine, l'header va
+copiato così com'è: è un componente condiviso, senza dipendenze dalla home.
+
 ## Cursore
 
 Il cursore di sistema è sostituito da un punto + anello che lo insegue.
