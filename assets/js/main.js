@@ -170,8 +170,7 @@
         // è quanto la card successiva si è già sovrapposta a questa.
         const stickyTop = parseFloat(getComputedStyle(card).top) || 0;
         const p = clamp((vh - next.getBoundingClientRect().top) / (vh - stickyTop), 0, 1);
-        card.style.transform = `scale(${(1 - p * 0.06).toFixed(4)})`;
-        card.style.filter = `brightness(${(1 - p * 0.22).toFixed(3)})`;
+        card.style.setProperty('--stack', p.toFixed(4));
       });
     };
     onScroll(paintCards);
@@ -267,7 +266,7 @@
         if (r.bottom < -200 || r.top > vh + 200) return;
         const amt = parseFloat(img.dataset.parallax) || 0.1;
         const p = (r.top + r.height / 2 - vh / 2) / vh;
-        img.style.transform = `scale(1.06) translate3d(0, ${(-p * amt * 100).toFixed(2)}px, 0)`;
+        img.style.setProperty('--py', `${(-p * amt * 100).toFixed(2)}px`);
       });
 
       parallaxCols.forEach(col => {
