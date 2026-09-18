@@ -889,21 +889,31 @@ html.has-cursor * { cursor: none !important; }
 }
 
 /* -------------------------------------------------- 15. Reveal */
+/* Entrata: dissolvenza + risalita + una velatura appena percettibile.
+   La sfocatura resta piccola (5px) perché su testo è la parte più costosa
+   da comporre: basta a dare profondità senza pesare. */
 [data-reveal] {
   opacity: 0;
-  transform: translate3d(0, 28px, 0);
-  transition: opacity .9s var(--ease), transform .9s var(--ease);
+  transform: translate3d(0, 26px, 0);
+  filter: blur(5px);
+  transition: opacity .85s var(--ease), transform .85s var(--ease), filter .7s var(--ease);
   transition-delay: var(--d, 0ms);
 }
-[data-reveal].is-in { opacity: 1; transform: none; }
+[data-reveal].is-in { opacity: 1; transform: none; filter: blur(0); }
 
 [data-reveal="fade"]  { transform: none; }
+[data-reveal="zoom"], [data-reveal="mask"] { filter: none; }
 [data-reveal="right"] { transform: translate3d(-32px, 0, 0); }
 
 /* maschera per riga di testo: il figlio sale da sotto il taglio.
    NB: niente clip-path sull'elemento osservato, altrimenti
    IntersectionObserver lo considera di area zero e non scatta mai. */
-[data-reveal="mask"] { opacity: 1; transform: none; overflow: hidden; }
+[data-reveal="mask"] {
+  opacity: 1; transform: none;
+  overflow: hidden;              /* ripiego per browser vecchi */
+  overflow: clip;
+  overflow-clip-margin: .16em;   /* discendenti e sporgenze non tagliati */
+}
 [data-reveal="mask"] > * {
   display: block;
   transform: translate3d(0, 108%, 0);
@@ -911,6 +921,22 @@ html.has-cursor * { cursor: none !important; }
   transition-delay: var(--d, 0ms);
 }
 [data-reveal="mask"].is-in > * { transform: none; }
+
+/* righe ricavate dai <br> nei titoli di sezione */
+.lines { display: block; }
+.lines .line {
+  display: block;
+  overflow: hidden;
+  overflow: clip;
+  overflow-clip-margin: .16em;
+}
+.lines .line > span {
+  display: block;
+  transform: translate3d(0, 108%, 0);
+  transition: transform 1s var(--ease);
+  transition-delay: calc(var(--d, 0ms) + var(--i, 0) * 110ms);
+}
+.lines.is-in .line > span { transform: none; }
 
 [data-reveal="zoom"] {
   opacity: 0; transform: scale(1.05);
@@ -966,7 +992,9 @@ html.has-cursor * { cursor: none !important; }
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
-  [data-reveal], [data-reveal="mask"] > * { opacity: 1 !important; transform: none !important; }
+  [data-reveal], [data-reveal="mask"] > *, .lines .line > * {
+    opacity: 1 !important; transform: none !important; filter: none !important;
+  }
   .manifesto__text .w { opacity: 1; filter: none; }
   .work__pin { position: static; height: auto; }
   .work__viewport { overflow-x: auto; }

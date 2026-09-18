@@ -64,6 +64,24 @@ basta mettere `data-surface="light"` o `"dark"` sull'elemento.
 Si attiva solo con puntatore fine (`hover: hover`); su touch e con
 `prefers-reduced-motion` resta il cursore di sistema.
 
+## Animazioni dei testi
+
+Tre livelli, scelti con un attributo nel markup:
+
+| attributo | effetto | dove |
+|---|---|---|
+| `data-reveal` | dissolvenza + risalita + velatura (blur 5px) | testi correnti, elenchi, pulsanti |
+| `data-lines` | ogni riga sale da sotto una maschera, in sequenza | titoli di sezione (ricava le righe dai `<br>`) |
+| `data-split` | parola per parola, legato allo scroll | frase del manifesto |
+
+Entrata e uscita sono gestite da **due osservatori**: uno rivela poco prima
+del bordo inferiore, l'altro azzera solo quando l'elemento è del tutto fuori
+schermo. Così l'uscita non si vede mai a metà pagina e, tornando indietro,
+l'animazione si ripete.
+
+Le maschere usano `overflow-clip-margin`: senza, i discendenti (q, g, p)
+dei titoli verrebbero tagliati.
+
 Tutte le animazioni si disattivano con `prefers-reduced-motion: reduce`.
 
 ## Modalità anteprima (attiva)

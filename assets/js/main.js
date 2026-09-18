@@ -37,33 +37,37 @@
   }
 
   /* --------------------------------------------------------- reveal on scroll */
-  const revealables = $$('[data-reveal]');
+  /* I titoli con <br> diventano righe mascherate: ogni riga sale da sotto
+     un taglio, con ritardo progressivo. */
+  $$('[data-lines]').forEach(el => {
+    const righe = el.innerHTML.split(/<br\s*\/?>/i).map(s => s.trim()).filter(Boolean);
+    if (righe.length < 2) return;
+    el.innerHTML = righe
+      .map((r, i) => `<span class="line" style="--i:${i}"><span>${r}</span></span>`)
+      .join('');
+    el.classList.add('lines');
+    el.removeAttribute('data-reveal');   // la maschera sostituisce la dissolvenza
+    el.dataset.revealLines = '';
+  });
+
+  const revealables = $$('[data-reveal], [data-reveal-lines]');
   if (revealables.length) {
     if (reduced) {
       revealables.forEach(el => el.classList.add('is-in'));
     } else {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-in');
-          io.unobserve(entry.target);
-        });
-      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+      // Due osservatori con un compito ciascuno: entrare un po' prima del
+      // bordo inferiore, e azzerarsi solo quando l'elemento è del tutto
+      // fuori schermo — così l'uscita non si vede mai a metà pagina e
+      // rientrando l'animazione si ripete.
+      const entra = new IntersectionObserver(es => {
+        es.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-in'); });
+      }, { rootMargin: '0px 0px -6% 0px', threshold: 0.02 });
 
-      // tutto ciò che è già a schermo al primo paint entra subito:
-      // l'above-the-fold non deve mai dipendere da uno scroll.
-      const armAll = () => revealables.forEach(el => {
-        if (el.classList.contains('is-in')) return;
-        if (el.getBoundingClientRect().top < window.innerHeight * 0.96) {
-          el.classList.add('is-in');
-          io.unobserve(el);
-        } else {
-          io.observe(el);
-        }
-      });
-      armAll();
-      // i webfont cambiano il layout: ricontrolla quando sono pronti
-      if (document.fonts?.ready) document.fonts.ready.then(armAll);
+      const esce = new IntersectionObserver(es => {
+        es.forEach(e => { if (!e.isIntersecting) e.target.classList.remove('is-in'); });
+      }, { rootMargin: '0px', threshold: 0 });
+
+      revealables.forEach(el => { entra.observe(el); esce.observe(el); });
     }
   }
 
