@@ -549,7 +549,6 @@ html.has-cursor * { cursor: none !important; }
   box-shadow: 0 30px 80px -50px rgb(0 0 0 / .7);
   transform-origin: 50% 0;
 }
-.card--alt { background: var(--sand); color: var(--ink); }
 .card--brand { background: var(--orange); color: var(--ink); }
 
 .card__body { display: grid; gap: 1.1rem; align-content: center; }
@@ -643,7 +642,6 @@ html.has-cursor * { cursor: none !important; }
   isolation: isolate;
   box-shadow: 0 30px 70px -44px rgb(0 0 0 / .9);
 }
-.project--wide { width: clamp(300px, 58vw, 760px); }
 
 .project__img { position: absolute; inset: 0; overflow: hidden; }
 .project__img img {
@@ -691,7 +689,6 @@ html.has-cursor * { cursor: none !important; }
   padding: 2rem;
   background: var(--orange);
   color: var(--ink);
-  width: clamp(250px, 34vw, 420px);
 }
 .project--cta::after { display: none; }
 .project--cta h3 { font-size: clamp(1.5rem, 1rem + 2vw, 2.6rem); }
@@ -723,24 +720,22 @@ html.has-cursor * { cursor: none !important; }
   max-width: 40ch;
   margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
 }
-.photo__cols {
+.photo__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(.7rem, 1.6vw, 1.4rem);
-  align-items: start;
 }
-.photo__col { display: grid; gap: clamp(.7rem, 1.6vw, 1.4rem); will-change: transform; }
-.photo__col:nth-child(2) { margin-top: clamp(1.5rem, 6vw, 5rem); }
-.photo__col:nth-child(3) { margin-top: clamp(.5rem, 2.5vw, 2rem); }
 
 .shot {
   position: relative;
+  aspect-ratio: 3 / 4;        /* tutte le tessere della stessa misura */
   border-radius: var(--radius-s);
   overflow: hidden;
   background: #100e0c;
 }
 .shot img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: 100%;
+  object-fit: cover;          /* il ritaglio viene dalla tessera, non dal file */
   transition: transform 1s var(--ease), filter 1s var(--ease);
   filter: grayscale(.18);
 }
@@ -915,15 +910,13 @@ html.has-cursor * { cursor: none !important; }
   .nav__burger { display: flex; margin-left: auto; }
   .nav__inner { padding: .5rem .5rem .5rem 1.1rem; }
 
-  .photo__cols { grid-template-columns: repeat(2, 1fr); }
-  .photo__col:nth-child(3) { display: none; }
+  .photo__grid { grid-template-columns: repeat(2, 1fr); }
 
   .work__pin { height: auto; position: static; padding-bottom: 4rem; }
   .work__viewport { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
   .work__viewport::-webkit-scrollbar { display: none; }
   .work__track { transform: none !important; height: 62vh; min-height: 400px; padding-bottom: .5rem; }
   .project { scroll-snap-align: center; width: 76vw; }
-  .project--wide, .project--cta { width: 76vw; }
   .work__progress { display: none; }
 
   .footer__top { grid-template-columns: 1fr 1fr; }

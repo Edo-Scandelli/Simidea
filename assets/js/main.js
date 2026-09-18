@@ -256,9 +256,8 @@
 
   /* --------------------------------------------------------------- parallax */
   const parallaxImgs = $$('[data-parallax]');
-  const parallaxCols = $$('[data-parallax-col]');
 
-  if ((parallaxImgs.length || parallaxCols.length) && !reduced) {
+  if (parallaxImgs.length && !reduced) {
     const paintParallax = () => {
       const vh = window.innerHeight;
 
@@ -268,14 +267,6 @@
         const amt = parseFloat(img.dataset.parallax) || 0.1;
         const p = (r.top + r.height / 2 - vh / 2) / vh;
         img.style.transform = `scale(1.06) translate3d(0, ${(-p * amt * 100).toFixed(2)}px, 0)`;
-      });
-
-      parallaxCols.forEach(col => {
-        const r = col.getBoundingClientRect();
-        if (r.bottom < -400 || r.top > vh + 400) return;
-        const amt = parseFloat(col.dataset.parallaxCol) || 0.05;
-        const p = (r.top + r.height / 2 - vh / 2) / vh;
-        col.style.transform = `translate3d(0, ${(-p * amt * 180).toFixed(2)}px, 0)`;
       });
     };
     onScroll(paintParallax);
