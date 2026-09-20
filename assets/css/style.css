@@ -196,28 +196,31 @@ html.intro-on-light .intro__mark use,
 html.intro-on-light .intro__word use {
   animation: accendi .78s steps(1, end) forwards;
 }
+/* stroke-dashoffset va ridichiarato in ogni fotogramma: questa animazione
+   sostituisce `traccia` e senza di esso la proprietà tornerebbe al valore
+   di base (1671), ri-nascondendo il tubo appena tracciato. */
 @keyframes accendi {
-  0%   { fill: rgb(255 153 0 / 0);   stroke: var(--orange); }
-  12%  { fill: rgb(255 240 214 / 1); stroke: #fff5e2; }
-  20%  { fill: rgb(255 153 0 / .25); stroke: var(--orange); }
-  30%  { fill: rgb(255 240 214 / 1); stroke: #fff5e2; }
-  38%  { fill: rgb(255 153 0 / .5);  stroke: var(--orange); }
-  100% { fill: rgb(255 243 224 / 1); stroke: #fff6e6; }
+  0%   { stroke-dashoffset: 0; fill: rgb(255 153 0 / 0);   stroke: var(--orange); }
+  10%  { stroke-dashoffset: 0; fill: rgb(255 240 214 / 1); stroke: #fff5e2; }
+  17%  { stroke-dashoffset: 0; fill: rgb(255 153 0 / .22); stroke: var(--orange); }
+  26%  { stroke-dashoffset: 0; fill: rgb(255 240 214 / 1); stroke: #fff5e2; }
+  33%  { stroke-dashoffset: 0; fill: rgb(255 153 0 / .45); stroke: var(--orange); }
+  42%, 100% { stroke-dashoffset: 0; fill: rgb(255 243 224 / 1); stroke: #fff6e6; }
 }
 
-/* il bagliore sfarfalla insieme, ma applicato all'SVG: sul clone il
-   filtro veniva tagliato dal riquadro dell'SVG e lasciava un alone quadrato */
-html.intro-on-light .intro__mark,
-html.intro-on-light .intro__word {
+/* Il bagliore sta sul contenitore, non sugli SVG: dentro un SVG il filtro
+   viene tagliato dal viewport dell'elemento e il logo risultava troncato
+   sul lato destro. Su un div non c'è alcun ritaglio. */
+html.intro-on-light .intro__stage {
   animation: bagliore .78s steps(1, end) forwards;
 }
 @keyframes bagliore {
   0%   { filter: none; }
-  12%  { filter: drop-shadow(0 0 7px rgb(255 153 0 / .95)) drop-shadow(0 0 26px rgb(255 153 0 / .6)); }
-  20%  { filter: drop-shadow(0 0 3px rgb(255 153 0 / .35)); }
-  30%  { filter: drop-shadow(0 0 8px rgb(255 153 0 / .95)) drop-shadow(0 0 30px rgb(255 153 0 / .65)); }
-  38%  { filter: drop-shadow(0 0 4px rgb(255 153 0 / .45)); }
-  100% { filter: drop-shadow(0 0 9px rgb(255 153 0 / .85)) drop-shadow(0 0 34px rgb(255 153 0 / .5)); }
+  10%  { filter: drop-shadow(0 0 7px rgb(255 153 0 / .95)) drop-shadow(0 0 26px rgb(255 153 0 / .6)); }
+  17%  { filter: drop-shadow(0 0 3px rgb(255 153 0 / .3)); }
+  26%  { filter: drop-shadow(0 0 8px rgb(255 153 0 / .95)) drop-shadow(0 0 30px rgb(255 153 0 / .65)); }
+  33%  { filter: drop-shadow(0 0 4px rgb(255 153 0 / .4)); }
+  42%, 100% { filter: drop-shadow(0 0 9px rgb(255 153 0 / .9)) drop-shadow(0 0 34px rgb(255 153 0 / .55)); }
 }
 
 /* alone dietro al logo, che cresce con l'accensione */

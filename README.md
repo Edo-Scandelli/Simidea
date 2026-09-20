@@ -52,6 +52,17 @@ Il tracciato anima `stroke-dashoffset`: le lunghezze dei percorsi sono
 misurate sul posto (marchio 1671, wordmark 1932) e scritte nel CSS. Se il
 logo viene rivettorializzato, vanno rimisurate con `path.getTotalLength()`.
 
+Due vincoli da non rompere:
+
+- i `viewBox` degli SVG dell'intro sono **allargati di 4 unità per lato**
+  (`-4 -4 242 281` e `-4 -4 313 73`): il tratto del neon sporge di metà
+  spessore oltre il contorno del tracciato pieno e altrimenti viene tagliato
+- l'animazione `accendi` **ridichiara `stroke-dashoffset: 0` in ogni
+  fotogramma**: sostituisce `traccia`, e senza quella riga la proprietà
+  torna al valore di base ri-nascondendo il tubo appena disegnato
+- il bagliore sta su `.intro__stage` (un div), non sugli SVG: dentro un SVG
+  il filtro viene ritagliato dal viewport dell'elemento
+
 I percorsi dello sprite **non dichiarano `fill`**: lo assegna la regola
 `svg use { fill: currentColor }`. Serve all'intro, che deve poter imporre
 `fill: none` per tracciare il contorno. Togliendo quella regola i loghi
