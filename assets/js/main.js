@@ -142,7 +142,7 @@
         // la corsa dipende dall'altezza del testo, non da una distanza fissa,
         // così non si scorre mai oltre l'ultima riga per vederla accendersi.
         const start = window.innerHeight * 0.92;
-        const span  = r.height + window.innerHeight * 0.25;
+        const span  = r.height + window.innerHeight * 0.38;
         const p = clamp((start - r.top) / span, 0, 1);
         const upTo = Math.ceil(p * words.length);
         words.forEach((w, i) => w.classList.toggle('on', i < upTo));

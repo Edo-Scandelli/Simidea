@@ -117,6 +117,40 @@ dei titoli verrebbero tagliati.
 
 Tutte le animazioni si disattivano con `prefers-reduced-motion: reduce`.
 
+## Sfondo neon della sezione Contatti
+
+La CTA finale (`.contact`) ha una cornice di luce che corre lungo i quattro lati
+e si ingrossa negli angoli, su un interno nero. Solo nero e arancione.
+
+- **Come e' fatta.** `.contact__mesh` non ha sfondo: e' tutta `box-shadow: inset`.
+  Un'ombra per lato, ognuna con la sua tonalita' di arancione, piu' due aloni
+  concentrici che entrano verso il centro. Negli angoli si sovrappongono due
+  ombre: e' per questo che la luce li' e' piu' spessa, senza disegnarla a mano.
+- **Perche' non un mesh gradient.** Prima versione fatta con `radial-gradient`
+  sfumati: sbagliata, dava una nebbia diffusa invece di una cornice. Il
+  riferimento e' un neon perimetrale, non un'aurora.
+- **Il respiro.** `.contact__mesh::after` ripete la stessa geometria con i
+  colori spostati e fa dissolvenza incrociata in 19s. Anima solo `opacity`,
+  quindi il lavoro resta sul compositor: 60 fps, identici a sezione spenta.
+- **Le misure sono variabili** (`--lato`, `--capo`, `--anello`, `--alone`) in
+  `clamp()` sulla larghezza. A valori fissi, su un telefono i due lati si
+  incontrano al centro.
+- **I colori sono l'arancione di marca**, `#ff9900` e poco altro (`#ff8400`,
+  `#ffa524`). Le tinte schiarite col bianco fanno sembrare il neon sbiadito.
+  Verificato sui pixel: il bordo misura `#f99b06`, saturazione .94-.98.
+- **Lo scudo** (`.contact::after`) e' l'ellisse scura fra il neon e il testo.
+  Senza, su mobile il paragrafo scendeva a **1,99:1** di contrasto: il nucleo
+  misurato al centro sembrava nero, ma il testo su schermo stretto occupa quasi
+  tutta la larghezza e finisce dentro l'alone.
+  **Trappola:** in `radial-gradient(ellipse W H at …)` W e H sono il **raggio**,
+  non il diametro. Con `64%` su una sezione da 1440px lo scudo arrivava a 921px
+  dal centro, cioe' oltre i bordi, e spegneva il neon del 32% (il bordo misurava
+  `#ad6d07` invece di `#f99b06`). I valori giusti sono circa la meta'.
+  Caso peggiore misurato oggi: **9,33:1** (390px, respiro acceso, sul titolo).
+- **La grana** (`.contact::before`, `feTurbulence`, opacita' .07, **senza**
+  `mix-blend-mode`) toglie il banding e da' il grado "fotografico". In `overlay`
+  sparirebbe sul nero.
+
 ## Modalità anteprima (attiva)
 
 `<body data-preview="servizi">` ferma la pagina alla sezione Servizi:
