@@ -117,6 +117,36 @@ dei titoli verrebbero tagliati.
 
 Tutte le animazioni si disattivano con `prefers-reduced-motion: reduce`.
 
+## Card dei progetti (formato 4:5)
+
+Le sei foto del portfolio sono 1080x1350, cioe' 4:5. E' la card ad adattarsi al
+formato delle foto, non il contrario:
+
+- `.project` ha `aspect-ratio: 4 / 5` con `height: 100%; width: auto`, quindi la
+  larghezza la detta l'altezza della pista. Su mobile si inverte (`width: 84vw`,
+  `height: auto`), altrimenti a schermo stretto la card sarebbe piu' larga del
+  telefono. Tutte e sette le card (CTA compresa) misurano esattamente 0.800.
+- `.work__track` ha `align-items: center`, senza il quale lo stretch di flex
+  ignorerebbe il `max-height` delle card.
+- **Niente zoom a riposo** sull'immagine: lo `scale(1.08)` di prima tagliava il
+  4% per lato, cioe' proprio il bordo dei marchi, che in queste foto arrivano
+  quasi a filo. L'ingrandimento resta solo al passaggio del mouse.
+- **Titoli su una riga sola.** `.project h3` ha `white-space: nowrap`; sotto gli
+  860px torna a `normal` come rete di sicurezza. Verificato a 1440, 1180, 980,
+  861 e 390px: nessun titolo va a capo e nessuno sfonda la card, quindi il
+  blocco della didascalia ha sempre la stessa altezza.
+- **La velatura e' agganciata alla didascalia**, non alla card. Un gradiente a
+  tutta altezza non puo' insieme lasciare libero il marchio a meta' foto e
+  proteggere il testo: col gradiente addolcito il titolo di "Chiara Moroni",
+  la cui foto in basso e' quasi bianca, scendeva a **2,59:1**. Con la velatura
+  su `.project__meta::before` il velo cresce insieme al testo che deve coprire.
+  Misure del caso peggiore (sempre il titolo di "Chiara Moroni") al variare
+  dell'altezza del velo: `-3rem/.55` 8,81:1 · **`-2rem/.42` 6,66:1 (in uso)** ·
+  `-1.4rem/.34` 4,26:1 · `-1rem/.26` 2,81:1. Sotto `-1.4rem` si scende oltre il
+  limite AA anche per il testo grande.
+- Le foto sono ricompresse a qualita' 82 progressiva: 4,8 MB -> 589 KB, con
+  PSNR 43-45 dB (sopra 40 la differenza non si vede).
+
 ## Sfondo neon della sezione Contatti
 
 La CTA finale (`.contact`) ha una cornice di luce che corre lungo i quattro lati
