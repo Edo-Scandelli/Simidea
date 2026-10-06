@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Simidea — Branding &amp; Visual Design</title>
-<meta name="description" content="Simidea è uno studio di branding e visual design: logo &amp; brand identity, contenuti social, shooting fotografici e materiale pubblicitario. Soluzioni creative su misura per la tua attività.">
+<title>Progetti — Simidea</title>
+<meta name="description" content="I progetti di Simidea: dodici marchi fra ristorazione, beauty, retail e studi professionali — Arancy, Aria, Patty Burger, Chiara Moroni, Jamile, Simoa, Pexo, Lillium, Saporito, aureo., Rusty e LM.">
 <meta name="theme-color" content="#0a0908">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Simidea — Branding &amp; Visual Design">
-<meta property="og:description" content="Accendiamo le tue idee. Logo &amp; branding, contenuti social, shooting fotografici, materiale pubblicitario.">
-<meta property="og:image" content="assets/img/billboard-orange.jpg">
+<meta property="og:title" content="Progetti — Simidea">
+<meta property="og:description" content="Dodici marchi che si riconoscono. Dal format di arancini al beach club, dalla gioielleria allo studio di psicoterapia.">
+<meta property="og:image" content="assets/img/arancy.jpg">
 <meta property="og:locale" content="it_IT">
 
 <link rel="icon" href="assets/svg/favicon.svg?v=45" type="image/svg+xml">
@@ -32,16 +32,7 @@
 
 <div class="grain" aria-hidden="true"></div>
 
-<!-- Intro al caricamento: il marchio viene tracciato come un tubo di neon,
-     poi si accende. Si salta del tutto con prefers-reduced-motion.
-     Se il JS non parte, il CSS lo tiene nascosto: la pagina non resta mai
-     coperta da questo strato. -->
-<div class="intro" id="intro">
-  <div class="intro__stage">
-    <svg class="intro__mark" viewBox="0 0 237.6 276.3" aria-hidden="true"><use href="#s-mark" x="3" y="3" width="231.6" height="270.3"/></svg>
-    <svg class="intro__word" viewBox="0 0 307.4 68.3" aria-label="Simidea"><use href="#s-word" x="3" y="3" width="301.4" height="62.3"/></svg>
-  </div>
-</div>
+<!-- Nessuna intro neon sulle pagine interne. -->
 
 <!-- cursore personalizzato: resta nascosto se il JS non parte o se il puntatore non è fine -->
 <div class="cursor" id="cursor" data-surface="dark" data-state="" data-on="false" aria-hidden="true">
@@ -49,10 +40,11 @@
   <span class="cursor__dot"></span>
 </div>
 
+
 <!-- ============================================================ NAV -->
 <header class="nav" id="nav" data-theme="dark" data-compact="false">
   <div class="nav__inner">
-    <a class="nav__logo" href="#top" aria-label="Simidea — home">
+    <a class="nav__logo" href="/" aria-label="Simidea — home">
       <svg class="mark" viewBox="0 0 231.6 270.3" aria-hidden="true"><use href="#s-mark"/></svg>
       <svg viewBox="0 0 301.4 62.3" width="112" aria-hidden="true"><use href="#s-word"/></svg>
     </a>
@@ -60,9 +52,9 @@
     <!-- Le voci puntano per ora alle sezioni della home; l'href in data-page
          registra la URL definitiva. data-soon = pagina ancora da fare. -->
     <ul class="nav__links">
-      <li><a href="#top"     data-page="/">Home</a></li>
+      <li><a href="/"     data-page="/">Home</a></li>
       <li><a href="/servizi">Servizi</a></li>
-      <li><a href="/progetti">Progetti</a></li>
+      <li><a href="/progetti" aria-current="page">Progetti</a></li>
       <li><a href="/studio">Studio</a></li>
       <li><a href="/news" data-soon title="Pagina in arrivo">News</a></li>
     </ul>
@@ -79,9 +71,9 @@
 </header>
 
 <nav class="menu" id="menu" data-open="false" aria-label="Menu principale">
-  <a href="#top"     data-page="/">Home</a>
-  <a href="/servizi">Servizi</a>
-  <a href="/progetti">Progetti</a>
+  <a href="/"     data-page="/">Home</a>
+  <a href="/servizi" data-page="/servizi">Servizi</a>
+  <a href="/progetti" aria-current="page">Progetti</a>
   <a href="/studio">Studio</a>
   <a href="/news" data-soon title="Pagina in arrivo">News</a>
   <a href="#contatti" data-page="/contatti">Contatti</a>
@@ -93,321 +85,132 @@
 
 <main id="main">
 
-<!-- ============================================================ HERO -->
-<section class="hero" id="top" data-nav="dark">
-  <div class="hero__glow" aria-hidden="true"></div>
-  <svg class="hero__watermark" viewBox="0 0 231.6 270.3" aria-hidden="true"><use href="#s-mark"/></svg>
-
-  <div class="shell hero__inner on-dark">
-    <p class="eyebrow" data-reveal="fade">Branding &amp; Visual Design</p>
-
-    <h1>
-      <span class="line" data-reveal="mask" style="--d:120ms"><span>Accendiamo</span></span>
-      <span class="line" data-reveal="mask" style="--d:250ms"><span>le tue idee<em>.</em></span></span>
-    </h1>
-
-    <p class="hero__lead" data-reveal style="--d:400ms">
-      Identità visive, contenuti e immagini per le attività
-      che vogliono farsi riconoscere.
+<!-- ============================================================ TESTA PAGINA -->
+<section class="srv-testa" data-nav="dark">
+  <div class="op-testa__glow" aria-hidden="true"></div>
+  <div class="shell">
+    <p class="eyebrow" data-reveal>Progetti</p>
+    <h1 class="srv-testa__titolo" data-reveal style="--d:80ms" data-lines>Marchi che<br><em>si riconoscono.</em></h1>
+    <p class="srv-testa__lead" data-reveal style="--d:160ms">
+      Un'hamburgeria e uno studio di psicoterapia hanno bisogno di cose opposte.
+      Per questo non abbiamo uno stile: abbiamo un metodo, e il risultato somiglia
+      al cliente e non a noi.
     </p>
-
-    <div class="hero__actions" data-reveal style="--d:500ms">
-      <a class="btn btn--orange" href="#contatti" data-magnetic>
-        Parliamone
-        <svg class="ico" aria-hidden="true"><use href="#s-arrow"/></svg>
-      </a>
-      <a class="btn btn--ghost" href="/progetti" data-magnetic>Guarda i progetti</a>
-    </div>
-  </div>
-
-  <div class="shell hero__foot on-dark">
-    <div class="hero__meta" data-reveal="fade" style="--d:640ms">
-      <ul>
-        <li>Brand Identity</li>
-        <li>Graphic Design</li>
-        <li>Art Direction</li>
-        <li>Web Design</li>
-      </ul>
-    </div>
   </div>
 </section>
 
-<!-- ============================================================ MANIFESTO -->
-<section class="manifesto" data-nav="light">
+<!-- ============================================================ I PROGETTI -->
+<section class="opere" data-nav="light">
   <div class="shell">
-    <p class="eyebrow" data-reveal>Chi siamo</p>
-    <h2 class="manifesto__text" data-split style="margin-top:1.6rem">
-      Ogni marchio nasce da un'intuizione. Noi la trasformiamo in un'identità che si <em>riconosce</em>, si ricorda e si vende.
-    </h2>
-
-    <div class="manifesto__grid">
-      <div class="manifesto__cell" data-reveal>
-        <span class="num">01</span>
-        <h3>Su misura, mai in serie</h3>
-        <p>Niente template. Ogni progetto parte dalla tua attività, dal tuo pubblico e da dove vuoi arrivare.</p>
-      </div>
-      <div class="manifesto__cell" data-reveal style="--d:110ms">
-        <span class="num">02</span>
-        <h3>Dal logo allo scaffale</h3>
-        <p>Marchio, packaging, affissioni, social: un'unica voce coerente su ogni supporto, online e offline.</p>
-      </div>
-      <div class="manifesto__cell" data-reveal style="--d:220ms">
-        <span class="num">03</span>
-        <h3>Immagini che lavorano</h3>
-        <p>Shooting pensati per vendere: prodotto, ritratto ed eventi, pronti per feed, e-commerce e stampa.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================ SERVIZI -->
-<section class="services" id="servizi" data-nav="light">
-  <div class="shell">
-    <header class="services__head">
-      <p class="eyebrow" data-reveal>Le nostre soluzioni</p>
-      <h2 class="section-title" data-reveal style="--d:80ms" data-lines>Tutto quello che<br>serve al tuo brand.</h2>
-      <p class="section-lead" data-reveal style="--d:160ms">
-        Quattro aree che si parlano tra loro. Puoi prenderle una alla volta oppure
-        affidarci l'intera immagine della tua attività.
-      </p>
-    </header>
-
-    <div class="stack" id="stack">
-      <article class="card" data-card data-surface="dark">
-        <div class="card__body">
-          <span class="card__num">01</span>
-          <h3>Brand Identity</h3>
-          <p>Naming, marchio, palette, tipografia e linee guida. Costruiamo un'identità che regge nel tempo e funziona ovunque, da un'insegna a un'icona di app.</p>
-          <ul class="card__tags">
-            <li>Naming</li><li>Logo design</li><li>Palette</li><li>Tipografia</li><li>Linee guida</li>
-          </ul>
+    <div class="lavori">
+      <article class="lavoro" data-reveal="soft" style="--d:0ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/arancy.jpg" alt="Marchio Arancy su un vassoio di arancini" loading="lazy" decoding="async" width="1080" height="1350">
         </div>
-        <div class="card__media"><img src="assets/img/arancy-logo.jpg" alt="Marchio Arancy applicato su un vassoio di arancini" loading="lazy" decoding="async" data-parallax="0.09"></div>
+        <p class="lavoro__settore">Format di arancini siciliani</p>
+        <h2>Arancy</h2>
+        <p class="lavoro__testo">Lettering morbido che richiama la forma del prodotto, pensato per reggere sull'insegna come sul cartoccio.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#brand-identity">Logo Design</a> <span aria-hidden="true">·</span> <a href="/servizi#graphic-design">Graphic Design</a></p>
       </article>
-
-      <article class="card card--brand" data-card data-surface="light">
-        <div class="card__body">
-          <span class="card__num">02</span>
-          <h3>Graphic Design</h3>
-          <p>Packaging, menu, volantini, affissioni, vetrine e gadget. Dal file esecutivo alla stampa, seguiamo il progetto fino a quando è appeso al muro.</p>
-          <ul class="card__tags">
-            <li>Packaging</li><li>Menu &amp; volantini</li><li>Affissioni</li><li>Vetrine</li><li>Esecutivi di stampa</li>
-          </ul>
+      <article class="lavoro" data-reveal="soft" style="--d:90ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/aria.jpg" alt="Marchio Aria Luxury Beach Club sul mare" loading="lazy" decoding="async" width="1080" height="1350">
         </div>
-        <div class="card__media"><img src="assets/img/billboard-orange.jpg" alt="Affissioni pubblicitarie in città" loading="lazy" decoding="async" data-parallax="0.09"></div>
+        <p class="lavoro__settore">Beach club</p>
+        <h2>Aria</h2>
+        <p class="lavoro__testo">Un segno essenziale e tipografia spaziata, per stare nella fascia alta senza doverlo urlare.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#art-direction">Art Direction</a></p>
       </article>
-
-      <article class="card" data-card data-surface="dark">
-        <div class="card__body">
-          <span class="card__num">03</span>
-          <h3>Art Direction</h3>
-          <p>La regia dell'immagine: cosa si fotografa, come si illumina, quali colori tornano. Definiamo il tono visivo e lo teniamo coerente su ogni uscita.</p>
-          <ul class="card__tags">
-            <li>Concept visivo</li><li>Direzione shooting</li><li>Styling</li><li>Scelta immagini</li><li>Post-produzione</li>
-          </ul>
+      <article class="lavoro" data-reveal="soft" style="--d:180ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/patty-burger.jpg" alt="Marchio Patty Burger su fondo rosso con un hamburger" loading="lazy" decoding="async" width="1080" height="1350">
         </div>
-        <div class="card__media"><img src="assets/img/shooting-card.jpg" alt="Scatto in movimento su una scala mobile della metropolitana" loading="lazy" decoding="async" data-parallax="0.09"></div>
+        <p class="lavoro__settore">Hamburgeria</p>
+        <h2>Patty Burger</h2>
+        <p class="lavoro__testo">Lettering pieno con contorno bianco: resta leggibile sopra qualsiasi foto di prodotto.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#graphic-design">Graphic Design</a></p>
       </article>
-
-      <article class="card card--brand" data-card data-surface="light">
-        <div class="card__body">
-          <span class="card__num">04</span>
-          <h3>Web Design</h3>
-          <p>Siti vetrina e landing page costruiti su misura. Struttura chiara, testi che dicono qualcosa e un'immagine coerente con il resto del marchio.</p>
-          <ul class="card__tags">
-            <li>Siti vetrina</li><li>Landing page</li><li>Interfaccia</li><li>Responsive</li><li>Velocità</li>
-          </ul>
+      <article class="lavoro" data-reveal="soft" style="--d:0ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/chiara-moroni.jpg" alt="Marchio Chiara Moroni, psicoterapeuta e medico" loading="lazy" decoding="async" width="1080" height="1350">
         </div>
-        <div class="card__media"><img class="fit-left" src="assets/img/angelo-social.jpg" alt="Profilo social curato da Simidea, visto da telefono" loading="lazy" decoding="async" data-parallax="0.09"></div>
+        <p class="lavoro__settore">Psicoterapeuta e medico</p>
+        <h2>Chiara Moroni</h2>
+        <p class="lavoro__testo">Tratto sottile e palette bassa: il marchio rassicura e non si mette davanti alla persona.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#creative-consulting">Job Profile</a></p>
       </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================ PROGETTI -->
-<section class="work" id="progetti" data-nav="dark">
-  <div class="work__pin">
-    <div class="shell work__head">
-      <div>
-        <p class="eyebrow" data-reveal>Portfolio</p>
-        <h2 data-reveal style="--d:80ms">Progetti recenti</h2>
-      </div>
-      <p class="work__count" aria-hidden="true"><b id="workIndex">01</b> / 06 — scorri</p>
-    </div>
-
-    <div class="work__viewport" id="workViewport">
-      <div class="work__track" id="workTrack">
-
-        <article class="project">
-          <div class="project__img"><img src="assets/img/arancy.jpg" alt="Marchio Arancy applicato su un vassoio di arancini" loading="lazy" decoding="async" width="1080" height="1350"></div>
-          <div class="project__meta">
-            <span class="project__tag">Logo · Food brand</span>
-            <h3>Arancy</h3>
-            <p>Marchio e lettering per un format di arancini siciliani.</p>
-          </div>
-        </article>
-
-        <article class="project">
-          <div class="project__img"><img src="assets/img/aria.jpg" alt="Marchio Aria Luxury Beach Club su una fotografia del mare" loading="lazy" decoding="async" width="1080" height="1350"></div>
-          <div class="project__meta">
-            <span class="project__tag">Logo · Hospitality</span>
-            <h3>Aria</h3>
-            <p>Identità per un beach club: un segno essenziale che richiama l'onda.</p>
-          </div>
-        </article>
-
-        <article class="project">
-          <div class="project__img"><img src="assets/img/patty-burger.jpg" alt="Marchio Patty Burger su fondo rosso con un hamburger" loading="lazy" decoding="async" width="1080" height="1350"></div>
-          <div class="project__meta">
-            <span class="project__tag">Logo · Food brand</span>
-            <h3>Patty Burger</h3>
-            <p>Lettering pieno e riconoscibile per un'hamburgeria.</p>
-          </div>
-        </article>
-
-        <article class="project">
-          <div class="project__img"><img src="assets/img/chiara-moroni.jpg" alt="Marchio Chiara Moroni, psicoterapeuta e medico" loading="lazy" decoding="async" width="1080" height="1350"></div>
-          <div class="project__meta">
-            <span class="project__tag">Logo · Professionisti</span>
-            <h3>Chiara Moroni</h3>
-            <p>Marchio e impostazione visiva per uno studio di psicoterapia.</p>
-          </div>
-        </article>
-
-        <article class="project">
-          <div class="project__img"><img src="assets/img/jamile.jpg" alt="Linea cosmetica Jamile" loading="lazy" decoding="async" width="1080" height="1350"></div>
-          <div class="project__meta">
-            <span class="project__tag">Brand · Packaging</span>
-            <h3>Jamile.</h3>
-            <p>Identità minimale e packaging per una linea beauty.</p>
-          </div>
-        </article>
-
-        <article class="project">
-          <div class="project__img"><img src="assets/img/simoa.jpg" alt="Marchio Simoa Candles su una composizione di candele" loading="lazy" decoding="async" width="1080" height="1350"></div>
-          <div class="project__meta">
-            <span class="project__tag">Logo · Packaging</span>
-            <h3>Simoa</h3>
-            <p>Marchio e identità per una linea di candele artigianali.</p>
-          </div>
-        </article>
-
-        <article class="project project--cta on-dark" data-surface="light">
-          <h3>Il prossimo<br>può essere<br>il tuo.</h3>
-          <a class="btn" href="#contatti" data-magnetic>
-            Raccontaci l'idea
-            <svg class="ico" aria-hidden="true"><use href="#s-arrow"/></svg>
-          </a>
-        </article>
-
-      </div>
-    </div>
-
-    <div class="work__progress" aria-hidden="true"><i id="workBar"></i></div>
-  </div>
-</section>
-
-<!-- ============================================================ PROCESSO -->
-<section class="process" id="studio" data-nav="light">
-  <div class="shell">
-    <header class="process__head">
-      <p class="eyebrow" data-reveal>Come lavoriamo</p>
-      <h2 class="section-title" data-reveal style="--d:80ms" data-lines>Tre passaggi,<br>zero sorprese.</h2>
-    </header>
-
-    <div class="steps">
-      <article class="step" data-reveal>
-        <span class="step__n">01</span>
-        <h3>Ascolto</h3>
-        <p>Partiamo da una chiacchierata: cosa fai, a chi parli, cosa ti sta stretto oggi. Da lì definiamo obiettivi, tempi e budget.</p>
+      <article class="lavoro" data-reveal="soft" style="--d:90ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/jamile.jpg" alt="Linea cosmetica Jamile" loading="lazy" decoding="async" width="1080" height="1350">
+        </div>
+        <p class="lavoro__settore">Linea cosmetica</p>
+        <h2>Jamile.</h2>
+        <p class="lavoro__testo">Gerarchia chiara sui flaconi, perché a scaffale si capisca al volo cos'è cosa.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#graphic-design">Packaging Design</a> <span aria-hidden="true">·</span> <a href="/servizi#art-direction">Photography</a></p>
       </article>
-      <article class="step" data-reveal style="--d:110ms">
-        <span class="step__n">02</span>
-        <h3>Concept</h3>
-        <p>Proposte visive concrete, non mood board infinite. Vedi subito come vivrà il marchio nel mondo reale e scegli la direzione.</p>
+      <article class="lavoro" data-reveal="soft" style="--d:180ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/simoa.jpg" alt="Marchio Simoa Candles su una composizione di candele" loading="lazy" decoding="async" width="1080" height="1350">
+        </div>
+        <p class="lavoro__settore">Candele artigianali</p>
+        <h2>Simoa</h2>
+        <p class="lavoro__testo">Una fiamma ridotta a una goccia, per etichette che stanno su cere di formato diverso.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#graphic-design">Packaging Design</a></p>
       </article>
-      <article class="step" data-reveal style="--d:220ms">
-        <span class="step__n">03</span>
-        <h3>Realizzazione</h3>
-        <p>Consegniamo file pronti all'uso e seguiamo la stampa o la pubblicazione. Tu ricevi tutto, organizzato e riutilizzabile.</p>
+      <article class="lavoro" data-reveal="soft" style="--d:0ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/pexo.jpg" alt="Marchio Pexo Athletic Club nella sala pesi" loading="lazy" decoding="async" width="1080" height="1350">
+        </div>
+        <p class="lavoro__settore">Athletic club</p>
+        <h2>Pexo</h2>
+        <p class="lavoro__testo">Un monogramma che suggerisce lo scatto: funziona sul muro della sala come sulla borsa.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#art-direction">Art Direction</a></p>
       </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================ DICONO DI NOI -->
-<!-- ATTENZIONE: recensioni SEGNAPOSTO, inventate. Nomi e attività non esistono.
-     Vanno sostituite con quelle vere del cliente prima della messa online sul
-     dominio. Cerca data-segnaposto per ritrovare questo blocco. -->
-<section class="reviews" id="recensioni" data-nav="light" data-segnaposto="recensioni-inventate">
-  <div class="shell">
-    <header class="reviews__head">
-      <p class="eyebrow" data-reveal>Dicono di noi</p>
-      <h2 class="section-title" data-reveal style="--d:80ms">Non lo diciamo noi.</h2>
-    </header>
-
-    <div class="carosello" data-carosello data-reveal style="--d:160ms">
-      <div class="carosello__pista" id="recPista" tabindex="0" role="group"
-           aria-roledescription="carosello" aria-label="Recensioni dei clienti">
-      <figure class="review">
-        <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Mi ha colpito che prima di disegnare qualsiasi cosa mi abbia fatto un sacco di domande. Il marchio che è uscito sembrava ovvio, ma non ci sarei mai arrivata da sola.</blockquote>
-        <figcaption>
-          <span class="review__who">Giulia Ferrari</span>
-          <span class="review__what">Fiorai Ferrari</span>
-        </figcaption>
-      </figure>
-      <figure class="review">
-        <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Tempi rispettati al giorno. Ho ricevuto tutti i file organizzati per cartelle, anche quelli che non sapevo di dover chiedere.</blockquote>
-        <figcaption>
-          <span class="review__who">Marco Ranieri</span>
-          <span class="review__what">Palestra Nord</span>
-        </figcaption>
-      </figure>
-      <figure class="review">
-        <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Il preventivo era chiaro dall'inizio e non è cambiato di un euro. Per me, che ho già avuto brutte esperienze, vale quanto il lavoro stesso.</blockquote>
-        <figcaption>
-          <span class="review__who">Sara Colombo</span>
-          <span class="review__what">Bottega Colombo</span>
-        </figcaption>
-      </figure>
-      <figure class="review">
-        <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Pensavo che un logo fosse solo un logo. Poi ho visto insegna, furgone e biglietti da visita parlare la stessa lingua e ho capito la differenza.</blockquote>
-        <figcaption>
-          <span class="review__who">Luca Menni</span>
-          <span class="review__what">Officina Menni</span>
-        </figcaption>
-      </figure>
-      <figure class="review">
-        <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>I contenuti social che ci ha impostato li usiamo ancora oggi: bastava seguire il format e il profilo ha smesso di sembrare improvvisato.</blockquote>
-        <figcaption>
-          <span class="review__who">Elena Vitali</span>
-          <span class="review__what">Agriturismo Le Cascine</span>
-        </figcaption>
-      </figure>
-      <figure class="review">
-        <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Giovane ma preciso. Risponde ai messaggi, spiega le scelte e non si offende se chiedi una modifica. Non è scontato.</blockquote>
-        <figcaption>
-          <span class="review__who">Davide Sartori</span>
-          <span class="review__what">Studio Sartori</span>
-        </figcaption>
-      </figure>
-      </div>
-
-      <div class="carosello__comandi">
-        <button class="carosello__freccia" type="button" data-dir="-1" aria-label="Recensioni precedenti">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="carosello__punti" id="recPunti"></div>
-        <button class="carosello__freccia" type="button" data-dir="1" aria-label="Recensioni successive">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
+      <article class="lavoro" data-reveal="soft" style="--d:90ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/lillium.jpg" alt="Marchio Lillium nella vetrina di una gioielleria" loading="lazy" decoding="async" width="1080" height="1350">
+        </div>
+        <p class="lavoro__settore">Gioielleria</p>
+        <h2>Lillium</h2>
+        <p class="lavoro__testo">Grazie sottili e molta aria: il marchio sta in vetrina senza competere con quello che illumina.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#graphic-design">Graphic Design</a></p>
+      </article>
+      <article class="lavoro" data-reveal="soft" style="--d:180ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/saporito.jpg" alt="Marchio Saporito nel banco di una pasticceria" loading="lazy" decoding="async" width="1080" height="1350">
+        </div>
+        <p class="lavoro__settore">Panetteria e pasticceria</p>
+        <h2>Saporito</h2>
+        <p class="lavoro__testo">Lettering tondo e una spiga sopra il nome: si legge da fuori e dice subito di cosa si tratta.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#brand-identity">Logo Design</a></p>
+      </article>
+      <article class="lavoro" data-reveal="soft" style="--d:0ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/aureo.jpg" alt="Marchio aureo. su una lavorazione di cioccolato" loading="lazy" decoding="async" width="1080" height="1350">
+        </div>
+        <p class="lavoro__settore">Cioccolateria</p>
+        <h2>aureo.</h2>
+        <p class="lavoro__testo">Minuscole spaziate e un oro caldo, per un prodotto che si compra prima con gli occhi.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#graphic-design">Packaging Design</a></p>
+      </article>
+      <article class="lavoro" data-reveal="soft" style="--d:90ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/rusty.jpg" alt="Marchio Rusty su una tavola imbandita" loading="lazy" decoding="async" width="1080" height="1350">
+        </div>
+        <p class="lavoro__settore">Ristorante</p>
+        <h2>Rusty</h2>
+        <p class="lavoro__testo">Un cuoco disegnato a mano: fa venire fame prima ancora di leggere il menu.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#art-direction">Art Direction</a></p>
+      </article>
+      <article class="lavoro" data-reveal="soft" style="--d:180ms">
+        <div class="lavoro__foto">
+          <img src="assets/img/lm.jpg" alt="Monogramma LM su una stretta di mano in studio" loading="lazy" decoding="async" width="1080" height="1350">
+        </div>
+        <p class="lavoro__settore">Studio professionale</p>
+        <h2>LM</h2>
+        <p class="lavoro__testo">Un monogramma scritto a mano dentro un cerchio: formale quanto basta, mai rigido.</p>
+        <p class="lavoro__aree"><a href="/servizi#brand-identity">Brand Identity</a> <span aria-hidden="true">·</span> <a href="/servizi#creative-consulting">Job Profile</a></p>
+      </article>
     </div>
   </div>
 </section>
@@ -445,7 +248,7 @@
   <div class="shell">
     <div class="footer__top">
       <div class="footer__brand">
-        <a class="footer__logo" href="#top" aria-label="Simidea — home">
+        <a class="footer__logo" href="/" aria-label="Simidea — home">
           <svg class="mark" viewBox="0 0 231.6 270.3" aria-hidden="true"><use href="#s-mark"/></svg>
           <svg viewBox="0 0 301.4 62.3" width="128" aria-hidden="true"><use href="#s-word"/></svg>
         </a>

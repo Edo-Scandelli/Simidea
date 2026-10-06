@@ -6,7 +6,7 @@ per evitare limitazioni sui file locali — servilo:
 ```bash
 cd "$(dirname "$0")"
 python3 -m http.server 4545 --bind ::
-# poi apri http://localhost:4545
+# poi apri http://localhost:4545  (pagine interne: /servizi, /progetti, /studio)
 ```
 
 ## Struttura
@@ -36,8 +36,8 @@ Font: **Anton** (titoli poster), **Archivo** (headline/UI), **Inter** (testo).
 1. Hero — gradiente animato + muro di parole, come sul profilo Instagram
 2. Ticker dei servizi
 3. Manifesto — rivelazione parola per parola legata allo scroll
-4. Servizi — 4 card che si impilano in sticky
-5. Lavori — scroll orizzontale "pinnato" (su mobile diventa swipe con snap)
+4. Servizi — 4 card che si impilano in sticky: Brand Identity, Graphic Design, Art Direction, Web Design
+5. Progetti — scroll orizzontale "pinnato" (su mobile diventa swipe con snap)
 6. Fotografia — colonne in parallasse
 7. Processo — 3 step
 8. CTA contatti + footer
@@ -146,6 +146,336 @@ formato delle foto, non il contrario:
   limite AA anche per il testo grande.
 - Le foto sono ricompresse a qualita' 82 progressiva: 4,8 MB -> 589 KB, con
   PSNR 43-45 dB (sopra 40 la differenza non si vede).
+
+## L'arancione come testo su fondo chiaro: 2,03:1
+
+Misurato su tutte e tre le pagine: `#ff9900` come **testo piccolo su fondo
+chiaro sta a 2,03:1**, molto sotto il minimo di 4,5:1. Riguarda **20 etichette**
+su 34 — tutti gli occhielli delle sezioni (quelli ereditati dal disegno
+originale) piu' i dodici settori delle schede progetto.
+
+Sui fondi scuri lo stesso arancione sta fra **7,96 e 9,57:1**: li' non c'e'
+nessun problema. E' un limite del colore, non del disegno: nessuna variante di
+peso o dimensione lo porta sopra soglia su fondo chiaro.
+
+**Non e' stato cambiato** perche' tocca l'identita' visiva su tutte le pagine:
+e' una decisione del cliente, non tecnica. La soluzione minima, se la si vuole,
+e' un ambra piu' scuro riservato **ai soli testi piccoli su fondo chiaro**,
+lasciando `#ff9900` ovunque altro (fondi scuri, titoli, bottoni, accenti):
+
+| colore | contrasto su crema |
+|---|---|
+| `#ff9900` (marca) | 2,03:1 |
+| `#c26a00` (orange-deep) | 3,72:1 |
+| **`#a65f00`** | **4,68:1** — passa |
+| `#9c5600` | 5,33:1 |
+
+## `--muted`: correzione di una misura sbagliata
+
+Per un po' ho riportato che i testi secondari stavano a **4,75:1**, dentro lo
+standard. Era falso: lo script di misura leggeva `color(srgb 0.97 0.97 0.97 /
+.64)` — la notazione che Chrome restituisce per `color-mix()` — trattando i
+valori 0-1 come se fossero 0-255, quindi calcolava un colore quasi nero.
+
+Il valore vero di `--muted` a `ink 55%` era **3,64:1**: sotto il minimo AA di
+4,5:1 per il testo di dimensione normale, su tutto il sito. Portato a **66%**
+(`#696969` circa) sono **5,2:1** teorici e 5,36-5,48:1 misurati sui pixel, e
+resta comunque un grigio, non nero.
+
+Morale: quando una misura di contrasto restituisce un numero implausibile
+(1,03:1 su testo chiaro su fondo nero), il sospettato e' il parser del colore,
+non la pagina.
+
+## Pagina servizi (`servizi.html`)
+
+Prima pagina interna. `/servizi` funziona come URL pulita sia in locale
+(`serve.py` risolve `/servizi` -> `servizi.html`) sia su Vercel
+(`vercel.json` con `cleanUrls: true`).
+
+**Struttura.** **Sei aree**, le prime quattro sono quelle della home. I
+diciotto servizi del cliente ci stanno tutti: sei sono i titoli delle aree,
+dodici sono le etichette dentro le aree. Non c'e' nessun blocco "e inoltre":
+i tre servizi che prima restavano orfani sono diventati aree loro.
+
+| area | contiene |
+|---|---|
+| 01 Brand Identity | Logo Design |
+| 02 Graphic Design | Print Design, Packaging Design, Editorial Design |
+| 03 Art Direction | Creative Direction, Photography, Content Creation |
+| 04 Web Design | Social Media Design, Social Media Management |
+| 05 Marketing & Communication | Advertising, Event Planning |
+| 06 Creative Consulting | Job Profile |
+
+> **Da validare col cliente:** il raggruppamento e' una proposta, non una sua
+> indicazione. In particolare "Job Profile" sta sotto Creative Consulting
+> interpretandolo come consulenza sul profilo professionale di una persona: se
+> significa altro, va spostato.
+
+**Sezione Domande a due colonne**: titolo a sinistra (piu' piccolo, su due
+righe), elenco a destra, con le stesse proporzioni della griglia delle aree
+cosi' le due sezioni si allineano. Il titolo passa a una colonna sotto i
+**1060px**: fra 900 e 1060 la colonna di sinistra diventa troppo stretta e il
+titolo andrebbe su tre righe. Verificato a 24 larghezze fra 320 e 1920px.
+
+**Impaginazione** volutamente diversa dalle card impilate della home: qui serve
+un indice leggibile, non un secondo effetto scenico. Blocchi editoriali separati
+da filetti, numero arancione a sinistra, descrizione e etichette a destra; su
+mobile si impila.
+
+**Cornice condivisa.** Senza build step, head/sprite/nav/menu/footer/CTA sono
+**duplicati** in ogni pagina. `servizi.html` e' stato generato estraendo quei
+pezzi da `index.html`, ma da qui in avanti **una modifica alla cornice va fatta
+su tutte le pagine**. E' il prezzo del "nessuna dipendenza": se le pagine
+diventano molte, conviene un generatore minimo.
+
+**Due dettagli che sono bug se si dimenticano:**
+- `.srv-testa` e' andata aggiunta alla lista delle sezioni scure che ribaltano
+  `--muted`, altrimenti il lead resta inchiostro su nero e non si vede.
+- `scroll-margin-top` sui blocchi: la barra e' sempre visibile, e senza questo
+  un'ancora come `/servizi#art-direction` finisce sotto di lei (misurato: -26px
+  prima, +82px dopo).
+
+**Due inciampi di quella sezione, per memoria:**
+- Nella versione coi percorsi, la punta della freccia era disegnata coi bordi
+  su un secondo pseudo-elemento: ma **un pseudo non puo' avere un suo pseudo**,
+  e finiva sull'angolo della pillola. Si risolve mettendo linea e punta in
+  un'unica immagine SVG inline nel `background`. (Sezione poi scartata, ma la
+  trappola vale in generale.)
+- `.stacco` e' andata aggiunta alla lista delle sezioni scure che ribaltano
+  `--muted`, come era stato per `.srv-testa`. E' il terzo giro che questa cosa
+  morde: **ogni volta che nasce una sezione scura, va in quella lista**.
+- L'alone arancione e' alla sua terza posizione diversa: basso a sinistra in
+  home, fianco destro nella testata servizi, alto a destra nello stacco. Sono
+  lo stesso effetto ma non sembrano la stessa sezione.
+
+### Indice vivo (il momento "wow")
+
+Prima versione: un muro con i diciotto servizi che si accendevano sotto il
+cursore. Concetto apprezzato, **scartato perche' la sezione era troppo grande**
+(la pagina passava da 6002 a 7073px di altezza per un effetto decorativo).
+
+Seconda versione, quella in uso: invece di **aggiungere** una sezione, rende
+vivo lo spazio che c'era gia'. La colonna di sinistra era vuota per tre quarti;
+adesso e' un indice appiccicato che porta:
+
+- **La cifra dell'area corrente**, grande e arancione. Quando si passa da
+  un'area all'altra quella che esce sale e svanisce, quella che entra arriva da
+  sotto sfocata e **si accende** con un lampo di `text-shadow`: e' lo stesso
+  gesto del marchio nell'intro, ridotto a un numero.
+- **Un binario con il segmento acceso** che scorre sulla voce attiva, con alone
+  arancione.
+- **Voci cliccabili** che portano al blocco.
+
+Costo in altezza: **+380px** contro i +1071 del muro, e la colonna del testo e'
+piu' larga di prima, quindi la pagina respira meglio invece di allungarsi.
+
+- Sotto i 900px l'indice si nasconde: su una colonna non serve, i titoli sono
+  in linea nei blocchi.
+- Con `prefers-reduced-motion` la cifra cambia senza animazione e lo scroll dei
+  salti e' istantaneo. Verificato: la classe `cambia` non viene applicata.
+- `void cifra.offsetWidth` fra `remove` e `add` della classe: senza il reflow
+  forzato il browser non rianima, e la cifra cambierebbe di scatto.
+- Misurati **60 fps** scorrendo.
+
+**Alone arancione nella testata**: stessa famiglia di `.hero__glow` in home ma
+**dalla parte opposta** — qui sale dal fianco destro, dove il titolo lascia
+spazio vuoto, mentre in home sta in basso a sinistra. Cosi' la testata non e'
+la copia della hero, e il calore riempie il vuoto invece di stare sotto al
+testo (il lead guadagna anche in contrasto: 7,83:1 contro 5,23:1 della
+versione a sinistra). Le percentuali sono riproporzionate perche' la testata e'
+alta ~880px e non una schermata intera: coi valori originali meta' gradiente
+cadeva fuori dall'inquadratura e l'effetto non si vedeva.
+
+**Titolo**: "Dall'idea a **come ti vedono.**", con la seconda parte in
+arancione. La versione precedente, "a tutto il resto", e' stata scartata dal
+cliente perche' sminuiva i lavori. Sotto i 400px la base della `clamp` scende,
+altrimenti la seconda riga andava a capo e il titolo diventava di tre righe:
+verificato a 17 larghezze fra 320 e 1920px.
+
+> **Hover delle domande a 2,03:1.** Il cliente ha chiesto l'arancione di marca
+> (`#ff9900`) al posto di `--orange-deep`, che era a 3,72:1. Il testo e' 19px
+> bold = 14,2pt, quindi "testo grande": la soglia AA e' 3:1 e **l'arancione di
+> marca non la raggiunge**. Lo stato a riposo resta a 16,19:1, quindi la domanda
+> e' sempre leggibile e il calo riguarda solo il passaggio del mouse. Se si
+> volesse rientrare nella soglia tenendo l'arancione vero: lasciare il testo
+> scuro e portare l'arancione sul segno +/- e su una sottolineatura.
+
+**Sostanza della pagina.**
+- **Le descrizioni delle aree sono lunghe e senza cap sulla misura**: usano
+  tutta la colonna (misurato: 95-100% della larghezza disponibile). C'era un
+  `max-width: 48ch` che le troncava a meta' colonna; e' stato tolto su richiesta
+  del cliente. Dentro la prosa e' rientrata anche la parte concreta che stava
+  nei blocchi "Cosa ricevi", poi eliminati: cosa arriva alla consegna, come si
+  preparano gli esecutivi, cosa resta in mano.
+- **I tre patti** (`.stacco`): tre card su fondo scuro fra le sei aree e le
+  domande, sul **perche' scegliere loro**: parli con chi disegna, il preventivo
+  e' un numero deciso prima, le date sono scritte. L'argomento e'
+  **strutturale, non una vanteria**: uno studio piccolo non puo' promettere di
+  essere il piu' bravo, ma puo' garantire che chi risponde e' chi lavora.
+
+  **Le card sono in vetro**, e sul fondo scuro funziona perche' c'e' l'alone
+  arancione da sfocare dietro: per questo `.stacco__glow` ha due macchie in
+  basso, non solo l'angolo in alto. Senza niente dietro, una card translucida
+  e' indistinguibile da un rettangolo grigio.
+
+  **La luce segue il cursore dentro la card** (`.patto__luce`): e' il concetto
+  del "muro acceso" — piaciuto ma scartato perche' voleva una sezione enorme —
+  ridotto a un riquadro. Due variabili CSS aggiornate su `pointermove`, nessun
+  rAF: il movimento del puntatore e' gia' il clock. Su touch non si attiva, con
+  `prefers-reduced-motion` e' `display: none`.
+
+  **Trappola, la seconda volta che morde:** un `filter` sulla card o su un suo
+  antenato spegne il `backdrop-filter`. Il reveal standard applica
+  `filter: blur(5px)` e poi `blur(0)` — che e' comunque un filter. Per questo le
+  card usano `data-reveal="soft"`, la variante che non applica filtri in nessuno
+  dei due stati. Verificato a runtime che nessun antenato abbia un `filter`.
+
+  Contrasti misurati sul vetro: peggiore **5,81:1** a riposo e **4,47:1** con la
+  luce accesa (sul numero, che e' testo grande: soglia 3:1).
+
+  *Storia di questo spazio:* tre card bianche (scartate), tre righe coi percorsi
+  01 -> 02 (scartate), una frase sola senza card (piaciuta la forma, non il
+  testo), e infine queste. Il fondo scuro e' l'unica cosa rimasta da subito.
+
+  > **Da far confermare a Simone:** "numero fisso deciso prima" e "date scritte"
+  > sono impegni, non descrizioni. Coerenti col preventivo che abbiamo fatto,
+  > ma vanno validati.
+
+- **Domande**: `<details>`/`<summary>` nativi, quindi apertura, tastiera e
+  lettori di schermo funzionano senza JS.
+
+> **Da far confermare a Simone:** le risposte su tempi, preventivo a prezzo
+> fisso e **proprieta' dei file sorgente** sono impegni verso il cliente finale,
+> non descrizioni. Sono scritte come le abbiamo impostate nel preventivo, ma
+> vanno validate prima della pubblicazione.
+
+**Titolo della testata**: "Dall'idea a tutto il resto." in Archivo 800, lo
+stesso della hero in home, con "resto." in arancione. I titoli delle quattro
+aree restano in **Anton** per scelta del cliente.
+
+**L'intro neon si gioca una volta per sessione** (`sessionStorage`), non a ogni
+caricamento: tornando sulla home da un'altra pagina non si rivede. Chiudendo la
+scheda la sessione si svuota, quindi una visita nuova la rivede. In finestra
+privata `sessionStorage` puo' lanciare un'eccezione: e' dentro un try/catch e
+nel dubbio l'intro parte.
+
+## Pagina progetti (`progetti.html`)
+
+Seconda pagina interna, a URL pulita `/progetti`.
+
+> **"Lavori" e' stato rinominato "Progetti" in tutto il sito**: voce di menu,
+> menu mobile, footer, bottone della hero ("Guarda i progetti"), l'id della
+> sezione in home (`#lavori` -> `#progetti`), il selettore in `main.js` che
+> guida lo scroll orizzontale e la regola della modalita' anteprima nel CSS.
+> Verificato che nelle tre pagine non resti **nessun** riferimento a
+> `/lavori`, `#lavori` o "Lavori".
+
+**Dodici progetti** (erano sei): Arancy, Aria, Patty Burger, Chiara Moroni,
+Jamile., Simoa, Pexo, Lillium, Saporito, aureo., Rusty, LM.
+
+**Impaginazione a griglia.** La prima versione erano righe alternate con la foto
+che cambiava lato: bella con sei progetti, insostenibile con dodici (avrebbe
+superato i 13.000px). Ora e' una griglia a tre colonne con la **colonna
+centrale sfalsata** verso il basso, cosi' non sembra una tabella. Dodici
+progetti stanno in **5.226px**, meno dei 6.607 che prima servivano per sei.
+
+- Due colonne sotto i 1000px (sfalsata la seconda), una sotto i 620px (niente
+  sfalsamento: su una colonna non avrebbe senso).
+- Foto a `aspect-ratio: 4 / 5`, il formato dei file: nessun ritaglio.
+- `data-reveal="soft"`: le schede entrano senza sfocatura, che su dodici
+  immagini sarebbe la parte piu' costosa da comporre.
+- Sotto ogni scheda i **rimandi alle aree della pagina servizi**
+  (`/servizi#brand-identity`), come testo sottolineato invece che come pillole:
+  con dodici schede le pillole pesavano troppo. Verificato che il salto atterri
+  inquadrato e aggiorni l'indice della pagina servizi.
+- Foto ricompresse a qualita' 82: **10,7 MB -> 1,4 MB** per dodici immagini.
+
+**I testi dei dodici progetti sono scritti da noi**, dedotti dalle immagini.
+Vanno fatti validare a Simone. In particolare il dodicesimo: il marchio e' un
+monogramma **LM** in un cerchio, senza un nome per esteso leggibile nella foto,
+quindi la scheda lo chiama cosi' e lo descrive come "studio professionale".
+
+## Pagina studio (`studio.html`)
+
+Terza pagina interna, URL pulita `/studio`. Le informazioni vengono dalla pagina
+"about" del vecchio sito Google Sites, **riscritte**, non copiate.
+
+**Cosa c'e' di vero** (dalla fonte): Simidea e' uno studio creativo indipendente
+fondato da **Simone Lorenti**, CEO, graphic designer, **18 anni**; ha pubblicato
+**due libri**, *Per Sempre* e *Non Restare a Guardare*; sede in **Via Adamello 29,
+Gorla Minore (VA)**; servizi di identita' visiva, progettazione grafica,
+fotografia, comunicazione e direzione creativa.
+
+**Struttura:** testata scura → "Chi c'e' dietro" (storia + tre dati) → "I libri"
+(fascia scura con due card in vetro) → "Dove siamo" (indirizzo e contatti) → CTA.
+
+- **I due libri sono il pezzo distintivo della pagina**: nessun altro studio li
+  ha. Presentati come due oggetti tipografici in vetro sulla fascia scura, con
+  l'alone dietro che da' loro qualcosa da sfocare.
+- `.libri` e' andata aggiunta alla lista delle sezioni scure che ribaltano
+  `--muted` (quarta volta che serve).
+- Sesta... anzi quinta posizione dell'alone: in alto a sinistra nella testata,
+  alto-destra nella fascia dei libri.
+
+> **Attenzione al dato "18 anni": invecchia.** Fra un anno sara' falso e nessuno
+> se ne accorgera'. Se si vuole un dato che non scade, meglio sostituirlo con
+> l'anno di fondazione — che pero' **non e' scritto da nessuna parte nella
+> fonte**, quindi va chiesto a Simone. Per ora il numero resta perche' e'
+> verificabile oggi.
+
+> **Da far confermare:** la frase "oggi affianca aziende, professionisti e
+> attivita'" viene dalla fonte, ma il resto del testo e' riscritto da noi.
+
+**Due misure che hanno dato numeri assurdi, e perche':**
+- `1,05:1` sui titoli dei libri: la card in vetro ha uno sfondo semitrasparente
+  biancastro, e lo script lo ha preso per il fondo reale invece del nero sotto.
+  Misurato sui pixel: **12,4 e 13,45:1**.
+- Prima ancora, sui patti della pagina servizi, il **cursore personalizzato**
+  del sito finiva nel campione perche' sta sotto il puntatore. Da allora le
+  misure di contrasto lo nascondono.
+
+## Sezione "Dicono di noi"
+
+> **Le sei recensioni sono SEGNAPOSTO: inventate.** Nomi e attivita' non
+> esistono. Vanno sostituite con quelle vere prima della messa online sul
+> dominio del cliente. Il blocco e' marcato con `data-segnaposto` su
+> `<section id="recensioni">`, quindi si ritrova con un grep.
+
+Scelta deliberata: **nessuna citazione e' attribuita ai clienti veri del
+portfolio** (Arancy, Aria, Patty Burger, Chiara Moroni, Jamile, Simoa). Mettere
+frasi inventate in bocca ad attivita' reali e identificabili e' un'altra cosa
+rispetto a un testo di prova.
+
+- Sta fra `process` (bianco) e `contact` (nero): la prova sociale e' l'ultima
+  spinta prima della CTA.
+- Fondo `--sand`, l'unico token di palette finora inutilizzato. Serve il cambio
+  di passo: tre sezioni chiare di fila si impastavano.
+- **E' un carosello.** La pista e' un contenitore che scorre davvero
+  (`overflow-x` + `scroll-snap`), non un `transform` da tenere sincronizzato:
+  cosi' swipe sul telefono, rotella orizzontale sul trackpad e frecce della
+  tastiera funzionano senza scrivere una riga. Frecce e pallini muovono lo
+  stesso scroll.
+- Mostra 3 card per volta, 2 sotto i 1000px, 1 sotto i 660px. I pallini sono
+  le **pagine**, calcolate a runtime da quante card ci stanno intere: 2 su
+  desktop, 3 su tablet, 6 su telefono.
+- Avanza da solo ogni 6s, ma si ferma se il mouse ci passa sopra, se qualcosa
+  dentro prende il fuoco, se la scheda non e' in primo piano o se la sezione
+  e' fuori schermo. **Dopo un gesto esplicito** (freccia, pallino, swipe,
+  rotella) non riparte piu': il comando resta all'utente.
+- Con `prefers-reduced-motion` l'avanzamento automatico non parte affatto e la
+  pista scorre senza animazione, ma frecce e pallini restano funzionanti.
+  Verificato.
+- `min-height: 100%` sulla card piu' `align-items: stretch` sulla pista: le
+  card sono tutte della stessa altezza. `grid-template-rows: auto 1fr auto`
+  tiene la firma in fondo anche quando la citazione e' corta.
+- Il titolo sta su una riga sola fino a 390px. Sotto andrebbe a capo, quindi
+  **solo sotto i 400px** la base della `clamp` scende: restringere la scala a
+  tutte le larghezze avrebbe reso questo titolo 5px piu' piccolo degli altri
+  ovunque, per un problema che esiste solo sui telefoni stretti.
+- Markup semantico: `<figure>` + `<blockquote>` + `<figcaption>`. Le stelle
+  hanno `role="img"` con `aria-label`, altrimenti uno screen reader leggerebbe
+  cinque asterischi.
+- Contrasti misurati: citazione e nome 17,04:1, riga dell'attivita' 5,48:1.
 
 ## Sfondo neon della sezione Contatti
 

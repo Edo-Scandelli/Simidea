@@ -18,8 +18,16 @@
   /* Tre fasi: il tubo si traccia, si accende, lo strato si ritira.
      Un timeout di sicurezza smonta tutto comunque, così un'animazione
      mancata non può lasciare la pagina coperta. */
+  /* Si gioca una volta per sessione: tornando sulla home da un'altra pagina
+     non si rivede. sessionStorage si svuota chiudendo la scheda, quindi una
+     visita nuova la rivede comunque. In finestra privata può lanciare
+     un'eccezione: in quel caso l'intro parte, non si rompe niente. */
   const intro = $('#intro');
-  if (intro && !reduced) {
+  let introGiaVista = false;
+  try { introGiaVista = sessionStorage.getItem('simidea:intro') === '1'; } catch {}
+
+  if (intro && !reduced && !introGiaVista) {
+    try { sessionStorage.setItem('simidea:intro', '1'); } catch {}
     const root = document.documentElement;
     const T_TRACCIA = 1250;   // marchio + wordmark
     const T_ACCENDI = 780;
@@ -215,8 +223,8 @@
     paintCards();
   }
 
-  /* --------------------------------------------- lavori: scroll orizzontale pinnato */
-  const workSection = $('#lavori');
+  /* ------------------------------------------ progetti: scroll orizzontale pinnato */
+  const workSection = $('#progetti');
   const track       = $('#workTrack');
   const viewport    = $('#workViewport');
   const bar         = $('#workBar');
@@ -443,6 +451,170 @@
   });
 
   /* ------------------------------------------------------------- utilities */
+  /* ------------------------------------------------ patti: la luce nella card */
+  /* Solo due variabili CSS per card, aggiornate su pointermove e limitate al
+     riquadro sotto il cursore. Niente stato da sincronizzare, niente rAF:
+     il movimento del puntatore e' gia' il clock. */
+  const patti = $('#patti');
+  if (patti && !reduced && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    $$('.patto', patti).forEach(card => {
+      card.addEventListener('pointermove', e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--px', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+        card.style.setProperty('--py', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+        card.style.setProperty('--pr', Math.round(clamp(r.width * .8, 180, 300)) + 'px');
+      }, { passive: true });
+    });
+  }
+
+  /* ------------------------------------------------ pagina servizi: indice vivo */
+  /* La cifra dell'area corrente cambia mentre si scorre: quella che esce sale,
+     quella che entra arriva da sotto sfocata e si accende. Il segmento acceso
+     del binario segue la voce attiva. Senza JS resta un indice statico e i
+     blocchi si leggono comunque: l'effetto e' in aggiunta, non al posto. */
+  const indice = $('#srvIndice');
+  if (indice) {
+    const cifra   = $('.srv__cifra', indice);
+    const uscita  = $('.srv__cifra-uscita', indice);
+    const entrata = $('.srv__cifra-entrata', indice);
+    const salti   = $$('.srv__salto', indice);
+    const binario = $('.srv__salti', indice);
+    const blocchi = salti.map(b => $('#' + b.dataset.va)).filter(Boolean);
+
+    let attivo = -1;
+
+    const muoviBinario = b => {
+      const r = b.getBoundingClientRect();
+      const rb = binario.getBoundingClientRect();
+      binario.style.setProperty('--rail-top', Math.round(r.top - rb.top + 6) + 'px');
+      binario.style.setProperty('--rail-h', Math.round(r.height - 12) + 'px');
+    };
+
+    const attiva = i => {
+      if (i === attivo || i < 0) return;
+      const nuovo = salti[i].querySelector('.srv__salto-num').textContent.trim();
+      const vecchio = attivo >= 0 ? salti[attivo].querySelector('.srv__salto-num').textContent.trim() : '';
+
+      if (!reduced && vecchio) {
+        uscita.textContent = vecchio;
+        entrata.textContent = nuovo;
+        cifra.classList.remove('cambia');
+        void cifra.offsetWidth;          // forza il reflow: senza, la classe non rianima
+        cifra.classList.add('cambia');
+      } else {
+        entrata.textContent = nuovo;
+      }
+
+      salti.forEach((b, k) => k === i
+        ? b.setAttribute('aria-current', 'true')
+        : b.removeAttribute('aria-current'));
+      muoviBinario(salti[i]);
+      attivo = i;
+    };
+
+    // l'area attiva e' quella il cui blocco taglia la fascia alta della finestra
+    const scegli = () => {
+      const linea = window.innerHeight * 0.34;
+      let scelto = 0;
+      blocchi.forEach((b, i) => { if (b.getBoundingClientRect().top <= linea) scelto = i; });
+      attiva(scelto);
+    };
+
+    salti.forEach((b, i) => b.addEventListener('click', () => {
+      blocchi[i].scrollIntoView({ behavior: reduced ? 'instant' : 'smooth', block: 'start' });
+    }));
+
+    onScroll(scegli);
+    onResize(() => { if (attivo >= 0) muoviBinario(salti[attivo]); });
+    scegli();
+    attiva(0);
+  }
+
+  /* ------------------------------------------------ carosello recensioni */
+  /* La pista scorre davvero (overflow-x + scroll-snap): swipe, trackpad e
+     tastiera funzionano senza codice. Frecce e pallini muovono lo stesso
+     scroll, non una posizione parallela da tenere sincronizzata. */
+  $$('[data-carosello]').forEach(giostra => {
+    const pista    = $('.carosello__pista', giostra);
+    const puntiBox = $('.carosello__punti', giostra);
+    const frecce   = $$('.carosello__freccia', giostra);
+    const card     = pista ? $$('.review', pista) : [];
+    if (!pista || !card.length) return;
+
+    const stile = () => getComputedStyle(pista);
+    const padSx = () => parseFloat(stile().paddingLeft) || 0;
+    const passo = () => card.length < 2
+      ? card[0].offsetWidth
+      : card[1].getBoundingClientRect().left - card[0].getBoundingClientRect().left;
+    const contenuto = () => pista.clientWidth - padSx() - (parseFloat(stile().paddingRight) || 0);
+    // quante card ci stanno intere: e' il "passo di pagina"
+    const visibili = () => clamp(Math.round(contenuto() / passo()), 1, card.length);
+    const pagine   = () => Math.ceil(card.length / visibili());
+    const paginaOra = () => clamp(Math.round(pista.scrollLeft / (passo() * visibili())), 0, pagine() - 1);
+
+    const vaiA = (p, liscio = true) => {
+      const i  = clamp(p * visibili(), 0, card.length - 1);
+      const dx = card[i].getBoundingClientRect().left - pista.getBoundingClientRect().left - padSx();
+      pista.scrollBy({ left: dx, behavior: liscio && !reduced ? 'smooth' : 'instant' });
+    };
+
+    let timer = null, inVista = false, congelato = false;
+    const pausa = () => { clearInterval(timer); timer = null; };
+    const avvia = () => {
+      if (reduced || timer || congelato || !inVista || pagine() < 2) return;
+      timer = setInterval(() => vaiA((paginaOra() + 1) % pagine()), 6000);
+    };
+    // dopo un gesto esplicito il comando resta all'utente: non si riparte
+    const congela = () => { congelato = true; pausa(); };
+
+    const disegnaPunti = () => {
+      const n = pagine();
+      if (puntiBox.children.length !== n) {
+        puntiBox.innerHTML = '';
+        for (let i = 0; i < n; i++) {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.setAttribute('aria-label', `Vai al gruppo ${i + 1} di ${n}`);
+          b.addEventListener('click', () => { vaiA(i); congela(); });
+          puntiBox.append(b);
+        }
+      }
+      const ora = paginaOra();
+      [...puntiBox.children].forEach((b, i) => b.setAttribute('aria-current', i === ora ? 'true' : 'false'));
+      giostra.classList.toggle('carosello--unico', n < 2);
+    };
+
+    frecce.forEach(f => f.addEventListener('click', () => {
+      const n = pagine();
+      vaiA((paginaOra() + Number(f.dataset.dir) + n) % n);
+      congela();
+    }));
+
+    let attesa = false;
+    pista.addEventListener('scroll', () => {
+      if (attesa) return;
+      attesa = true;
+      requestAnimationFrame(() => { disegnaPunti(); attesa = false; });
+    }, { passive: true });
+
+    ['pointerdown', 'wheel', 'touchstart'].forEach(e =>
+      pista.addEventListener(e, congela, { passive: true, once: true }));
+
+    giostra.addEventListener('mouseenter', pausa);
+    giostra.addEventListener('mouseleave', avvia);
+    giostra.addEventListener('focusin', pausa);
+    giostra.addEventListener('focusout', avvia);
+    document.addEventListener('visibilitychange', () => document.hidden ? pausa() : avvia());
+
+    new IntersectionObserver(es => {
+      inVista = es[0].isIntersecting;
+      inVista ? avvia() : pausa();
+    }, { threshold: 0.25 }).observe(giostra);
+
+    onResize(() => { disegnaPunti(); vaiA(paginaOra(), false); });
+    disegnaPunti();
+  });
+
   function onScroll(fn) {
     let ticking = false;
     const handler = () => {
