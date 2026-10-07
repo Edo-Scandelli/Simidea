@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Archivo:wght@500;600;700;800;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=80">
+<link rel="stylesheet" href="assets/css/style.css?v=86">
 </head>
 
 <body>
@@ -38,8 +38,7 @@
      coperta da questo strato. -->
 <div class="intro" id="intro">
   <div class="intro__stage">
-    <svg class="intro__mark" viewBox="0 0 237.6 276.3" aria-hidden="true"><use href="#s-mark" x="3" y="3" width="231.6" height="270.3"/></svg>
-    <svg class="intro__word" viewBox="0 0 307.4 68.3" aria-label="Simidea"><use href="#s-word" x="3" y="3" width="301.4" height="62.3"/></svg>
+    <svg class="intro__mark" viewBox="0 0 237.6 276.3" aria-label="Simidea"><use href="#s-mark" x="3" y="3" width="231.6" height="270.3"/></svg>
   </div>
 </div>
 
@@ -336,10 +335,10 @@
 </section>
 
 <!-- ============================================================ DICONO DI NOI -->
-<!-- ATTENZIONE: recensioni SEGNAPOSTO, inventate. Nomi e attività non esistono.
-     Vanno sostituite con quelle vere del cliente prima della messa online sul
-     dominio. Cerca data-segnaposto per ritrovare questo blocco. -->
-<section class="reviews" id="recensioni" data-nav="light" data-segnaposto="recensioni-inventate">
+<!-- Quattro recensioni sono VERE (Simidea User 01, 02, 03, 05), fornite dal
+     cliente. Due sono ancora SEGNAPOSTO e marcate con data-segnaposto:
+     vanno sostituite appena arrivano quelle vere. -->
+<section class="reviews" id="recensioni" data-nav="light" data-segnaposto="due-su-sei">
   <div class="shell">
     <header class="reviews__head">
       <p class="eyebrow" data-reveal>Dicono di noi</p>
@@ -351,50 +350,57 @@
            aria-roledescription="carosello" aria-label="Recensioni dei clienti">
       <figure class="review">
         <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Mi ha colpito che prima di disegnare qualsiasi cosa mi abbia fatto un sacco di domande. Il marchio che è uscito sembrava ovvio, ma non ci sarei mai arrivata da sola.</blockquote>
+        <blockquote>Io le persone le peso al volo… tu mi sei simpatico e credo molto nelle tue capacità! Sono sicuro di aver fatto la scelta giusta 💪 Ti lascio carta bianca proprio per questo 😜</blockquote>
         <figcaption>
-          <span class="review__who">Giulia Ferrari</span>
-          <span class="review__what">Fiorai Ferrari</span>
+          <span class="review__who">Simidea User 01</span>
+          <span class="review__what">Social Media Management</span>
         </figcaption>
       </figure>
+
       <figure class="review">
         <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Tempi rispettati al giorno. Ho ricevuto tutti i file organizzati per cartelle, anche quelli che non sapevo di dover chiedere.</blockquote>
+        <blockquote>Ho avuto modo di conoscere SIMIDEA e ne sono rimasto davvero colpito. Simone unisce creatività, attenzione ai dettagli e professionalità, trasformando le idee in identità visive forti e distintive. Se cercate qualcuno che sappia dare personalità al vostro brand, SIMIDEA è una garanzia. Consigliatissimo!</blockquote>
         <figcaption>
-          <span class="review__who">Marco Ranieri</span>
-          <span class="review__what">Palestra Nord</span>
+          <span class="review__who">Simidea User 02</span>
+          <span class="review__what">Brand Identity</span>
         </figcaption>
       </figure>
+
       <figure class="review">
         <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Il preventivo era chiaro dall'inizio e non è cambiato di un euro. Per me, che ho già avuto brutte esperienze, vale quanto il lavoro stesso.</blockquote>
+        <blockquote>Servizio impeccabile!! Super professionale!!! Consiglio tantissimo!! 5 stelle meritatissime</blockquote>
         <figcaption>
-          <span class="review__who">Sara Colombo</span>
-          <span class="review__what">Bottega Colombo</span>
+          <span class="review__who">Simidea User 03</span>
+          <span class="review__what">Shooting Fotografico &amp; Art Direction</span>
         </figcaption>
       </figure>
+
       <figure class="review">
         <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Pensavo che un logo fosse solo un logo. Poi ho visto insegna, furgone e biglietti da visita parlare la stessa lingua e ho capito la differenza.</blockquote>
+        <blockquote>Ho avuto un'ottima esperienza con SIMIDEA. Professionalità e creatività. Simone ha saputo trasformare le mie idee in un risultato curato e originale.</blockquote>
         <figcaption>
-          <span class="review__who">Luca Menni</span>
-          <span class="review__what">Officina Menni</span>
+          <span class="review__who">Simidea User 05</span>
+          <span class="review__what">Graphic Design</span>
         </figcaption>
       </figure>
-      <figure class="review">
+
+      <figure class="review" data-segnaposto="recensione-inventata">
+        <!-- SEGNAPOSTO: recensione inventata, da sostituire con una vera -->
         <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>I contenuti social che ci ha impostato li usiamo ancora oggi: bastava seguire il format e il profilo ha smesso di sembrare improvvisato.</blockquote>
+        <blockquote>Sito nuovo e finalmente mi rappresenta. Veloce nelle risposte e preciso in ogni passaggio. Consigliatissimo!</blockquote>
         <figcaption>
-          <span class="review__who">Elena Vitali</span>
-          <span class="review__what">Agriturismo Le Cascine</span>
+          <span class="review__who">Simidea User 06</span>
+          <span class="review__what">Web Design</span>
         </figcaption>
       </figure>
-      <figure class="review">
+
+      <figure class="review" data-segnaposto="recensione-inventata">
+        <!-- SEGNAPOSTO: recensione inventata, da sostituire con una vera -->
         <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Giovane ma preciso. Risponde ai messaggi, spiega le scelte e non si offende se chiedi una modifica. Non è scontato.</blockquote>
+        <blockquote>Professionale e disponibile dall'inizio alla fine. Il risultato ha superato quello che avevo in mente. Grazie Simone!</blockquote>
         <figcaption>
-          <span class="review__who">Davide Sartori</span>
-          <span class="review__what">Studio Sartori</span>
+          <span class="review__who">Simidea User 07</span>
+          <span class="review__what">Packaging Design</span>
         </figcaption>
       </figure>
       </div>
@@ -491,6 +497,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=29" defer></script>
+<script src="assets/js/main.js?v=33" defer></script>
 </body>
 </html>

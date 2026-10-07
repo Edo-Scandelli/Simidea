@@ -29,9 +29,9 @@
   if (intro && !reduced && !introGiaVista) {
     try { sessionStorage.setItem('simidea:intro', '1'); } catch {}
     const root = document.documentElement;
-    const T_TRACCIA = 1250;   // marchio + wordmark
+    const T_TRACCIA = 1050;   // solo la lampadina: la scritta non c'e' piu'
     const T_ACCENDI = 780;
-    const T_VIA     = 600;    // totale ~2,6s
+    const T_VIA     = 600;    // totale ~2,4s
 
     root.classList.add('intro-on', 'intro-draw');
     document.body.classList.add('is-locked');
@@ -451,6 +451,116 @@
   });
 
   /* ------------------------------------------------------------- utilities */
+  /* ------------------------------------------------ popup promo SIMIDEALS */
+  /* Costruito qui e non nel markup: cosi' sta in un posto solo e compare su
+     tutte le pagine. Senza JS non appare, ed e' giusto — e' promozione, non
+     contenuto.
+
+     DA AGGIORNARE QUANDO LA PROMO CAMBIA: basta toccare questo oggetto.
+     Si vede DA SUBITO: prima dell'inizio annuncia la promo come in arrivo,
+     dal primo giorno dice che e' attiva. Dopo la fine non esce piu' — un
+     popup che annuncia uno sconto scaduto fa piu' danni che bene. */
+  const PROMO = {
+    attiva:  true,
+    dal:     '2026-10-15',
+    al:      '2026-11-15',
+    chiave:  'simidea:promo-simideals',
+    titolo:  'Simideals.',
+    periodo: 'Dal 15 ottobre al 15 novembre',
+    scaglioni: [
+      { quanti: '1 servizio', sconto: '20% off' },
+      { quanti: '2 servizi',  sconto: '25% off' },
+      { quanti: '3 servizi',  sconto: '30% off' },
+    ],
+    nota: 'Promo valida nelle date indicate, su acquisti a partire da 100\u00A0€ (prima dello sconto). Gli sconti non sono cumulabili con altre promozioni e si applicano al totale dei servizi acquistati.',
+  };
+
+  const promoFinita  = () => new Date() > new Date(PROMO.al + 'T23:59:59');
+  const promoInArrivo = () => new Date() < new Date(PROMO.dal + 'T00:00:00');
+
+  let promoGiaVista = false;
+  try { promoGiaVista = sessionStorage.getItem(PROMO.chiave) === '1'; } catch {}
+
+  /* ?promo in fondo alla URL lo mostra comunque, anche fuori dalle date e anche
+     se e' gia' stato chiuso. Serve per farlo vedere al cliente senza aspettare
+     il 15 ottobre: e' solo un'anteprima, non cambia il comportamento normale. */
+  const promoForzata = new URLSearchParams(location.search).has('promo');
+
+  if (PROMO.attiva && (promoForzata || (!promoFinita() && !promoGiaVista))) {
+    // l'intro dura ~2,4s: il popup aspetta che abbia finito
+    const introHaGiocato = !!intro && !reduced && !introGiaVista;
+    const ritardo = introHaGiocato ? 3400 : 1300;
+
+    setTimeout(() => {
+      if (!promoForzata) { try { sessionStorage.setItem(PROMO.chiave, '1'); } catch {} }
+
+      const righe = PROMO.scaglioni.map((x, i) => `
+        <li class="promo__riga" style="--f:${(i / (PROMO.scaglioni.length - 1)).toFixed(2)}">
+          <span class="promo__stella" aria-hidden="true">✦</span>
+          <span>${x.quanti}</span>
+          <span class="promo__freccia" aria-hidden="true">→</span>
+          <span class="promo__sconto">${x.sconto}</span>
+        </li>`).join('');
+
+      const strato = document.createElement('div');
+      strato.className = 'promo';
+      strato.innerHTML = `
+        <div class="promo__riquadro" role="dialog" aria-modal="true" aria-labelledby="promoTitolo">
+          <button class="promo__chiudi" type="button" aria-label="Chiudi">✕</button>
+          <div class="promo__testa">
+            <p class="eyebrow">${promoInArrivo() ? 'Promozione in arrivo' : 'Promozione attiva'}</p>
+            <p class="promo__titolo" id="promoTitolo">${PROMO.titolo}</p>
+            <p class="promo__periodo">${PROMO.periodo}</p>
+          </div>
+          <ul class="promo__scaglioni">${righe}</ul>
+          <div class="promo__azioni">
+            <a class="btn btn--orange" href="#contatti">
+              Parliamone
+              <svg class="ico" aria-hidden="true"><use href="#s-arrow"/></svg>
+            </a>
+            <button class="promo__dopo" type="button">Più tardi</button>
+          </div>
+          <p class="promo__nota">${PROMO.nota}</p>
+        </div>`;
+      document.body.append(strato);
+
+      const riquadro = $('.promo__riquadro', strato);
+      const daFocus  = () => $$('a[href], button', riquadro).filter(e => !e.disabled);
+      const prima    = document.activeElement;
+
+      const chiudi = () => {
+        strato.classList.remove('is-aperto');
+        document.body.classList.remove('is-locked');
+        removeEventListener('keydown', tasti);
+        setTimeout(() => strato.remove(), reduced ? 0 : 450);
+        if (prima && prima.focus) prima.focus();
+      };
+
+      // Esc chiude, Tab resta dentro al riquadro
+      const tasti = e => {
+        if (e.key === 'Escape') { chiudi(); return; }
+        if (e.key !== 'Tab') return;
+        const f = daFocus();
+        if (!f.length) return;
+        const primo = f[0], ultimo = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === primo) { e.preventDefault(); ultimo.focus(); }
+        else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primo.focus(); }
+      };
+
+      $('.promo__chiudi', strato).addEventListener('click', chiudi);
+      $('.promo__dopo', strato).addEventListener('click', chiudi);
+      $('.promo__azioni a', strato).addEventListener('click', chiudi);
+      strato.addEventListener('click', e => { if (e.target === strato) chiudi(); });
+      addEventListener('keydown', tasti);
+
+      document.body.classList.add('is-locked');
+      requestAnimationFrame(() => {
+        strato.classList.add('is-aperto');
+        $('.promo__chiudi', strato).focus();
+      });
+    }, ritardo);
+  }
+
   /* ------------------------------------------------ patti: la luce nella card */
   /* Solo due variabili CSS per card, aggiornate su pointermove e limitate al
      riquadro sotto il cursore. Niente stato da sincronizzare, niente rAF:

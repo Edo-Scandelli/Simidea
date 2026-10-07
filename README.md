@@ -75,6 +75,17 @@ un clic o con Esc. Con `prefers-reduced-motion` non viene creato affatto.
 Ora parte a **ogni caricamento**. Per limitarlo al primo della sessione,
 avvolgere l'attivazione in un controllo su `sessionStorage`.
 
+**Solo la lampadina.** Dal 6 ottobre l'intro traccia e accende **soltanto il
+marchio**: la scritta "SIMIDEA" e' stata tolta da qui, e resta dov'era —
+header e footer, dove il marchio e' completo. Il wordmark `#s-word` e' ancora
+nello sprite perche' serve a quelli.
+
+Togliendola e' andato ridotto anche `T_TRACCIA` da **1250 a 1050 ms**: i 1250
+erano la somma del tracciato del marchio (1,05s) e di quello della scritta
+(0,8s con 0,45s di ritardo). Lasciandoli invariati ci sarebbero stati 200 ms di
+pausa morta fra la fine del disegno e l'accensione. Il marchio e' anche un po'
+piu' grande, visto che adesso sta da solo.
+
 ## Banner SIMIDEA (header)
 
 L'header è il banner in vetro del sito: resta **sempre visibile**, non si
@@ -434,17 +445,57 @@ fotografia, comunicazione e direzione creativa.
   del sito finiva nel campione perche' sta sotto il puntatore. Da allora le
   misure di contrasto lo nascondono.
 
+## Popup promo (SIMIDEALS)
+
+Costruito dal JS (`main.js`, blocco "popup promo"), non dal markup: cosi' sta in
+un posto solo e compare su tutte e quattro le pagine. Senza JS non appare, ed e'
+giusto — e' promozione, non contenuto.
+
+**Per cambiare la promo basta l'oggetto `PROMO`** in cima al blocco: date,
+titolo, scaglioni e nota legale.
+
+- **Le date sono una finestra vera.** Fuori da `dal`–`al` il popup non esce.
+  Un popup che annuncia uno sconto scaduto fa piu' danni che bene, e nessuno si
+  ricorda di toglierlo a mano. Verificato: il 6 ottobre e il 20 novembre non
+  compare, il 20 ottobre si.
+- **Una volta per sessione** (`sessionStorage`), come l'intro. Cambiando pagina
+  non ricompare.
+- Aspetta che l'intro abbia finito: 3,4s sulla home dove l'intro gioca, 1,3s
+  sulle pagine interne dove non c'e'.
+- Modale fatta come si deve: `role="dialog"`, `aria-modal`, fuoco che entra sul
+  pulsante di chiusura e **resta dentro** (Tab cicla), Esc chiude, click sul
+  fondo chiude, scroll bloccato, fuoco restituito a dove stava.
+- Grafica ripresa dal materiale social del cliente: pillole in vetro, testo
+  arancione acceso, e la pillola piu' conveniente che brilla di piu' (`--f`
+  cresce con lo sconto e guida sfondo, bordo e bagliore).
+
+> **Nota:** sulla locandina del cliente l'email e' scritta `info@imidea.it`,
+> senza la "s". Nel popup e' corretta.
+
+**Tre misure sbagliate di fila sulla stessa cosa**, vale la pena ricordarle:
+il contrasto del testo nelle pillole sembrava 1,93:1, poi 1,26:1, poi 1,98:1.
+Erano tutti artefatti: (1) il colore di riferimento era fisso mentre quello
+reale cambiava per pillola, (2) la pillola e' a **bordi tondi** e il riquadro
+che campionavo includeva gli angoli *fuori* da essa, dove si vede l'alone del
+pannello. Campionando solo l'interno: **14,1-16,5:1**. Nessun problema, e la
+"correzione" che avevo applicato nel frattempo e' stata annullata.
+
 ## Sezione "Dicono di noi"
 
-> **Le sei recensioni sono SEGNAPOSTO: inventate.** Nomi e attivita' non
-> esistono. Vanno sostituite con quelle vere prima della messa online sul
-> dominio del cliente. Il blocco e' marcato con `data-segnaposto` su
-> `<section id="recensioni">`, quindi si ritrova con un grep.
+**Quattro recensioni su sei sono VERE**, fornite dal cliente: Simidea User 01
+(Social Media Management), 02 (Brand Identity), 03 (Shooting Fotografico & Art
+Direction) e 05 (Graphic Design). Testo trascritto alla lettera, emoji comprese.
 
-Scelta deliberata: **nessuna citazione e' attribuita ai clienti veri del
-portfolio** (Arancy, Aria, Patty Burger, Chiara Moroni, Jamile, Simoa). Mettere
-frasi inventate in bocca ad attivita' reali e identificabili e' un'altra cosa
-rispetto a un testo di prova.
+> **Due sono ancora SEGNAPOSTO** — Simidea User 06 e 07 — marcate con
+> `data-segnaposto="recensione-inventata"` sulla singola card, quindi si
+> ritrovano con un grep. Da sostituire appena arrivano quelle vere.
+
+**L'attribuzione segue la convenzione del cliente**: "Simidea User NN" piu' il
+servizio, non nomi di persona. Viene dai caroselli che pubblica su Instagram, e
+risolve due problemi insieme — non espone i clienti e non costringe a inventare
+nomi di persone per le card segnaposto. I numeri 06 e 07 sono stati scelti
+apposta **fuori dalla sequenza reale** (01, 02, 03, 05) per non collidere con
+una recensione vera che il cliente potrebbe avere.
 
 - Sta fra `process` (bianco) e `contact` (nero): la prova sociale e' l'ultima
   spinta prima della CTA.
