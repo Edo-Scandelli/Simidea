@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Archivo:wght@500;600;700;800;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=86">
+<link rel="stylesheet" href="assets/css/style.css?v=87">
 </head>
 
 <body>
@@ -335,10 +335,12 @@
 </section>
 
 <!-- ============================================================ DICONO DI NOI -->
-<!-- Quattro recensioni sono VERE (Simidea User 01, 02, 03, 05), fornite dal
-     cliente. Due sono ancora SEGNAPOSTO e marcate con data-segnaposto:
-     vanno sostituite appena arrivano quelle vere. -->
-<section class="reviews" id="recensioni" data-nav="light" data-segnaposto="due-su-sei">
+<!-- Tutte e quattro le recensioni sono VERE (Simidea User 01, 02, 03, 05),
+     fornite dal cliente. Le due inventate sono state rimosse il 9 ottobre 2026:
+     il punto 6 di /termini dichiara che le recensioni vengono da clienti reali,
+     quindi qui non può finire niente di inventato. Per aggiungerne altre serve
+     che arrivino da Simone. -->
+<section class="reviews" id="recensioni" data-nav="light">
   <div class="shell">
     <header class="reviews__head">
       <p class="eyebrow" data-reveal>Dicono di noi</p>
@@ -384,25 +386,7 @@
         </figcaption>
       </figure>
 
-      <figure class="review" data-segnaposto="recensione-inventata">
-        <!-- SEGNAPOSTO: recensione inventata, da sostituire con una vera -->
-        <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Sito nuovo e finalmente mi rappresenta. Veloce nelle risposte e preciso in ogni passaggio. Consigliatissimo!</blockquote>
-        <figcaption>
-          <span class="review__who">Simidea User 06</span>
-          <span class="review__what">Web Design</span>
-        </figcaption>
-      </figure>
 
-      <figure class="review" data-segnaposto="recensione-inventata">
-        <!-- SEGNAPOSTO: recensione inventata, da sostituire con una vera -->
-        <p class="review__stars" role="img" aria-label="Valutazione: 5 stelle su 5">★★★★★</p>
-        <blockquote>Professionale e disponibile dall'inizio alla fine. Il risultato ha superato quello che avevo in mente. Grazie Simone!</blockquote>
-        <figcaption>
-          <span class="review__who">Simidea User 07</span>
-          <span class="review__what">Packaging Design</span>
-        </figcaption>
-      </figure>
       </div>
 
       <div class="carosello__comandi">
@@ -492,7 +476,12 @@
 
     <div class="footer__bottom">
       <span>© <span id="year">2026</span> Simidea — Tutti i diritti riservati</span>
-      <span>P. IVA — da inserire</span>
+      <span class="footer__legali">
+        <a href="/privacy">Privacy</a>
+        <a href="/cookie-policy">Cookie</a>
+        <a href="/termini">Termini</a>
+        <span>P. IVA 04159240128</span>
+      </span>
     </div>
   </div>
 </footer>

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookie policy — Simidea</title>
+<meta name="description" content="simidea.it non usa cookie. Qui trovi cosa usa al posto loro, perché non c’è un banner e come cancellare questi dati.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap">
+<style>
+  :root{
+    --ink:#1c1c1c; --cream:#f9f9f9; --orange:#ff9900; --orange-deep:#a65f00;
+    --muted:color-mix(in srgb,var(--ink) 66%,transparent);
+    --hairline:color-mix(in srgb,var(--ink) 12%,transparent);
+    --f-head:"Archivo","Helvetica Neue",Arial,sans-serif;
+    --f-body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:var(--f-body); font-size:16px; line-height:1.7;
+    font-weight:300; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:0 clamp(1.25rem,5vw,2.5rem)}
+
+  header.top{border-bottom:1px solid var(--hairline)}
+  .top .wrap{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:1.4rem}
+  .marchio{
+    font-family:var(--f-head); font-weight:800; font-size:1.15rem;
+    letter-spacing:-.03em; color:var(--ink); text-decoration:none;
+  }
+  .marchio em{color:var(--orange); font-style:normal}
+  .torna{font-size:.82rem; color:var(--muted); text-decoration:none}
+  .torna:hover{color:var(--ink)}
+
+  main{padding-block:clamp(2.5rem,7vw,4.5rem) clamp(3rem,8vw,5rem)}
+  .occhiello{
+    margin:0 0 .9rem; font-family:var(--f-head); font-size:.72rem; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--orange-deep);
+  }
+  h1{
+    margin:0 0 .6rem; font-family:var(--f-head); font-weight:800;
+    font-size:clamp(2rem,6vw,2.9rem); line-height:1.08; letter-spacing:-.03em;
+  }
+  h1 em{color:var(--orange); font-style:normal}
+  .data{margin:0 0 2.6rem; font-size:.84rem; color:var(--muted)}
+  .cappello{font-size:1.05rem; color:var(--ink); margin:0 0 2.6rem}
+
+  nav.indice{
+    border:1px solid var(--hairline); border-radius:16px;
+    padding:1.3rem 1.5rem; margin:0 0 3rem; background:#fff;
+  }
+  nav.indice p{
+    margin:0 0 .7rem; font-family:var(--f-head); font-size:.7rem; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  }
+  nav.indice ol{margin:0; padding-left:1.3rem; font-size:.92rem}
+  nav.indice li{margin-bottom:.3rem}
+  nav.indice a{color:var(--ink); text-decoration:none}
+  nav.indice a:hover{color:var(--orange-deep); text-decoration:underline}
+
+  h2{
+    margin:3.2rem 0 1rem; font-family:var(--f-head); font-weight:700;
+    font-size:clamp(1.2rem,3.4vw,1.5rem); line-height:1.25; letter-spacing:-.02em;
+    scroll-margin-top:1.5rem;
+  }
+  h2 .n{color:var(--orange); margin-right:.5rem; font-variant-numeric:tabular-nums}
+  h3{
+    margin:2rem 0 .6rem; font-family:var(--f-head); font-weight:600;
+    font-size:1.02rem; letter-spacing:-.01em;
+  }
+  p{margin:0 0 1.1rem}
+  ul,ol.lista{margin:0 0 1.2rem; padding-left:1.4rem}
+  li{margin-bottom:.45rem}
+  a{color:var(--orange-deep)}
+  a:hover{color:var(--ink)}
+  strong{font-weight:600}
+  .dato{
+    border:1px solid var(--hairline); border-left:3px solid var(--orange);
+    border-radius:0 14px 14px 0; padding:1.1rem 1.3rem; margin:0 0 1.6rem; background:#fff;
+    font-size:.95rem;
+  }
+  .dato p:last-child{margin-bottom:0}
+
+  .tabella{overflow-x:auto; margin:0 0 1.8rem; border:1px solid var(--hairline); border-radius:14px; background:#fff}
+  table{width:100%; border-collapse:collapse; font-size:.88rem; min-width:520px}
+  th,td{text-align:left; padding:.78rem 1rem; border-bottom:1px solid var(--hairline); vertical-align:top}
+  th{
+    font-family:var(--f-head); font-weight:700; font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+  }
+  tr:last-child td{border-bottom:none}
+
+  footer.fine{border-top:1px solid var(--hairline); padding-block:2rem 2.6rem; font-size:.84rem; color:var(--muted)}
+  footer.fine .wrap{display:flex; flex-wrap:wrap; gap:.4rem 1.3rem; justify-content:space-between}
+  footer.fine a{color:var(--muted)}
+  footer.fine a:hover{color:var(--ink)}
+  .legali{display:flex; flex-wrap:wrap; gap:.4rem .9rem}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.88em; background:color-mix(in srgb,var(--ink) 7%,transparent); padding:.1em .35em; border-radius:5px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="marchio" href="/">Simidea<em>.</em></a>
+    <a class="torna" href="/">&larr;&nbsp;Torna al sito</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p class="occhiello">Note legali</p>
+  <h1>Cookie <em>policy.</em></h1>
+  <p class="data">Ultimo aggiornamento: 8 ottobre 2026 &middot; Versione 1.0</p>
+
+  <p class="cappello">
+    La risposta breve è che questo sito non usa cookie. Qui sotto c'è la versione lunga:
+    cosa usa al posto loro, perché non vedi un banner e come cancellare quel poco che resta
+    sul tuo dispositivo.
+  </p>
+
+  <nav class="indice" aria-label="Indice">
+    <p>In questa pagina</p>
+    <ol>
+      <li><a href="#niente">Questo sito non usa cookie</a></li>
+      <li><a href="#cosa">Cosa usa invece</a></li>
+      <li><a href="#terze">Collegamenti a servizi di terze parti</a></li>
+      <li><a href="#banner">Perché non c'è un banner</a></li>
+      <li><a href="#cancellare">Come cancellare questi dati</a></li>
+      <li><a href="#futuro">Se un giorno cambierà</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="niente"><span class="n">1</span>Questo sito non usa cookie</h2>
+  <p>
+    Un cookie è un piccolo file che un sito salva nel browser e che il browser
+    rimanda indietro a ogni richiesta successiva. È il meccanismo con cui normalmente
+    si riconoscono gli utenti, si misura il traffico e si costruiscono profili pubblicitari.
+  </p>
+  <p>
+    <strong>simidea.it non imposta alcun cookie</strong>, né tecnico né analitico né di
+    profilazione, e non consente a terze parti di impostarne attraverso le proprie pagine.
+    Il sito è composto da pagine statiche: non c'è un'area riservata, non c'è un carrello,
+    non c'è nulla che richieda di riconoscerti da una visita all'altra.
+  </p>
+
+  <h2 id="cosa"><span class="n">2</span>Cosa usa invece</h2>
+  <p>
+    Per due piccole cose il sito ha bisogno di ricordare qualcosa per la durata della visita,
+    e usa l'<strong>archiviazione di sessione</strong> del browser (<em>sessionStorage</em>).
+    A differenza dei cookie, questi dati <strong>non vengono mai trasmessi al server</strong>:
+    restano nel tuo browser e vengono eliminati automaticamente quando chiudi la scheda.
+  </p>
+  <div class="tabella">
+    <table>
+      <thead>
+        <tr><th>Nome</th><th>A cosa serve</th><th>Cosa contiene</th><th>Durata</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>simidea:intro</code></td>
+          <td>Ricordare che hai già visto l'animazione iniziale del logo, così non te la riproponiamo a ogni pagina</td>
+          <td>Il valore <code>1</code></td>
+          <td>Fino alla chiusura della scheda</td>
+        </tr>
+        <tr>
+          <td><code>simidea:promo-simideals</code></td>
+          <td>Ricordare che hai già visto l'avviso della promozione Simideals, così non ricompare</td>
+          <td>Il valore <code>1</code></td>
+          <td>Fino alla chiusura della scheda</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Come vedi, nessuno dei due contiene dati personali: contengono un segno di spunta.
+    Non permettono di identificarti, non ti seguono tra siti diversi e non vengono condivisi
+    con nessuno.
+  </p>
+
+  <h2 id="terze"><span class="n">3</span>Collegamenti a servizi di terze parti</h2>
+  <p>
+    Anche senza cookie, il browser deve pur collegarsi a qualche server per mostrarti la pagina.
+    Questi sono tutti i collegamenti esterni che il sito stabilisce:
+  </p>
+  <div class="tabella">
+    <table>
+      <thead>
+        <tr><th>Servizio</th><th>Perché</th><th>Cosa riceve</th><th>Cookie</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Google Fonts<br><span style="color:var(--muted)">Google Ireland Limited, Google LLC</span></td>
+          <td>Scaricare i caratteri tipografici del sito</td>
+          <td>Indirizzo IP e informazioni tecniche sul browser</td>
+          <td>Nessuno</td>
+        </tr>
+        <tr>
+          <td>Vercel<br><span style="color:var(--muted)">Vercel Inc.</span></td>
+          <td>Ospitare e consegnare le pagine</td>
+          <td>Indirizzo IP e dati tecnici della richiesta</td>
+          <td>Nessuno</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Il sito contiene inoltre collegamenti verso <strong>Instagram</strong> e <strong>WhatsApp</strong>.
+    Sono semplici link: nulla di quei servizi è incorporato nelle pagine, e finché non li clicchi
+    nessun dato li raggiunge. Se li clicchi, lascerai simidea.it e si applicheranno le
+    informative di quei servizi.
+  </p>
+  <p>
+    Per sapere come trattiamo i dati che questi collegamenti comportano, vedi la
+    <a href="/privacy">informativa sulla privacy</a>.
+  </p>
+
+  <h2 id="banner"><span class="n">4</span>Perché non c'è un banner</h2>
+  <p>
+    Il banner per i cookie serve a raccogliere un consenso, e il consenso è richiesto
+    dall'art. 122 del D.Lgs. 259/2003 (Codice delle comunicazioni elettroniche) solo per
+    l'archiviazione di informazioni <strong>non strettamente necessarie</strong> a erogare
+    il servizio richiesto dall'utente &mdash; tipicamente i cookie analitici non anonimizzati
+    e quelli di profilazione.
+  </p>
+  <p>
+    Qui non c'è niente di tutto questo: nessun cookie, nessuna statistica, nessuna profilazione.
+    Le due voci di archiviazione di sessione descritte sopra sono strettamente tecniche e
+    rientrano nell'esenzione prevista dalla stessa norma e confermata dalle
+    <em>Linee guida cookie e altri strumenti di tracciamento</em> del Garante del 10 giugno 2021.
+    Un banner che chiedesse il consenso per qualcosa che non avviene sarebbe, oltre che inutile,
+    fuorviante.
+  </p>
+
+  <h2 id="cancellare"><span class="n">5</span>Come cancellare questi dati</h2>
+  <p>
+    Il modo più semplice è <strong>chiudere la scheda</strong>: l'archiviazione di sessione
+    si svuota da sola. Se preferisci farlo a mano, puoi cancellare i dati dei siti dalle
+    impostazioni del browser:
+  </p>
+  <ul>
+    <li><strong>Chrome</strong>: Impostazioni &rarr; Privacy e sicurezza &rarr; Cancella dati di navigazione;</li>
+    <li><strong>Safari</strong>: Safari &rarr; Impostazioni &rarr; Privacy &rarr; Gestisci dati dei siti web;</li>
+    <li><strong>Firefox</strong>: Impostazioni &rarr; Privacy e sicurezza &rarr; Cookie e dati dei siti web;</li>
+    <li><strong>Edge</strong>: Impostazioni &rarr; Privacy, ricerca e servizi &rarr; Cancella dati di navigazione.</li>
+  </ul>
+  <p>
+    Puoi anche navigare in una finestra privata o anonima: in quel caso i dati vengono
+    eliminati alla chiusura della finestra. Cancellarli non comprometterà il funzionamento
+    del sito: rivedrai semplicemente l'animazione iniziale.
+  </p>
+
+  <h2 id="futuro"><span class="n">6</span>Se un giorno cambierà</h2>
+  <p>
+    Se in futuro dovessimo introdurre strumenti di statistica, di tracciamento o di
+    profilazione, questa pagina verrà aggiornata <strong>prima</strong> della loro attivazione
+    e, dove la legge lo richiede, comparirà un banner per raccogliere il tuo consenso
+    preventivo. Finché quel banner non c'è, significa che non c'è niente da consentire.
+  </p>
+
+</main>
+
+<footer class="fine">
+  <div class="wrap">
+    <span>Simidea di Simone Lorenti &middot; P. IVA 04159240128</span>
+    <span class="legali">
+      <a href="/privacy">Privacy</a>
+      <a href="/cookie-policy">Cookie</a>
+      <a href="/termini">Termini</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Termini e condizioni — Simidea</title>
+<meta name="description" content="Le condizioni d’uso del sito simidea.it, le regole dei preventivi e degli incarichi e le condizioni della promozione Simideals.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap">
+<style>
+  :root{
+    --ink:#1c1c1c; --cream:#f9f9f9; --orange:#ff9900; --orange-deep:#a65f00;
+    --muted:color-mix(in srgb,var(--ink) 66%,transparent);
+    --hairline:color-mix(in srgb,var(--ink) 12%,transparent);
+    --f-head:"Archivo","Helvetica Neue",Arial,sans-serif;
+    --f-body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:var(--f-body); font-size:16px; line-height:1.7;
+    font-weight:300; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:0 clamp(1.25rem,5vw,2.5rem)}
+
+  header.top{border-bottom:1px solid var(--hairline)}
+  .top .wrap{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:1.4rem}
+  .marchio{
+    font-family:var(--f-head); font-weight:800; font-size:1.15rem;
+    letter-spacing:-.03em; color:var(--ink); text-decoration:none;
+  }
+  .marchio em{color:var(--orange); font-style:normal}
+  .torna{font-size:.82rem; color:var(--muted); text-decoration:none}
+  .torna:hover{color:var(--ink)}
+
+  main{padding-block:clamp(2.5rem,7vw,4.5rem) clamp(3rem,8vw,5rem)}
+  .occhiello{
+    margin:0 0 .9rem; font-family:var(--f-head); font-size:.72rem; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--orange-deep);
+  }
+  h1{
+    margin:0 0 .6rem; font-family:var(--f-head); font-weight:800;
+    font-size:clamp(2rem,6vw,2.9rem); line-height:1.08; letter-spacing:-.03em;
+  }
+  h1 em{color:var(--orange); font-style:normal}
+  .data{margin:0 0 2.6rem; font-size:.84rem; color:var(--muted)}
+  .cappello{font-size:1.05rem; color:var(--ink); margin:0 0 2.6rem}
+
+  nav.indice{
+    border:1px solid var(--hairline); border-radius:16px;
+    padding:1.3rem 1.5rem; margin:0 0 3rem; background:#fff;
+  }
+  nav.indice p{
+    margin:0 0 .7rem; font-family:var(--f-head); font-size:.7rem; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  }
+  nav.indice ol{margin:0; padding-left:1.3rem; font-size:.92rem}
+  nav.indice li{margin-bottom:.3rem}
+  nav.indice a{color:var(--ink); text-decoration:none}
+  nav.indice a:hover{color:var(--orange-deep); text-decoration:underline}
+
+  h2{
+    margin:3.2rem 0 1rem; font-family:var(--f-head); font-weight:700;
+    font-size:clamp(1.2rem,3.4vw,1.5rem); line-height:1.25; letter-spacing:-.02em;
+    scroll-margin-top:1.5rem;
+  }
+  h2 .n{color:var(--orange); margin-right:.5rem; font-variant-numeric:tabular-nums}
+  h3{
+    margin:2rem 0 .6rem; font-family:var(--f-head); font-weight:600;
+    font-size:1.02rem; letter-spacing:-.01em;
+  }
+  p{margin:0 0 1.1rem}
+  ul,ol.lista{margin:0 0 1.2rem; padding-left:1.4rem}
+  li{margin-bottom:.45rem}
+  a{color:var(--orange-deep)}
+  a:hover{color:var(--ink)}
+  strong{font-weight:600}
+  .dato{
+    border:1px solid var(--hairline); border-left:3px solid var(--orange);
+    border-radius:0 14px 14px 0; padding:1.1rem 1.3rem; margin:0 0 1.6rem; background:#fff;
+    font-size:.95rem;
+  }
+  .dato p:last-child{margin-bottom:0}
+
+  .tabella{overflow-x:auto; margin:0 0 1.8rem; border:1px solid var(--hairline); border-radius:14px; background:#fff}
+  table{width:100%; border-collapse:collapse; font-size:.88rem; min-width:520px}
+  th,td{text-align:left; padding:.78rem 1rem; border-bottom:1px solid var(--hairline); vertical-align:top}
+  th{
+    font-family:var(--f-head); font-weight:700; font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+  }
+  tr:last-child td{border-bottom:none}
+
+  footer.fine{border-top:1px solid var(--hairline); padding-block:2rem 2.6rem; font-size:.84rem; color:var(--muted)}
+  footer.fine .wrap{display:flex; flex-wrap:wrap; gap:.4rem 1.3rem; justify-content:space-between}
+  footer.fine a{color:var(--muted)}
+  footer.fine a:hover{color:var(--ink)}
+  .legali{display:flex; flex-wrap:wrap; gap:.4rem .9rem}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.88em; background:color-mix(in srgb,var(--ink) 7%,transparent); padding:.1em .35em; border-radius:5px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="marchio" href="/">Simidea<em>.</em></a>
+    <a class="torna" href="/">&larr;&nbsp;Torna al sito</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p class="occhiello">Note legali</p>
+  <h1>Termini e <em>condizioni.</em></h1>
+  <p class="data">Ultimo aggiornamento: 8 ottobre 2026 &middot; Versione 1.0</p>
+
+  <p class="cappello">
+    Queste condizioni regolano l'uso del sito simidea.it e il quadro entro cui nascono
+    i rapporti con chi ci affida un lavoro. Non sono un contratto di vendita:
+    su questo sito non si acquista nulla.
+  </p>
+
+  <nav class="indice" aria-label="Indice">
+    <p>In questa pagina</p>
+    <ol>
+      <li><a href="#chi">Chi gestisce questo sito</a></li>
+      <li><a href="#oggetto">Che cos'è questo sito e cosa non è</a></li>
+      <li><a href="#accettazione">Accettazione e modifiche</a></li>
+      <li><a href="#proprieta">Proprietà intellettuale</a></li>
+      <li><a href="#portfolio">Il portfolio e i marchi dei clienti</a></li>
+      <li><a href="#recensioni">Recensioni e testimonianze</a></li>
+      <li><a href="#uso">Uso consentito del sito</a></li>
+      <li><a href="#incarichi">Preventivi, incarichi e conclusione del contratto</a></li>
+      <li><a href="#recesso">Diritto di recesso del consumatore</a></li>
+      <li><a href="#simideals">Promozione &ldquo;Simideals&rdquo;</a></li>
+      <li><a href="#newsletter">Newsletter</a></li>
+      <li><a href="#responsabilita">Disponibilità del sito e responsabilità</a></li>
+      <li><a href="#esterni">Collegamenti a siti esterni</a></li>
+      <li><a href="#controversie">Reclami e controversie</a></li>
+      <li><a href="#legge">Legge applicabile e foro competente</a></li>
+      <li><a href="#finali">Disposizioni finali</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="chi"><span class="n">1</span>Chi gestisce questo sito</h2>
+  <p>
+    Il sito simidea.it è gestito dal soggetto di seguito indicato, che nel testo
+    è chiamato &ldquo;Simidea&rdquo;. Le informazioni seguenti sono rese anche
+    in attuazione dell'art. 7 del D.Lgs. 70/2003.
+  </p>
+  <div class="dato">
+    <p>
+      <strong>Simidea di Simone Lorenti</strong><br>
+      Via Adamello 29, 21055 Gorla Minore (VA), Italia<br>
+      Partita IVA 04159240128<br>
+      Email: <a href="mailto:info@simidea.it">info@simidea.it</a><br>
+      Telefono: <a href="tel:+393890466368">389 046 6368</a>
+    </p>
+  </div>
+
+  <h2 id="oggetto"><span class="n">2</span>Che cos'è questo sito e cosa non è</h2>
+  <p>
+    simidea.it è un sito <strong>informativo e di presentazione</strong>: descrive i servizi
+    di Simidea, mostra i lavori realizzati e permette di metterci in contatto.
+  </p>
+  <p>
+    Su questo sito <strong>non è possibile acquistare</strong>: non c'è un carrello,
+    non si inseriscono dati di pagamento e non si conclude alcun contratto.
+    Le descrizioni dei servizi e gli eventuali riferimenti a prezzi o sconti hanno
+    <strong>valore puramente informativo</strong> e non costituiscono offerta al pubblico
+    ai sensi dell'art. 1336 del codice civile né proposta contrattuale vincolante.
+    Ogni rapporto nasce da un preventivo specifico, secondo quanto previsto al punto 8.
+  </p>
+
+  <h2 id="accettazione"><span class="n">3</span>Accettazione e modifiche</h2>
+  <p>
+    Usando il sito accetti queste condizioni. Se non le accetti, il rimedio è semplice:
+    non usarlo.
+  </p>
+  <p>
+    Possiamo modificarle in qualsiasi momento, per esempio se cambiano i servizi
+    o la normativa applicabile. La versione pubblicata su questa pagina è sempre quella
+    in vigore, e in alto trovi la data dell'ultimo aggiornamento e il numero di versione:
+    le modifiche valgono per l'uso successivo alla pubblicazione e
+    <strong>non si applicano retroattivamente</strong> a incarichi già conferiti,
+    che restano regolati dalle condizioni vigenti al momento della loro conclusione.
+  </p>
+
+  <h2 id="proprieta"><span class="n">4</span>Proprietà intellettuale</h2>
+  <p>
+    Tutti i contenuti del sito &mdash; testi, struttura, grafica, fotografie, illustrazioni,
+    animazioni, codice, il marchio &ldquo;Simidea&rdquo; e il suo logo &mdash; sono protetti
+    dalla legge 22 aprile 1941 n. 633 sul diritto d'autore e dalla normativa sui marchi,
+    e appartengono a Simidea o ai rispettivi titolari che ne hanno concesso l'uso.
+  </p>
+  <p>
+    Puoi consultare il sito, stamparne le pagine e condividerne i collegamenti liberamente.
+    Non puoi invece, senza autorizzazione scritta:
+  </p>
+  <ul>
+    <li>riprodurre, copiare o pubblicare i contenuti, in tutto o in parte, su altri mezzi;</li>
+    <li>usarli per finalità commerciali o pubblicitarie;</li>
+    <li>modificarli, rielaborarli o crearne opere derivate;</li>
+    <li>estrarne sistematicamente contenuti con strumenti automatici, anche per
+        l'addestramento di sistemi di intelligenza artificiale.</li>
+  </ul>
+  <p>
+    Resta ferma la facoltà di citazione per finalità di critica, discussione o insegnamento
+    nei limiti dell'art. 70 della legge sul diritto d'autore, con indicazione della fonte.
+  </p>
+
+  <h2 id="portfolio"><span class="n">5</span>Il portfolio e i marchi dei clienti</h2>
+  <p>
+    I lavori mostrati nella sezione Progetti sono stati realizzati da Simidea per i propri
+    clienti e sono pubblicati <strong>a titolo di referenza professionale</strong>.
+  </p>
+  <p>
+    I marchi, i nomi commerciali, i loghi e i segni distintivi dei clienti che vi compaiono
+    <strong>appartengono ai rispettivi titolari</strong>: la loro presenza sul sito non implica
+    alcuna cessione di diritti a Simidea né alcuna sponsorizzazione o collaborazione tra i
+    titolari stessi. Le immagini dei progetti non possono essere riprodotte né usate per
+    alcuna finalità.
+  </p>
+  <p>
+    Se sei titolare di un marchio che compare sul sito e vuoi che il relativo progetto
+    non sia più pubblicato, scrivi a <a href="mailto:info@simidea.it">info@simidea.it</a>:
+    lo rimuoveremo senza chiedere ragioni.
+  </p>
+
+  <h2 id="recensioni"><span class="n">6</span>Recensioni e testimonianze</h2>
+  <p>
+    Le recensioni e le testimonianze pubblicate sul sito provengono da
+    <strong>clienti reali</strong> che hanno effettivamente usufruito dei servizi di Simidea
+    e ne hanno autorizzato la pubblicazione. Non pubblichiamo recensioni false, fittizie
+    o commissionate, né alteriamo il contenuto di quelle ricevute: gli unici interventi
+    possibili sono la correzione di errori di battitura e l'abbreviazione di testi troppo
+    lunghi, purché non ne sia alterato il senso.
+  </p>
+  <p>
+    Questo impegno non è soltanto una scelta di trasparenza: la pubblicazione di recensioni
+    non autentiche, o la presentazione come genuine di recensioni che non lo sono,
+    costituisce pratica commerciale scorretta ai sensi degli articoli 21 e 22 del
+    Codice del Consumo.
+  </p>
+  <p>
+    Se riconosci una recensione come non autentica o ritieni che la tua sia stata riportata
+    in modo inesatto, segnalalo a <a href="mailto:info@simidea.it">info@simidea.it</a>:
+    verificheremo e, se la segnalazione è fondata, interverremo subito.
+  </p>
+
+  <h2 id="uso"><span class="n">7</span>Uso consentito del sito</h2>
+  <p>Nell'usare il sito ti impegni a non:</p>
+  <ul>
+    <li>tentare di accedere ad aree o sistemi non pubblicamente accessibili;</li>
+    <li>interferire con il funzionamento del sito o compromettere la sua sicurezza,
+        anche mediante sovraccarico delle richieste;</li>
+    <li>introdurre codice malevolo di qualsiasi natura;</li>
+    <li>usare il sito in violazione di legge o dei diritti di terzi.</li>
+  </ul>
+  <p>
+    In caso di violazione possiamo limitare o impedire l'accesso al sito, fermo restando
+    il diritto al risarcimento dei danni e la facoltà di segnalare il fatto alle autorità
+    competenti.
+  </p>
+
+  <h2 id="incarichi"><span class="n">8</span>Preventivi, incarichi e conclusione del contratto</h2>
+  <p>
+    Il percorso è sempre lo stesso: ci contatti, parliamo di cosa ti serve, ti mandiamo un
+    <strong>preventivo scritto</strong> con l'oggetto dell'incarico, il compenso, i tempi e le
+    modalità di pagamento.
+  </p>
+  <p>
+    Il contratto si conclude <strong>solo quando accetti il preventivo per iscritto</strong>,
+    anche via email. Prima di quel momento nessuna parte è vincolata, e il preventivo resta
+    valido per il periodo in esso indicato o, in mancanza, per trenta giorni dalla data di invio.
+  </p>
+  <p>
+    Salvo che il preventivo disponga diversamente:
+  </p>
+  <ul>
+    <li>i <strong>termini di consegna</strong> indicati decorrono dalla ricezione di tutto il
+        materiale necessario e dell'eventuale acconto, e si intendono sospesi nei periodi in cui
+        attendiamo un riscontro o un'approvazione da parte del cliente;</li>
+    <li>il numero di <strong>revisioni</strong> comprese nel compenso è quello indicato nel
+        preventivo; le revisioni ulteriori e le modifiche che cambiano l'oggetto dell'incarico
+        sono concordate e quotate a parte;</li>
+    <li>i <strong>diritti di utilizzazione economica</strong> sull'elaborato finale sono trasferiti
+        al cliente al saldo integrale del compenso; fino a quel momento restano in capo a Simidea.
+        Il diritto morale d'autore resta in ogni caso all'autore, ai sensi dell'art. 20 della
+        legge 633/1941;</li>
+    <li>il cliente <strong>garantisce</strong> di avere titolo per fornirci testi, immagini,
+        marchi e altri materiali, e ci tiene indenni da pretese di terzi che ne derivino;</li>
+    <li>Simidea può <strong>mostrare il lavoro realizzato</strong> nel proprio portfolio e sui
+        propri canali, salvo che il cliente chieda per iscritto di non farlo.</li>
+  </ul>
+
+  <h2 id="recesso"><span class="n">9</span>Diritto di recesso del consumatore</h2>
+  <p>
+    Se sei un <strong>consumatore</strong> &mdash; cioè una persona fisica che agisce per scopi
+    estranei all'attività imprenditoriale o professionale &mdash; e il contratto è concluso
+    a distanza o fuori dai locali commerciali, hai diritto di <strong>recedere entro quattordici
+    giorni</strong> dalla conclusione del contratto, senza dover indicarne il motivo e senza
+    alcuna penalità, ai sensi degli articoli 52 e seguenti del Codice del Consumo.
+  </p>
+  <p>
+    Per esercitarlo basta una comunicazione esplicita a
+    <a href="mailto:info@simidea.it">info@simidea.it</a> entro quel termine.
+    Due precisazioni che la legge impone di darti:
+  </p>
+  <ul>
+    <li>se chiedi che il lavoro cominci <strong>prima</strong> della scadenza dei quattordici
+        giorni e poi receda, dovrai corrispondere un importo proporzionale a quanto
+        è stato eseguito fino alla comunicazione del recesso (art. 57, comma 3, Codice del Consumo);</li>
+    <li>il diritto di recesso <strong>si esaurisce</strong> se il servizio è stato interamente
+        eseguito, purché tu avessi espressamente richiesto l'inizio dell'esecuzione e
+        riconosciuto di perdere il recesso a esecuzione completata
+        (art. 59, comma 1, lett. a, Codice del Consumo).</li>
+  </ul>
+  <p>
+    Se sei un professionista o un'impresa, il diritto di recesso non si applica:
+    valgono le condizioni concordate nel preventivo.
+  </p>
+
+  <h2 id="simideals"><span class="n">10</span>Promozione &ldquo;Simideals&rdquo;</h2>
+  <p>
+    La promozione denominata <strong>Simideals</strong> è valida
+    <strong>dal 15 ottobre al 15 novembre 2026</strong> e prevede uno sconto sul prezzo
+    dei servizi, crescente in base al numero di servizi acquistati contestualmente:
+  </p>
+  <div class="tabella">
+    <table>
+      <thead>
+        <tr><th>Servizi acquistati</th><th>Sconto</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 servizio</td><td>20%</td></tr>
+        <tr><td>2 servizi</td><td>25%</td></tr>
+        <tr><td>3 o più servizi</td><td>30%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Condizioni della promozione:</p>
+  <ul>
+    <li>si applica agli <strong>acquisti di importo pari o superiore a 100&nbsp;euro</strong>,
+        calcolato prima dell'applicazione dello sconto;</li>
+    <li>lo sconto si applica al <strong>totale dei servizi acquistati</strong> contestualmente
+        nell'ambito del medesimo preventivo;</li>
+    <li><strong>non è cumulabile</strong> con altre promozioni, sconti o agevolazioni in corso;</li>
+    <li>vale per i preventivi <strong>accettati entro il 15 novembre 2026</strong>,
+        indipendentemente dalla data di esecuzione del lavoro;</li>
+    <li>non è convertibile in denaro e non dà diritto ad alcun rimborso.</li>
+  </ul>
+  <p>
+    Trattandosi di una riduzione di prezzo, la promozione <strong>non costituisce
+    manifestazione a premio</strong> ai sensi dell'art. 6, comma 1, lett. a, del D.P.R.
+    26 ottobre 2001 n. 430, e non è pertanto soggetta ai relativi adempimenti.
+  </p>
+  <p>
+    Simidea può prorogare la promozione o modificarne le condizioni dandone avviso su questa
+    pagina; le modifiche <strong>non pregiudicano</strong> gli sconti già applicati a preventivi
+    accettati.
+  </p>
+
+  <h2 id="newsletter"><span class="n">11</span>Newsletter</h2>
+  <p>
+    L'iscrizione alla newsletter è gratuita, facoltativa e si perfeziona solo dopo che hai
+    confermato l'indirizzo cliccando il link che ti inviamo per email
+    (<em>doppia conferma</em>). Puoi disiscriverti in ogni momento dal link presente in fondo
+    a ogni messaggio, senza doverne spiegare il motivo.
+  </p>
+  <p>
+    Non garantiamo una frequenza di invio determinata e possiamo interrompere il servizio
+    in qualsiasi momento. Per il trattamento dei dati relativi all'iscrizione vedi la
+    <a href="/privacy">informativa sulla privacy</a>.
+  </p>
+
+  <h2 id="responsabilita"><span class="n">12</span>Disponibilità del sito e responsabilità</h2>
+  <p>
+    Curiamo i contenuti del sito con attenzione, ma non possiamo garantire che siano
+    in ogni momento completi, aggiornati o privi di errori, né che il sito sia sempre
+    raggiungibile: manutenzioni, guasti e cause non imputabili a Simidea possono renderlo
+    temporaneamente indisponibile.
+  </p>
+  <p>
+    Nei limiti consentiti dalla legge, Simidea non risponde dei danni derivanti
+    dall'indisponibilità del sito o da inesattezze dei contenuti informativi.
+    Resta in ogni caso <strong>ferma la responsabilità</strong> per dolo e colpa grave,
+    per i danni alla persona e per tutto ciò che la legge non consente di escludere o limitare:
+    nessuna clausola di questa pagina intende derogare a tali limiti, né alle garanzie
+    inderogabili previste a favore dei consumatori.
+  </p>
+
+  <h2 id="esterni"><span class="n">13</span>Collegamenti a siti esterni</h2>
+  <p>
+    Il sito contiene collegamenti a servizi di terzi, come Instagram e WhatsApp.
+    Non li controlliamo e non rispondiamo dei loro contenuti, del loro funzionamento
+    né del trattamento dei dati che vi avviene: cliccandoli lasci simidea.it e si applicano
+    le condizioni e le informative di quei servizi.
+  </p>
+
+  <h2 id="controversie"><span class="n">14</span>Reclami e controversie</h2>
+  <p>
+    Se qualcosa non va, la prima cosa da fare è scrivere a
+    <a href="mailto:info@simidea.it">info@simidea.it</a>. Ci impegniamo a rispondere
+    a ogni reclamo <strong>entro trenta giorni</strong> e a cercare una soluzione
+    prima che la questione diventi una controversia.
+  </p>
+  <p>
+    Se l'accordo non si trova, le parti possono rivolgersi a un organismo di mediazione
+    iscritto nel registro tenuto dal Ministero della Giustizia ai sensi del D.Lgs. 28/2010.
+    Se sei un consumatore, puoi inoltre attivare le procedure di risoluzione alternativa
+    delle controversie previste dalla Parte V, Titolo II-bis del Codice del Consumo.
+    Il ricorso a queste procedure è facoltativo e non ti preclude l'accesso alla giustizia
+    ordinaria.
+  </p>
+
+  <h2 id="legge"><span class="n">15</span>Legge applicabile e foro competente</h2>
+  <p>
+    Queste condizioni e i rapporti che ne derivano sono regolati dalla <strong>legge
+    italiana</strong>.
+  </p>
+  <p>
+    Per le controversie con un <strong>consumatore</strong> è competente, in via esclusiva
+    e inderogabile, il giudice del luogo di residenza o di domicilio elettivo del consumatore,
+    ai sensi dell'art. 66-bis del Codice del Consumo. Resta inoltre ferma l'applicazione delle
+    disposizioni più favorevoli previste dalla legge del paese di residenza del consumatore,
+    quando inderogabili.
+  </p>
+  <p>
+    Per le controversie con soggetti che <strong>non</strong> rivestono la qualità di consumatore
+    è competente in via esclusiva il tribunale del luogo in cui Simidea ha la propria sede.
+  </p>
+
+  <h2 id="finali"><span class="n">16</span>Disposizioni finali</h2>
+  <p>
+    Se una clausola di queste condizioni risultasse nulla o inefficace, le altre restano valide:
+    la clausola colpita sarà sostituita di diritto dalla disposizione di legge applicabile.
+    La tolleranza di un inadempimento non costituisce rinuncia a farlo valere in seguito.
+  </p>
+  <p>
+    Queste condizioni, insieme alla <a href="/privacy">informativa sulla privacy</a>
+    e alla <a href="/cookie-policy">cookie policy</a>, costituiscono l'insieme delle regole
+    applicabili all'uso del sito. In caso di contrasto tra queste condizioni e un preventivo
+    sottoscritto, prevale il preventivo.
+  </p>
+
+</main>
+
+<footer class="fine">
+  <div class="wrap">
+    <span>Simidea di Simone Lorenti &middot; P. IVA 04159240128</span>
+    <span class="legali">
+      <a href="/privacy">Privacy</a>
+      <a href="/cookie-policy">Cookie</a>
+      <a href="/termini">Termini</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

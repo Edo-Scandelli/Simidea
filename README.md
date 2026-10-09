@@ -586,3 +586,35 @@ togli `#contatti` e `.footer` dall'elenco in fondo a `style.css`.
 - [ ] Immagini definitive ad alta risoluzione: quelle attuali sono estratte dal
       sito Google Sites, quindi già compresse e al massimo 1280–2048px
 - [ ] Testi approvati dal cliente
+
+## Pagine legali
+
+Tre pagine autoconsistenti (HTML + CSS inline, nessuna dipendenza da `style.css`):
+
+| File | URL | Contenuto |
+|---|---|---|
+| `privacy.html` | `/privacy` | Informativa ex artt. 13-14 GDPR |
+| `cookie-policy.html` | `/cookie-policy` | Nessun cookie; le due chiavi di `sessionStorage` |
+| `termini.html` | `/termini` | Condizioni d'uso, preventivi, recesso del consumatore, Simideals |
+
+Sono **autoconsistenti di proposito**: lo stesso file è copiato anche in
+`Simidea-landing/`, così `simidea.it/privacy` funziona sia adesso (dominio sulla
+landing) sia dopo lo switch del 20 ottobre (dominio sul sito), senza che il link
+nel piè di pagina di un documento legale debba puntare a un indirizzo `.vercel.app`.
+
+**Conseguenza: le tre pagine esistono in due copie.** Se ne modifichi una, copiala
+nell'altro repo. Lo stile condiviso vive nel blocco `<style>` di `privacy.html`:
+`cookie-policy.html` e `termini.html` sono generate riusando quella testa, quindi
+una modifica allo stile va fatta lì e ripropagata.
+
+Il contenuto non è generico: descrive quello che il sito fa davvero, verificato nel
+codice prima di scriverlo (nessun cookie, nessun analytics, Google Fonts come unico
+trasferimento verso gli USA insieme all'hosting). Se si aggiunge uno strumento di
+statistica o di tracciamento, **prima** va aggiornata la cookie policy e va messo un
+banner di consenso: oggi non c'è perché non c'è niente da consentire.
+
+### Dati identificativi
+`Simidea di Simone Lorenti` · Via Adamello 29, 21055 Gorla Minore (VA) · P. IVA
+`04159240128` (codice di controllo verificato). Compaiono nel piè di pagina delle
+quattro pagine del sito, nelle tre pagine legali e nelle due email in
+`Simidea-newsletter/`.

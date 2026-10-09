@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informativa sulla privacy — Simidea</title>
+<meta name="description" content="Come Simidea raccoglie, usa e conserva i dati personali di chi visita simidea.it, si iscrive alla newsletter o ci contatta.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap">
+<style>
+  :root{
+    --ink:#1c1c1c; --cream:#f9f9f9; --orange:#ff9900; --orange-deep:#a65f00;
+    --muted:color-mix(in srgb,var(--ink) 66%,transparent);
+    --hairline:color-mix(in srgb,var(--ink) 12%,transparent);
+    --f-head:"Archivo","Helvetica Neue",Arial,sans-serif;
+    --f-body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:var(--f-body); font-size:16px; line-height:1.7;
+    font-weight:300; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:0 clamp(1.25rem,5vw,2.5rem)}
+
+  header.top{border-bottom:1px solid var(--hairline)}
+  .top .wrap{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:1.4rem}
+  .marchio{
+    font-family:var(--f-head); font-weight:800; font-size:1.15rem;
+    letter-spacing:-.03em; color:var(--ink); text-decoration:none;
+  }
+  .marchio em{color:var(--orange); font-style:normal}
+  .torna{font-size:.82rem; color:var(--muted); text-decoration:none}
+  .torna:hover{color:var(--ink)}
+
+  main{padding-block:clamp(2.5rem,7vw,4.5rem) clamp(3rem,8vw,5rem)}
+  .occhiello{
+    margin:0 0 .9rem; font-family:var(--f-head); font-size:.72rem; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--orange-deep);
+  }
+  h1{
+    margin:0 0 .6rem; font-family:var(--f-head); font-weight:800;
+    font-size:clamp(2rem,6vw,2.9rem); line-height:1.08; letter-spacing:-.03em;
+  }
+  h1 em{color:var(--orange); font-style:normal}
+  .data{margin:0 0 2.6rem; font-size:.84rem; color:var(--muted)}
+  .cappello{font-size:1.05rem; color:var(--ink); margin:0 0 2.6rem}
+
+  nav.indice{
+    border:1px solid var(--hairline); border-radius:16px;
+    padding:1.3rem 1.5rem; margin:0 0 3rem; background:#fff;
+  }
+  nav.indice p{
+    margin:0 0 .7rem; font-family:var(--f-head); font-size:.7rem; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  }
+  nav.indice ol{margin:0; padding-left:1.3rem; font-size:.92rem}
+  nav.indice li{margin-bottom:.3rem}
+  nav.indice a{color:var(--ink); text-decoration:none}
+  nav.indice a:hover{color:var(--orange-deep); text-decoration:underline}
+
+  h2{
+    margin:3.2rem 0 1rem; font-family:var(--f-head); font-weight:700;
+    font-size:clamp(1.2rem,3.4vw,1.5rem); line-height:1.25; letter-spacing:-.02em;
+    scroll-margin-top:1.5rem;
+  }
+  h2 .n{color:var(--orange); margin-right:.5rem; font-variant-numeric:tabular-nums}
+  h3{
+    margin:2rem 0 .6rem; font-family:var(--f-head); font-weight:600;
+    font-size:1.02rem; letter-spacing:-.01em;
+  }
+  p{margin:0 0 1.1rem}
+  ul,ol.lista{margin:0 0 1.2rem; padding-left:1.4rem}
+  li{margin-bottom:.45rem}
+  a{color:var(--orange-deep)}
+  a:hover{color:var(--ink)}
+  strong{font-weight:600}
+  .dato{
+    border:1px solid var(--hairline); border-left:3px solid var(--orange);
+    border-radius:0 14px 14px 0; padding:1.1rem 1.3rem; margin:0 0 1.6rem; background:#fff;
+    font-size:.95rem;
+  }
+  .dato p:last-child{margin-bottom:0}
+
+  .tabella{overflow-x:auto; margin:0 0 1.8rem; border:1px solid var(--hairline); border-radius:14px; background:#fff}
+  table{width:100%; border-collapse:collapse; font-size:.88rem; min-width:520px}
+  th,td{text-align:left; padding:.78rem 1rem; border-bottom:1px solid var(--hairline); vertical-align:top}
+  th{
+    font-family:var(--f-head); font-weight:700; font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+  }
+  tr:last-child td{border-bottom:none}
+
+  footer.fine{border-top:1px solid var(--hairline); padding-block:2rem 2.6rem; font-size:.84rem; color:var(--muted)}
+  footer.fine .wrap{display:flex; flex-wrap:wrap; gap:.4rem 1.3rem; justify-content:space-between}
+  footer.fine a{color:var(--muted)}
+  footer.fine a:hover{color:var(--ink)}
+  .legali{display:flex; flex-wrap:wrap; gap:.4rem .9rem}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.88em; background:color-mix(in srgb,var(--ink) 7%,transparent); padding:.1em .35em; border-radius:5px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="marchio" href="/">Simidea<em>.</em></a>
+    <a class="torna" href="/">&larr;&nbsp;Torna al sito</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p class="occhiello">Note legali</p>
+  <h1>Informativa sulla <em>privacy.</em></h1>
+  <p class="data">Ultimo aggiornamento: 8 ottobre 2026 &middot; Versione 1.0</p>
+
+  <p class="cappello">
+    Questa pagina spiega quali dati personali raccogliamo su simidea.it, perché li raccogliamo,
+    a chi li comunichiamo e per quanto tempo li conserviamo. È resa ai sensi degli articoli 13 e 14
+    del Regolamento (UE) 2016/679 (&ldquo;GDPR&rdquo;) e del D.Lgs. 196/2003 come modificato dal D.Lgs. 101/2018.
+  </p>
+
+  <nav class="indice" aria-label="Indice">
+    <p>In questa pagina</p>
+    <ol>
+      <li><a href="#titolare">Chi tratta i tuoi dati</a></li>
+      <li><a href="#dati">Quali dati trattiamo, perché e su quale base giuridica</a></li>
+      <li><a href="#no">Cosa non facciamo</a></li>
+      <li><a href="#tempi">Per quanto tempo conserviamo i dati</a></li>
+      <li><a href="#destinatari">A chi comunichiamo i dati</a></li>
+      <li><a href="#estero">Trasferimenti fuori dall'Unione europea</a></li>
+      <li><a href="#diritti">I tuoi diritti</a></li>
+      <li><a href="#esercizio">Come esercitarli e come reclamare</a></li>
+      <li><a href="#obbligo">Se sei obbligato a darci i tuoi dati</a></li>
+      <li><a href="#minori">Minori</a></li>
+      <li><a href="#sicurezza">Sicurezza</a></li>
+      <li><a href="#modifiche">Modifiche a questa informativa</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="titolare"><span class="n">1</span>Chi tratta i tuoi dati</h2>
+  <p>
+    Il titolare del trattamento è <strong>Simone Lorenti</strong>, titolare dell'impresa individuale
+    che opera con il nome <strong>Simidea</strong>.
+  </p>
+  <div class="dato">
+    <p>
+      <strong>Simidea di Simone Lorenti</strong><br>
+      Via Adamello 29, 21055 Gorla Minore (VA), Italia<br>
+      Partita IVA 04159240128<br>
+      Email: <a href="mailto:info@simidea.it">info@simidea.it</a><br>
+      Telefono: <a href="tel:+393890466368">389 046 6368</a>
+    </p>
+    <p>
+      Non è stato nominato un responsabile della protezione dei dati (DPO), non essendo
+      ricorrente alcuna delle ipotesi previste dall'articolo 37 del GDPR. Per qualsiasi questione
+      relativa ai tuoi dati puoi scrivere direttamente all'indirizzo sopra indicato.
+    </p>
+  </div>
+
+  <h2 id="dati"><span class="n">2</span>Quali dati trattiamo, perché e su quale base giuridica</h2>
+  <p>
+    Trattiamo soltanto i dati che ci servono davvero, e solo per le finalità descritte qui sotto.
+    Ogni trattamento ha una base giuridica indicata espressamente.
+  </p>
+
+  <h3>2.1 Dati di navigazione</h3>
+  <p>
+    Come ogni sito web, simidea.it funziona su server che registrano automaticamente alcune
+    informazioni tecniche a ogni richiesta: <strong>indirizzo IP</strong>, data e ora,
+    pagina richiesta, esito della richiesta, tipo di browser e sistema operativo.
+    Questi dati non vengono usati per identificarti né per profilarti: servono a far funzionare
+    il sito, a diagnosticare malfunzionamenti e a difenderlo da abusi.
+  </p>
+  <p>
+    <strong>Base giuridica:</strong> legittimo interesse del titolare alla sicurezza e al corretto
+    funzionamento del sito (art. 6, par. 1, lett. f, GDPR).
+  </p>
+
+  <h3>2.2 Iscrizione alla newsletter</h3>
+  <p>
+    Se lasci il tuo indirizzo email nel modulo di iscrizione, raccogliamo
+    <strong>l'indirizzo email</strong> e, come prova del consenso, <strong>data, ora e indirizzo IP</strong>
+    del momento dell'iscrizione e del momento in cui confermi cliccando il link
+    che ti inviamo per email.
+  </p>
+  <p>
+    L'iscrizione avviene con <strong>doppia conferma</strong> (double opt-in): finché non clicchi
+    il link di conferma, il tuo indirizzo non viene registrato tra gli iscritti e non riceverai
+    alcuna comunicazione. Usiamo l'indirizzo esclusivamente per inviarti notizie su Simidea:
+    novità, progetti, iniziative e promozioni. Non lo usiamo per altro e non lo cediamo a nessuno.
+  </p>
+  <p>
+    <strong>Base giuridica:</strong> il tuo consenso (art. 6, par. 1, lett. a, GDPR).
+    Puoi revocarlo in qualsiasi momento, con la stessa facilità con cui l'hai dato:
+    in fondo a ogni email c'è un link per disiscriverti, e la revoca ha effetto immediato.
+    Revocare il consenso non rende illecito il trattamento svolto prima della revoca.
+  </p>
+
+  <h3>2.3 Richieste di contatto</h3>
+  <p>
+    Se ci scrivi a info@simidea.it, ci telefoni o ci contatti su WhatsApp, trattiamo i dati
+    che ci comunichi spontaneamente: <strong>nome, indirizzo email, numero di telefono</strong>
+    e il contenuto del messaggio. Li usiamo per risponderti e per valutare insieme un eventuale
+    incarico. Sul sito non è presente alcun modulo di contatto: i pulsanti aprono il tuo
+    programma di posta, il telefono o WhatsApp, e la comunicazione avviene su quei canali.
+  </p>
+  <p>
+    <strong>Base giuridica:</strong> esecuzione di misure precontrattuali adottate su tua richiesta
+    (art. 6, par. 1, lett. b, GDPR).
+  </p>
+
+  <h3>2.4 Dati di clienti</h3>
+  <p>
+    Se l'incarico si conclude, trattiamo i dati necessari a eseguirlo e a fatturare:
+    <strong>dati anagrafici e fiscali, partita IVA o codice fiscale, indirizzo, dati di contatto,
+    dati di pagamento</strong>. Alcuni di questi trattamenti non dipendono da una nostra scelta:
+    la fatturazione e la conservazione dei documenti contabili sono imposte dalla legge.
+  </p>
+  <p>
+    <strong>Base giuridica:</strong> esecuzione del contratto (art. 6, par. 1, lett. b, GDPR)
+    e adempimento di obblighi legali, in particolare fiscali e contabili
+    (art. 6, par. 1, lett. c, GDPR).
+  </p>
+
+  <h3>2.5 Font tipografici</h3>
+  <p>
+    Il sito carica i caratteri tipografici dal servizio <strong>Google Fonts</strong>.
+    Perché il tuo browser possa scaricarli, stabilisce una connessione ai server di Google,
+    alla quale trasmette il tuo <strong>indirizzo IP</strong> e le informazioni tecniche
+    sul browser. Google può trattare questi dati anche al di fuori dell'Unione europea.
+    Google dichiara di non usare queste richieste per creare profili pubblicitari
+    e di non impostare cookie per la fornitura dei font.
+  </p>
+  <p>
+    <strong>Base giuridica:</strong> legittimo interesse del titolare alla corretta
+    presentazione tipografica del sito (art. 6, par. 1, lett. f, GDPR).
+  </p>
+
+  <h2 id="no"><span class="n">3</span>Cosa non facciamo</h2>
+  <p>Per chiarezza, queste sono cose che questo sito <strong>non</strong> fa:</p>
+  <ul>
+    <li>non installa cookie, né propri né di terze parti &mdash; vedi la <a href="/cookie-policy">cookie policy</a>;</li>
+    <li>non usa strumenti di statistica o di analisi del traffico;</li>
+    <li>non usa pixel, tag o strumenti di tracciamento pubblicitario di alcun tipo;</li>
+    <li>non ti profila e non prende decisioni automatizzate che ti riguardano, ai sensi dell'art. 22 del GDPR;</li>
+    <li>non vende, affitta né cede i tuoi dati a terzi per finalità commerciali;</li>
+    <li>non tratta categorie particolari di dati (art. 9 GDPR): non ce n'è alcun bisogno, e ti chiediamo di non inviarcene.</li>
+  </ul>
+
+  <h2 id="tempi"><span class="n">4</span>Per quanto tempo conserviamo i dati</h2>
+  <div class="tabella">
+    <table>
+      <thead>
+        <tr><th>Dati</th><th>Per quanto</th><th>Perché</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dati di navigazione</td>
+          <td>Per il tempo strettamente necessario alle finalità di sicurezza e diagnostica, secondo le politiche di conservazione del fornitore di hosting</td>
+          <td>Oltre quel termine non servono più a nessuno scopo</td>
+        </tr>
+        <tr>
+          <td>Indirizzo email iscritto alla newsletter</td>
+          <td>Fino alla revoca del consenso o alla cessazione del servizio</td>
+          <td>Il trattamento si fonda sul consenso e dura quanto il consenso</td>
+        </tr>
+        <tr>
+          <td>Prova del consenso (data, ora, IP di iscrizione e conferma)</td>
+          <td>Cinque anni dalla revoca o dalla cancellazione</td>
+          <td>Per poter dimostrare di avere raccolto lecitamente il consenso, come richiesto dall'art. 7, par. 1, GDPR</td>
+        </tr>
+        <tr>
+          <td>Richieste di contatto a cui non segue un incarico</td>
+          <td>Dodici mesi dall'ultimo scambio</td>
+          <td>Per riprendere il filo di una conversazione interrotta; oltre, non ha più senso</td>
+        </tr>
+        <tr>
+          <td>Dati contrattuali e di contatto dei clienti</td>
+          <td>Dieci anni dalla conclusione del rapporto</td>
+          <td>Termine ordinario di prescrizione (art. 2946 c.c.) e difesa in giudizio</td>
+        </tr>
+        <tr>
+          <td>Documenti contabili e fiscali</td>
+          <td>Dieci anni</td>
+          <td>Obbligo di legge (art. 2220 c.c. e normativa fiscale)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Scaduti questi termini i dati vengono cancellati o resi definitivamente anonimi,
+    salvo che un obbligo di legge o la necessità di difenderci in una controversia
+    già insorta ne imponga la conservazione per un periodo più lungo.
+  </p>
+
+  <h2 id="destinatari"><span class="n">5</span>A chi comunichiamo i dati</h2>
+  <p>
+    I tuoi dati sono trattati da Simone Lorenti. Alcune attività tecniche sono affidate a
+    fornitori esterni, che agiscono come <strong>responsabili del trattamento</strong> ai sensi
+    dell'art. 28 del GDPR: trattano i dati solo su nostra istruzione, per le finalità indicate
+    e sulla base di un accordo scritto.
+  </p>
+  <div class="tabella">
+    <table>
+      <thead>
+        <tr><th>Fornitore</th><th>Cosa fa</th><th>Quali dati tratta</th><th>Dove</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Vercel Inc.</td>
+          <td>Ospita il sito e lo distribuisce</td>
+          <td>Dati di navigazione</td>
+          <td>Stati Uniti</td>
+        </tr>
+        <tr>
+          <td>Brevo (Sendinblue SAS)</td>
+          <td>Gestisce la lista e l'invio della newsletter</td>
+          <td>Email, data, ora e IP di iscrizione e conferma</td>
+          <td>Francia (UE)</td>
+        </tr>
+        <tr>
+          <td>Aruba S.p.A.</td>
+          <td>Ospita la casella di posta info@simidea.it</td>
+          <td>Contenuto delle email che ci invii</td>
+          <td>Italia (UE)</td>
+        </tr>
+        <tr>
+          <td>Google Ireland Limited e Google LLC</td>
+          <td>Fornisce i caratteri tipografici (Google Fonts)</td>
+          <td>Indirizzo IP e informazioni tecniche sul browser</td>
+          <td>Irlanda e Stati Uniti</td>
+        </tr>
+        <tr>
+          <td>WhatsApp Ireland Limited</td>
+          <td>Recapita i messaggi, solo se scegli di scriverci su WhatsApp</td>
+          <td>Numero di telefono e contenuto dei messaggi</td>
+          <td>Irlanda (UE), con trasferimenti infragruppo</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    I dati possono inoltre essere comunicati al consulente fiscale e contabile,
+    che agisce come autonomo titolare nell'esercizio della propria professione,
+    e all'autorità giudiziaria o alle forze dell'ordine quando la legge lo impone.
+    Nessun altro soggetto riceve i tuoi dati.
+  </p>
+
+  <h2 id="estero"><span class="n">6</span>Trasferimenti fuori dall'Unione europea</h2>
+  <p>
+    Due dei fornitori indicati sopra &mdash; Vercel e Google &mdash; possono trattare dati
+    negli <strong>Stati Uniti</strong>. Questi trasferimenti avvengono sulla base delle garanzie
+    previste dal Capo V del GDPR: clausole contrattuali tipo approvate dalla Commissione europea
+    ai sensi dell'art. 46, par. 2, lett. c, e, ove il fornitore vi abbia aderito, la decisione
+    di adeguatezza relativa all'<strong>EU&ndash;U.S. Data Privacy Framework</strong>
+    adottata dalla Commissione il 10 luglio 2023.
+  </p>
+  <p>
+    Puoi chiederci copia delle garanzie applicate scrivendo a
+    <a href="mailto:info@simidea.it">info@simidea.it</a>.
+  </p>
+
+  <h2 id="diritti"><span class="n">7</span>I tuoi diritti</h2>
+  <p>In qualunque momento, e gratuitamente, hai il diritto di:</p>
+  <ul>
+    <li><strong>accedere</strong> ai tuoi dati e sapere come li trattiamo (art. 15);</li>
+    <li><strong>farli correggere</strong> se sono sbagliati o incompleti (art. 16);</li>
+    <li><strong>farli cancellare</strong> nei casi previsti dalla legge (art. 17);</li>
+    <li><strong>limitarne il trattamento</strong>, per esempio mentre contestiamo la loro esattezza (art. 18);</li>
+    <li><strong>riceverli in un formato leggibile da una macchina</strong> e farli trasmettere a un altro titolare, per i dati trattati sulla base del consenso o del contratto (art. 20);</li>
+    <li><strong>opporti</strong> ai trattamenti fondati sul legittimo interesse (art. 21);</li>
+    <li><strong>revocare il consenso</strong> in ogni momento, senza dover motivare (art. 7, par. 3).</li>
+  </ul>
+
+  <h2 id="esercizio"><span class="n">8</span>Come esercitarli e come reclamare</h2>
+  <p>
+    Per esercitare uno di questi diritti basta scrivere a
+    <a href="mailto:info@simidea.it">info@simidea.it</a>. Non serve un modulo particolare
+    né una formula: è sufficiente che la richiesta sia chiara.
+    Ti risponderemo <strong>entro un mese</strong>, come prevede l'art. 12, par. 3, del GDPR;
+    se la richiesta è complessa possiamo prorogare di due mesi, avvisandoti.
+    Per disiscriverti dalla newsletter il modo più rapido è il link in fondo a ogni email.
+  </p>
+  <p>
+    Se ritieni che il trattamento dei tuoi dati violi la normativa, puoi proporre
+    <strong>reclamo all'Autorità Garante per la protezione dei dati personali</strong>
+    (Piazza Venezia 11, 00187 Roma &mdash; <a href="mailto:garante@gpdp.it">garante@gpdp.it</a> &mdash;
+    <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">garanteprivacy.it</a>),
+    ai sensi dell'art. 77 del GDPR, oppure rivolgerti all'autorità giudiziaria ai sensi dell'art. 79.
+  </p>
+
+  <h2 id="obbligo"><span class="n">9</span>Se sei obbligato a darci i tuoi dati</h2>
+  <p>
+    Navigare sul sito non richiede di fornire alcun dato: i dati tecnici di navigazione sono
+    generati automaticamente e non puoi evitarli se non evitando di visitare il sito.
+    L'iscrizione alla newsletter e l'invio di una richiesta di contatto sono invece
+    <strong>completamente facoltativi</strong>: l'unica conseguenza del non fornire i dati
+    è, rispettivamente, non ricevere la newsletter e non poter essere ricontattato.
+    Quando un incarico si conclude, invece, alcuni dati diventano necessari per legge:
+    senza di essi non è possibile emettere fattura.
+  </p>
+
+  <h2 id="minori"><span class="n">10</span>Minori</h2>
+  <p>
+    I servizi offerti tramite questo sito non sono rivolti a minori.
+    Non raccogliamo consapevolmente dati di persone di età inferiore a
+    <strong>quattordici anni</strong>, soglia fissata dall'art. 2-quinquies del D.Lgs. 196/2003
+    per il consenso ai servizi della società dell'informazione.
+    Se ci accorgiamo di avere raccolto dati di un minore al di sotto di tale età senza
+    il consenso di chi esercita la responsabilità genitoriale, li cancelliamo.
+    Se pensi che sia accaduto, scrivici: provvediamo subito.
+  </p>
+
+  <h2 id="sicurezza"><span class="n">11</span>Sicurezza</h2>
+  <p>
+    Adottiamo misure tecniche e organizzative adeguate al rischio, ai sensi dell'art. 32 del GDPR:
+    il sito è servito esclusivamente su connessione cifrata (HTTPS); l'accesso agli strumenti
+    che contengono dati personali è protetto da credenziali individuali e autenticazione a più fattori
+    ove disponibile; i dati sono accessibili solo a chi ha bisogno di trattarli.
+    Nessuna misura è però infallibile: se si verificasse una violazione dei dati personali
+    con rischio per i tuoi diritti, te lo comunicheremmo e la notificheremmo al Garante
+    nei termini e nei modi degli articoli 33 e 34 del GDPR.
+  </p>
+
+  <h2 id="modifiche"><span class="n">12</span>Modifiche a questa informativa</h2>
+  <p>
+    Questa informativa può essere aggiornata se cambiano i trattamenti, gli strumenti usati
+    o la normativa applicabile. La versione pubblicata su questa pagina è sempre quella in vigore,
+    e in alto trovi la data dell'ultimo aggiornamento e il numero di versione.
+    Se le modifiche riguardassero trattamenti fondati sul tuo consenso, te ne daremo
+    comunicazione prima di applicarle.
+  </p>
+
+</main>
+
+<footer class="fine">
+  <div class="wrap">
+    <span>Simidea di Simone Lorenti &middot; P. IVA 04159240128</span>
+    <span class="legali">
+      <a href="/privacy">Privacy</a>
+      <a href="/cookie-policy">Cookie</a>
+      <a href="/termini">Termini</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
