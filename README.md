@@ -618,3 +618,57 @@ banner di consenso: oggi non c'è perché non c'è niente da consentire.
 `04159240128` (codice di controllo verificato). Compaiono nel piè di pagina delle
 quattro pagine del sito, nelle tre pagine legali e nelle due email in
 `Simidea-newsletter/`.
+
+## Modulo contatti
+
+Il bottone **Contattaci** della sezione finale apre un modulo in sovrapposizione
+(nome, cognome, email, telefono, più un messaggio facoltativo). Prima c'era un
+`mailto:`, che su una macchina senza client di posta configurato non fa niente e
+perde il contatto senza che nessuno se ne accorga.
+
+Nelle quattro pagine c'è **solo il bottone**: il modale lo costruisce `main.js` al
+primo clic, riusando la stessa sovrapposizione del popup promo (Esc, clic fuori,
+blocco dello scorrimento, trappola del focus, focus restituito al bottone).
+
+### Dove finiscono i dati
+
+```
+browser  ──POST /api/contatto──►  funzione Vercel  ──API──►  Brevo  ──►  info@simidea.it
+```
+
+`api/contatto.js` è una funzione serverless. Esiste per un motivo solo: la chiave
+API di Brevo dà pieno accesso all'account, quindi **non può stare nel sorgente di
+una pagina pubblica**. La funzione la legge da una variabile d'ambiente.
+
+| Dove | Variabile | Valore |
+|---|---|---|
+| Vercel → progetto Simidea → Settings → Environment Variables | `BREVO_API_KEY` | chiave generata in Brevo |
+
+Senza quella variabile la funzione risponde `500` e il modulo mostra *"Invio non
+riuscito"* con l'indirizzo email come ripiego: non si rompe, ma non recapita.
+**Le variabili d'ambiente valgono dal deploy successivo**, quindi dopo averla
+aggiunta serve una nuova pubblicazione.
+
+Dettagli che non sono ovvi:
+
+- il mittente è `info@simidea.it`, che **deve** restare tra i mittenti verificati
+  in Brevo, altrimenti l'invio viene rifiutato;
+- il `replyTo` è l'indirizzo di chi scrive: rispondendo alla mail si risponde alla
+  persona, non a sé stessi;
+- i controlli (campi obbligatori, forma dell'email, almeno 8 cifre nel telefono)
+  sono **ripetuti sul server**: quelli nel browser sono per l'utente, non per la
+  sicurezza, e chi salta la pagina li salta tutti;
+- il testo dell'utente viene neutralizzato prima di finire nell'HTML della mail;
+- c'è un campo trappola (`azienda`) invisibile: se arriva compilato la richiesta
+  viene scartata rispondendo `200`, così il bot non capisce di essere stato visto.
+
+### Provarlo in locale
+
+`serve.py` finge `/api/contatto` con gli stessi controlli della funzione vera e
+**non spedisce niente**: stampa in console e risponde `{"ok": true}`. Così il
+modulo si prova davvero senza chiavi e senza riempire la casella di prove.
+
+### Vincolo legale
+Il modulo è descritto al punto 2.3 di `/privacy` e al punto 8 di `/termini`.
+Se cambiano i campi raccolti o il fornitore che li recapita, **quei due documenti
+vanno aggiornati nello stesso momento** — in entrambi i repo.

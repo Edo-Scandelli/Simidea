@@ -472,7 +472,6 @@
       { quanti: '2 servizi',  sconto: '25% off' },
       { quanti: '3 servizi',  sconto: '30% off' },
     ],
-    nota: 'Promo valida nelle date indicate, su acquisti a partire da 100\u00A0€ (prima dello sconto). Gli sconti non sono cumulabili con altre promozioni e si applicano al totale dei servizi acquistati.',
   };
 
   const promoFinita  = () => new Date() > new Date(PROMO.al + 'T23:59:59');
@@ -518,9 +517,7 @@
               Parliamone
               <svg class="ico" aria-hidden="true"><use href="#s-arrow"/></svg>
             </a>
-            <button class="promo__dopo" type="button">Più tardi</button>
           </div>
-          <p class="promo__nota">${PROMO.nota}</p>
         </div>`;
       document.body.append(strato);
 
@@ -548,7 +545,6 @@
       };
 
       $('.promo__chiudi', strato).addEventListener('click', chiudi);
-      $('.promo__dopo', strato).addEventListener('click', chiudi);
       $('.promo__azioni a', strato).addEventListener('click', chiudi);
       strato.addEventListener('click', e => { if (e.target === strato) chiudi(); });
       addEventListener('keydown', tasti);
@@ -559,6 +555,159 @@
         $('.promo__chiudi', strato).focus();
       });
     }, ritardo);
+  }
+
+  /* ------------------------------------------------------- modulo contatti */
+  /* Il bottone "Contattaci" apre un modulo in sovrapposizione invece di
+     lanciare il programma di posta, che su molti computer non e' configurato
+     e fa perdere il contatto. Il riquadro e' lo stesso del popup promo.
+     L'invio passa da /api/contatto, una funzione sul nostro dominio che
+     spedisce la mail tramite Brevo: la chiave resta sul server e non compare
+     mai nel sorgente della pagina. */
+  const bottoniModulo = $$('[data-apri-modulo]');
+  if (bottoniModulo.length) {
+    let strato = null;
+
+    const campo = (id, etichetta, tipo, segnaposto, extra = '', largo = false) => `
+      <div class="campo${largo ? ' campo--largo' : ''}">
+        <label for="mod-${id}">${etichetta}</label>
+        <input id="mod-${id}" name="${id}" type="${tipo}" placeholder="${segnaposto}" required ${extra}>
+      </div>`;
+
+    const apri = () => {
+      if (strato) return;
+      strato = document.createElement('div');
+      strato.className = 'modulo';
+      strato.innerHTML = `
+        <div class="modulo__riquadro" role="dialog" aria-modal="true" aria-labelledby="modTitolo">
+          <button class="modulo__chiudi" type="button" aria-label="Chiudi">&#10005;</button>
+          <div class="modulo__testa">
+            <p class="modulo__titolo" id="modTitolo">Parliamone<em>.</em></p>
+            <p class="modulo__lead">Lasciaci i tuoi dati: ti richiamiamo noi.</p>
+          </div>
+          <form class="modulo__form" novalidate>
+            <div class="modulo__campi">
+              ${campo('nome', 'Nome', 'text', 'Mario', 'autocomplete="given-name"')}
+              ${campo('cognome', 'Cognome', 'text', 'Rossi', 'autocomplete="family-name"')}
+              ${campo('email', 'Email', 'email', 'mario@esempio.it', 'autocomplete="email" spellcheck="false"', true)}
+              ${campo('telefono', 'Telefono', 'tel', '333 1234567', 'autocomplete="tel" inputmode="tel"', true)}
+              <div class="campo campo--largo">
+                <label for="mod-messaggio">Messaggio <span class="campo__facolt">facoltativo</span></label>
+                <textarea id="mod-messaggio" name="messaggio" rows="3" maxlength="1500"
+                          placeholder="Raccontaci cosa hai in mente"></textarea>
+              </div>
+            </div>
+            <!-- trappola anti-spam: i bot la compilano, le persone non la vedono -->
+            <input class="modulo__trappola" type="text" name="azienda" tabindex="-1"
+                   aria-hidden="true" autocomplete="off" value="">
+            <button class="btn btn--orange modulo__invia" type="submit">
+              Invia la richiesta
+              <svg class="ico" aria-hidden="true"><use href="#s-arrow"/></svg>
+            </button>
+            <p class="modulo__msg" role="status" aria-live="polite"></p>
+            <p class="modulo__nota">
+              Usiamo questi dati solo per risponderti.
+              <a href="/privacy">Informativa privacy</a>.
+            </p>
+          </form>
+        </div>`;
+      document.body.append(strato);
+
+      const riquadro = $('.modulo__riquadro', strato);
+      const form     = $('.modulo__form', strato);
+      const msg      = $('.modulo__msg', strato);
+      const invia    = $('.modulo__invia', strato);
+      const prima    = document.activeElement;
+      const daFocus  = () => $$('a[href], button, input, textarea', riquadro)
+        .filter(e => !e.disabled && e.type !== 'hidden' && !e.classList.contains('modulo__trappola'));
+
+      const chiudi = () => {
+        strato.classList.remove('is-aperto');
+        document.body.classList.remove('is-locked');
+        removeEventListener('keydown', tasti);
+        const vecchio = strato;
+        strato = null;
+        setTimeout(() => vecchio.remove(), reduced ? 0 : 450);
+        if (prima && prima.focus) prima.focus();
+      };
+
+      const tasti = e => {
+        if (e.key === 'Escape') { chiudi(); return; }
+        if (e.key !== 'Tab') return;
+        const f = daFocus();
+        if (!f.length) return;
+        const primo = f[0], ultimo = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === primo) { e.preventDefault(); ultimo.focus(); }
+        else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primo.focus(); }
+      };
+
+      $('.modulo__chiudi', strato).addEventListener('click', chiudi);
+      strato.addEventListener('click', e => { if (e.target === strato) chiudi(); });
+      addEventListener('keydown', tasti);
+
+      const dillo = (testo, stato) => { msg.textContent = testo; msg.dataset.stato = stato || ''; };
+      const pulisci = e => { e.target.removeAttribute('aria-invalid'); };
+      $$('input, textarea', form).forEach(i => i.addEventListener('input', pulisci));
+
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const dati = Object.fromEntries(new FormData(form));
+        $$('input, textarea', form).forEach(i => i.removeAttribute('aria-invalid'));
+
+        // controlli nostri, con messaggi in chiaro: il browser da' testi
+        // generici e in lingua del sistema, non del sito
+        const guasto = (campo, testo) => {
+          const el = $('#mod-' + campo, form);
+          el.setAttribute('aria-invalid', 'true');
+          el.focus();
+          dillo(testo, 'errore');
+          return true;
+        };
+        if (!dati.nome.trim())    return guasto('nome', 'Manca il nome.');
+        if (!dati.cognome.trim()) return guasto('cognome', 'Manca il cognome.');
+        if (!$('#mod-email', form).checkValidity() || !dati.email.trim())
+          return guasto('email', 'Controlla l\'indirizzo email.');
+        if (dati.telefono.replace(/\D/g, '').length < 8)
+          return guasto('telefono', 'Controlla il numero di telefono.');
+
+        invia.disabled = true;
+        const etichetta = invia.firstChild.textContent;
+        invia.firstChild.textContent = 'Invio… ';
+        dillo('');
+
+        try {
+          const r = await fetch('/api/contatto', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+              nome: dati.nome,
+              cognome: dati.cognome,
+              email: dati.email,
+              telefono: dati.telefono,
+              messaggio: dati.messaggio || '',
+              azienda: dati.azienda || '',
+              pagina: location.pathname,
+            }),
+          });
+          const esito = await r.json().catch(() => ({}));
+          if (!r.ok || esito.ok !== true) throw new Error(esito.errore || 'risposta non valida');
+          strato.dataset.fatto = 'true';
+          dillo('Ricevuto. Ti ricontattiamo entro un giorno lavorativo.', 'ok');
+        } catch (err) {
+          dillo('Invio non riuscito. Scrivici a info@simidea.it e ti rispondiamo subito.', 'errore');
+          invia.disabled = false;
+          invia.firstChild.textContent = etichetta;
+        }
+      });
+
+      document.body.classList.add('is-locked');
+      requestAnimationFrame(() => {
+        strato.classList.add('is-aperto');
+        $('#mod-nome', strato).focus();
+      });
+    };
+
+    bottoniModulo.forEach(b => b.addEventListener('click', apri));
   }
 
   /* ------------------------------------------------ patti: la luce nella card */
@@ -638,6 +787,101 @@
     onResize(() => { if (attivo >= 0) muoviBinario(salti[attivo]); });
     scegli();
     attiva(0);
+  }
+
+  /* --------------------------------- aree dei servizi a fisarmonica (mobile) */
+  /* Sotto i 900px l'indice laterale sparisce e le sei aree diventano un muro
+     di testo. Qui i titoli restano a vista e il corpo si apre su richiesta,
+     uno per volta. Il bottone lo costruisce il JS: così il desktop resta
+     esattamente com'era, senza controlli inerti nel markup, e se il JS non
+     parte sul telefono si vede la pagina distesa di prima. */
+  const mqFisarmonica = window.matchMedia('(max-width: 900px)');
+  const voci = $$('.srv__voce');
+
+  if (voci.length) {
+    let montata = false;
+    const pezzi = [];                 // stato di ogni voce, per poter smontare
+
+    const altezza = corpo => corpo.scrollHeight;
+
+    const chiudi = pezzo => {
+      pezzo.aperto = false;
+      pezzo.bottone.setAttribute('aria-expanded', 'false');
+      pezzo.voce.classList.remove('is-aperta');
+      // da "none" si salterebbe: fisso l'altezza reale e solo dopo vado a zero
+      pezzo.corpo.style.maxHeight = altezza(pezzo.corpo) + 'px';
+      requestAnimationFrame(() => { pezzo.corpo.style.maxHeight = '0px'; });
+    };
+
+    const apri = pezzo => {
+      pezzi.forEach(altro => { if (altro !== pezzo && altro.aperto) chiudi(altro); });
+      pezzo.aperto = true;
+      pezzo.bottone.setAttribute('aria-expanded', 'true');
+      pezzo.voce.classList.add('is-aperta');
+      pezzo.corpo.style.maxHeight = altezza(pezzo.corpo) + 'px';
+    };
+
+    const monta = () => {
+      if (montata) return;
+      voci.forEach((voce, i) => {
+        const capo  = $('.srv__capo', voce);
+        const h2    = $('h2', capo);
+        const corpo = $('.srv__corpo', voce);
+        if (!capo || !h2 || !corpo) return;
+
+        const testo = h2.textContent.trim();
+        const idCorpo = (voce.id || 'area-' + i) + '-corpo';
+        corpo.id = idCorpo;
+
+        const bottone = document.createElement('button');
+        bottone.type = 'button';
+        bottone.className = 'srv__tasto';
+        bottone.setAttribute('aria-expanded', 'false');
+        bottone.setAttribute('aria-controls', idCorpo);
+        bottone.innerHTML = '<span>' + testo + '</span><span class="srv__segno" aria-hidden="true"></span>';
+        h2.textContent = '';
+        h2.appendChild(bottone);
+
+        const pezzo = { voce, capo, h2, corpo, bottone, testo, aperto: false };
+        pezzi.push(pezzo);
+
+        bottone.addEventListener('click', () => (pezzo.aperto ? chiudi(pezzo) : apri(pezzo)));
+        // tutta la riga del titolo fa da bersaglio, non solo il testo del bottone
+        capo.addEventListener('click', e => {
+          if (!bottone.contains(e.target)) bottone.click();
+        });
+        // a transizione finita l'altezza torna automatica: così se il testo
+        // cambia (rotazione dello schermo) non resta tagliato
+        corpo.addEventListener('transitionend', e => {
+          if (e.propertyName === 'max-height' && pezzo.aperto) pezzo.corpo.style.maxHeight = 'none';
+        });
+
+        corpo.style.maxHeight = '0px';
+      });
+      // si parte tutte chiuse: il senso della fisarmonica e' che i sei titoli
+      // stiano in una schermata sola
+      montata = true;
+    };
+
+    const smonta = () => {
+      if (!montata) return;
+      pezzi.forEach(p => {
+        p.h2.textContent = p.testo;
+        p.corpo.style.maxHeight = '';
+        p.voce.classList.remove('is-aperta');
+      });
+      pezzi.length = 0;
+      montata = false;
+    };
+
+    const sincronizza = () => (mqFisarmonica.matches ? monta() : smonta());
+    sincronizza();
+    mqFisarmonica.addEventListener('change', sincronizza);
+    // ruotando il telefono l'altezza del testo cambia: rimisuro l'aperta
+    onResize(() => {
+      const aperta = pezzi.find(p => p.aperto);
+      if (aperta) { aperta.corpo.style.maxHeight = 'none'; }
+    });
   }
 
   /* ------------------------------------------------ carosello recensioni */

@@ -1509,7 +1509,43 @@ html.has-cursor * { cursor: none !important; }
 
 @media (max-width: 900px) {
   .srv__griglia { grid-template-columns: 1fr; }
-  .srv__indice { display: none; }   /* su una colonna l'indice non serve: i titoli sono in linea */
+  /* l'indice laterale non ci sta: al suo posto le aree diventano una
+     fisarmonica, così i sei titoli restano tutti a vista (vedi main.js) */
+  .srv__indice { display: none; }
+
+  .srv__capo { cursor: pointer; }
+  .srv__capo h2 { flex: 1; min-width: 0; }
+  .srv__tasto {
+    display: flex; align-items: center; gap: 1rem;
+    width: 100%; padding: 0; border: 0; background: none;
+    font: inherit; color: inherit; text-align: left; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .srv__tasto > span:first-child { flex: 1; min-width: 0; }
+  /* il segno: un piu' che diventa meno ruotando una delle due barre */
+  .srv__segno {
+    position: relative; flex: 0 0 auto;
+    width: 1.1rem; height: 1.1rem;
+    transition: transform .45s var(--ease);
+  }
+  .srv__segno::before,
+  .srv__segno::after {
+    content: ""; position: absolute; inset: 50% 0 auto 0;
+    height: 2px; margin-top: -1px; border-radius: 2px;
+    background: var(--orange);
+    transition: transform .45s var(--ease), opacity .3s var(--ease);
+  }
+  .srv__segno::after { transform: rotate(90deg); }
+  .is-aperta .srv__segno::after { transform: rotate(0deg); opacity: 0; }
+  .is-aperta .srv__segno { transform: rotate(180deg); }
+
+  .srv__corpo {
+    max-height: 0; overflow: hidden;
+    opacity: 0;
+    transition: max-height .5s var(--ease), opacity .4s var(--ease), margin-top .5s var(--ease);
+    margin-top: 0;
+  }
+  .is-aperta .srv__corpo { opacity: 1; margin-top: clamp(.9rem, 3vw, 1.3rem); }
 }
 
 .srv__capo { display: flex; align-items: baseline; gap: clamp(.7rem, 1.8vw, 1.2rem); }
@@ -1838,6 +1874,107 @@ html.has-cursor * { cursor: none !important; }
 }
 
 /* --- chi c'e' dietro: stessa ossatura a due colonne delle altre pagine */
+/* --- la striscia dei progetti ------------------------------------------- */
+.striscia {
+  background: var(--cream);
+  padding: clamp(4.5rem, 11vh, 7rem) 0;
+  overflow: hidden;
+}
+.striscia__testa { display: grid; gap: 1.1rem; margin-bottom: clamp(2rem, 4.5vw, 3rem); }
+.striscia__testa .section-title { font-size: clamp(1.75rem, 1rem + 2.4vw, 3.1rem); max-width: 14ch; }
+.striscia__testa .section-title em { font-style: normal; color: var(--orange); }
+
+/* il nastro esce dai margini della shell: e' il punto, deve sembrare
+   che continui oltre lo schermo */
+.striscia__nastro { position: relative; }
+/* le due sfumature ai lati nascondono il taglio netto delle foto */
+.striscia__nastro::before,
+.striscia__nastro::after {
+  content: ""; position: absolute; top: 0; bottom: 0; z-index: 2;
+  width: clamp(40px, 8vw, 140px); pointer-events: none;
+}
+.striscia__nastro::before { left: 0;  background: linear-gradient(90deg, var(--cream), transparent); }
+.striscia__nastro::after  { right: 0; background: linear-gradient(270deg, var(--cream), transparent); }
+
+.striscia__pista {
+  --passo: clamp(.6rem, 1.4vw, 1.1rem);
+  display: flex; gap: var(--passo);
+  width: max-content; margin: 0; padding: 0; list-style: none;
+  animation: scorri 72s linear infinite;
+  will-change: transform;
+}
+.striscia__pista:hover { animation-play-state: paused; }
+.striscia__pista img {
+  display: block;
+  height: clamp(190px, 23vw, 300px); width: auto;
+  aspect-ratio: 4 / 5; object-fit: cover;
+  border-radius: var(--radius-s);
+}
+/* meta' esatta: dodici foto piu' i dodici passi che le separano */
+@keyframes scorri {
+  to { transform: translate3d(calc(-50% - var(--passo) / 2), 0, 0); }
+}
+
+.striscia__coda { margin-top: clamp(2rem, 4.5vw, 3rem); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* niente movimento automatico: il nastro si scorre a mano */
+  .striscia__nastro { overflow-x: auto; }
+  .striscia__pista { animation: none; }
+}
+
+/* --- il nome ------------------------------------------------------------ */
+/* Fondo sabbia per non mettere due sezioni chiare identiche di fila: la
+   pagina alterna scuro, sabbia, crema, scuro, crema, scuro. */
+.nome {
+  background: var(--sand);
+  padding: clamp(4.5rem, 11vh, 7.5rem) 0;
+  overflow: hidden;
+}
+.nome .shell { display: grid; gap: clamp(2.4rem, 6vw, 4rem); }
+/* stessa griglia di "chi c'e' dietro": titolo a sinistra, testo a destra */
+.nome__griglia {
+  display: grid; gap: clamp(1.4rem, 4vw, 3.5rem);
+  grid-template-columns: minmax(0, clamp(280px, 30vw, 420px)) minmax(0, 1fr);
+  align-items: start;
+}
+@media (max-width: 900px) { .nome__griglia { grid-template-columns: 1fr; } }
+.nome__testa { display: grid; gap: 1.1rem; }
+.nome h2 {
+  font-family: var(--f-head); font-weight: 800;
+  font-size: clamp(1.75rem, 1rem + 2.4vw, 3.1rem);
+  line-height: 1.08; letter-spacing: -.035em;
+  /* il limite va sul titolo, non sul contenitore: ch si misura sul font
+     dell'elemento, e sul contenitore varrebbe quello del corpo del testo */
+  max-width: 13ch;
+}
+.nome h2 em { font-style: normal; color: var(--orange); }
+/* contenitore di riferimento: la parola qui sotto si misura su questa
+   colonna, non sulla finestra */
+.nome__corpo { display: grid; gap: clamp(1rem, 2.2vw, 1.5rem); container-type: inline-size; }
+.nome__corpo p:not(.nome__parola) {
+  font-size: clamp(1rem, .96rem + .35vw, 1.16rem);
+  line-height: 1.72; color: var(--muted); max-width: 62ch;
+}
+
+/* la parola, una volta sola e grande quanto la colonna: l'arancione mostra
+   l'idea che sta dentro il nome, senza bisogno di spiegarlo */
+.nome__parola {
+  margin: 0;
+  font-family: var(--f-display);
+  /* in Anton l'avanzamento di "SIMIDEA" vale circa 3,1 volte il corpo:
+     il corpo si ricava dalla larghezza della colonna invece di indovinarlo.
+     La riga con clamp e' la riserva per i browser senza container query. */
+  font-size: clamp(2.4rem, 13vw, 9rem);
+  font-size: calc(100cqi / 2.95);
+  margin-top: clamp(.6rem, 1.6vw, 1.2rem);
+  line-height: .82; letter-spacing: -.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.nome__parola em { font-style: normal; color: var(--orange); }
+
 .chi { background: var(--cream); padding: clamp(4.5rem, 11vh, 8rem) 0; }
 .chi__griglia {
   display: grid;
@@ -1911,13 +2048,14 @@ html.has-cursor * { cursor: none !important; }
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-auto-rows: 1fr;
 }
-@media (max-width: 660px) { .libri__coppia { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .libri__coppia { grid-template-columns: 1fr; } }
 
 /* Vetro, come i patti della pagina servizi: l'alone dietro gli da' qualcosa
    da sfocare. NIENTE filter sulla card o sui suoi antenati. */
 .libro {
   display: grid; align-content: end; gap: .7rem;
-  min-height: clamp(180px, 26vw, 260px);
+  color: inherit; text-decoration: none;
+  min-height: clamp(210px, 24vw, 280px);
   padding: clamp(1.5rem, 3vw, 2.2rem);
   border-radius: var(--radius);
   background: rgb(255 255 255 / .055);
@@ -1947,46 +2085,33 @@ html.has-cursor * { cursor: none !important; }
 }
 .libro h3 {
   font-family: var(--f-display);
-  font-size: clamp(1.7rem, 1.1rem + 2.1vw, 3rem);
-  line-height: .96; letter-spacing: -.01em;
+  /* ridotto perche' "Non restare a guardare" stia su una riga sola come
+     "per Sempre": due titoli su una riga occupano la stessa altezza */
+  font-size: clamp(1.45rem, .85rem + 1.85vw, 2.5rem);
+  line-height: .96; letter-spacing: -.015em;
   text-transform: uppercase;
+  text-wrap: nowrap;
 }
-
-/* --- dove siamo */
-.dove { background: var(--cream); padding: clamp(4.5rem, 11vh, 7rem) 0; }
-.dove__griglia {
-  display: grid;
-  grid-template-columns: minmax(0, .72fr) minmax(0, 2fr);
-  gap: clamp(2rem, 5vw, 5rem);
-  align-items: start;
-}
-.dove__testa { display: grid; gap: 1.1rem; }
-.dove__testa .section-title { font-size: clamp(1.75rem, 1rem + 2.4vw, 3.1rem); max-width: 14ch; }
-.dove__corpo { display: grid; gap: clamp(1.2rem, 3vw, 1.8rem); }
-.dove__indirizzo {
-  font-family: var(--f-head); font-weight: 700;
-  font-size: clamp(1.2rem, 1rem + .9vw, 1.7rem);
-  line-height: 1.35; letter-spacing: -.02em;
-}
-.dove__contatti {
-  list-style: none; margin: 0; padding: clamp(1.2rem, 3vw, 1.6rem) 0 0;
-  border-top: 1px solid var(--hairline);
-  display: flex; flex-wrap: wrap; gap: .6rem clamp(1.2rem, 3vw, 2.4rem);
+.libro__sotto {
+  margin: -.2rem 0 0;
   font-family: var(--f-head); font-weight: 600;
-  font-size: clamp(.95rem, .92rem + .2vw, 1.05rem);
+  font-size: clamp(.92rem, .9rem + .2vw, 1.02rem);
+  line-height: 1.35; letter-spacing: -.01em;
+  color: var(--cream);
 }
-.dove__contatti a { position: relative; padding-bottom: .15rem; }
-.dove__contatti a::after {
-  content: ""; position: absolute; left: 0; bottom: 0;
-  width: 100%; height: 1.4px; background: var(--orange);
-  transform: scaleX(0); transform-origin: right;
-  transition: transform .5s var(--ease);
+.libro__testo {
+  margin: .35rem 0 0;
+  font-size: .95rem; line-height: 1.6; color: var(--muted);
 }
-.dove__contatti a:hover::after { transform: scaleX(1); transform-origin: left; }
-@media (max-width: 1060px) {
-  .dove__griglia { grid-template-columns: 1fr; }
-  .dove__testa { margin-bottom: clamp(1.4rem, 4vw, 2rem); }
+.libro__vai {
+  display: inline-flex; align-items: center; gap: .45rem;
+  margin-top: .55rem;
+  font-family: var(--f-head); font-weight: 700;
+  font-size: .82rem; letter-spacing: -.01em;
+  color: var(--orange);
 }
+.libro__vai .ico { width: 1em; height: 1em; transition: transform .45s var(--ease); }
+.libro:hover .libro__vai .ico, .libro:focus-visible .libro__vai .ico { transform: translateX(4px); }
 
 
 /* ==========================================================================
@@ -1995,7 +2120,8 @@ html.has-cursor * { cursor: none !important; }
    su fondo nero, testo arancione acceso, e la pillola piu' conveniente che
    brilla di piu'.
    ========================================================================== */
-.promo {
+.promo,
+.modulo {
   position: fixed; inset: 0; z-index: 400;
   display: grid; place-items: center;
   padding: clamp(1rem, 4vw, 2rem);
@@ -2007,9 +2133,11 @@ html.has-cursor * { cursor: none !important; }
   opacity: 0;
   transition: opacity .45s var(--ease);
 }
-.promo.is-aperto { opacity: 1; }
+.promo.is-aperto,
+.modulo.is-aperto { opacity: 1; }
 
-.promo__riquadro {
+.promo__riquadro,
+.modulo__riquadro {
   position: relative;
   width: min(560px, 100%);
   max-height: 100%;
@@ -2025,9 +2153,11 @@ html.has-cursor * { cursor: none !important; }
   transition: transform .5s var(--ease);
   isolation: isolate;
 }
-.promo.is-aperto .promo__riquadro { transform: none; }
+.promo.is-aperto .promo__riquadro,
+.modulo.is-aperto .modulo__riquadro { transform: none; }
 /* l'alone caldo in basso, come sul materiale social */
-.promo__riquadro::before {
+.promo__riquadro::before,
+.modulo__riquadro::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
   border-radius: inherit;
   pointer-events: none;
@@ -2036,7 +2166,8 @@ html.has-cursor * { cursor: none !important; }
     radial-gradient(56% 44% at 14% 104%, rgb(255 122 0 / .24) 0%, rgb(255 122 0 / 0) 64%);
 }
 
-.promo__chiudi {
+.promo__chiudi,
+.modulo__chiudi {
   position: absolute; top: .9rem; right: .9rem;
   display: grid; place-items: center;
   width: 38px; height: 38px;
@@ -2047,10 +2178,17 @@ html.has-cursor * { cursor: none !important; }
   cursor: pointer;
   transition: background .35s var(--ease), color .35s var(--ease);
 }
-.promo__chiudi:hover { background: var(--orange); color: var(--ink); }
-.promo__chiudi:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.promo__chiudi:hover,
+.modulo__chiudi:hover { background: var(--orange); color: var(--ink); }
+.promo__chiudi:focus-visible,
+.modulo__chiudi:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
 
-.promo__testa { display: grid; gap: .5rem; margin-bottom: clamp(1.3rem, 3.5vw, 1.9rem); padding-right: 2.6rem; }
+.promo__testa {
+  display: grid; gap: .5rem; justify-items: center; text-align: center;
+  margin-bottom: clamp(1.3rem, 3.5vw, 1.9rem);
+  /* niente padding a destra: la X sta in un angolo suo, il testo e' centrato */
+  padding-inline: 2.6rem;
+}
 .promo__titolo {
   font-family: var(--f-display);
   font-size: clamp(2.3rem, 1.2rem + 4.4vw, 3.6rem);
@@ -2066,7 +2204,12 @@ html.has-cursor * { cursor: none !important; }
   text-shadow: 0 0 18px rgb(255 153 0 / .55);
 }
 
-.promo__scaglioni { display: grid; gap: .65rem; margin-bottom: clamp(1.2rem, 3vw, 1.6rem); }
+/* padding e list-style azzerati: il rientro predefinito del browser sulle ul
+   spostava le pillole di 20px rispetto al testo centrato sopra */
+.promo__scaglioni {
+  display: grid; gap: .65rem; margin: 0 0 clamp(1.2rem, 3vw, 1.6rem);
+  padding: 0; list-style: none;
+}
 /* la pillola: vetro sul nero, con il testo che si accende.
    --f regola quanto e' "accesa": sale con lo sconto, come sul materiale. */
 .promo__riga {
@@ -2096,23 +2239,9 @@ html.has-cursor * { cursor: none !important; }
 .promo__freccia { color: color-mix(in srgb, var(--cream) 55%, transparent); text-shadow: none; }
 .promo__sconto { color: #fff0d6; }
 
-.promo__azioni { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1rem; }
-.promo__azioni .btn { flex: 1 1 auto; justify-content: center; }
-.promo__dopo {
-  flex: 0 0 auto;
-  border: 0; background: none; cursor: pointer;
-  padding: .7rem 1rem;
-  font-family: var(--f-head); font-weight: 600; font-size: .9rem;
-  color: color-mix(in srgb, var(--cream) 62%, transparent);
-  transition: color .35s var(--ease);
-}
-.promo__dopo:hover { color: var(--cream); }
-.promo__dopo:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; border-radius: 8px; }
+.promo__azioni { display: flex; justify-content: center; margin-bottom: .2rem; }
+.promo__azioni .btn { justify-content: center; }
 
-.promo__nota {
-  font-size: .76rem; line-height: 1.5;
-  color: color-mix(in srgb, var(--cream) 56%, transparent);
-}
 
 @media (prefers-reduced-motion: reduce) {
   .promo, .promo__riquadro { transition: none; }
@@ -2132,3 +2261,91 @@ body[data-preview] .footer { display: none; }
 
 /* la sezione Servizi chiude la pagina: un po' d'aria sotto l'ultima card */
 body[data-preview] .stack { padding-bottom: clamp(5rem, 12vh, 9rem); }
+
+/* --- modulo contatti ----------------------------------------------------- */
+/* Vive dentro la stessa sovrapposizione del popup promo: stesso riquadro,
+   stesso alone, stesso pulsante di chiusura. Lo costruisce il JS al primo
+   clic, quindi nelle quattro pagine c'e' solo il bottone. */
+.modulo__riquadro { width: min(540px, 100%); }
+.modulo__testa { display: grid; gap: .45rem; margin-bottom: clamp(1.3rem, 3.5vw, 1.8rem); padding-right: 2.6rem; }
+.modulo__titolo {
+  font-family: var(--f-head); font-weight: 800;
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem);
+  line-height: 1.08; letter-spacing: -.03em;
+}
+.modulo__titolo em { font-style: normal; color: var(--orange); }
+.modulo__lead { font-size: .96rem; line-height: 1.6; color: color-mix(in srgb, var(--cream) 64%, transparent); }
+
+.modulo__campi {
+  display: grid; gap: .85rem;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1.1rem;
+}
+.campo--largo { grid-column: 1 / -1; }
+@media (max-width: 520px) { .modulo__campi { grid-template-columns: 1fr; } }
+
+.campo { display: grid; gap: .4rem; min-width: 0; }
+.campo label {
+  font-family: var(--f-head); font-weight: 700;
+  font-size: .68rem; letter-spacing: .13em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--cream) 60%, transparent);
+}
+.campo input {
+  width: 100%; padding: .85rem 1rem;
+  border: 0; border-radius: 12px;
+  background: rgb(255 255 255 / .06);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .13);
+  color: var(--cream);
+  font-family: var(--f-body); font-size: .98rem;
+  transition: background .3s var(--ease), box-shadow .3s var(--ease);
+}
+.campo input::placeholder { color: rgb(249 249 249 / .34); }
+.campo input:focus {
+  outline: none;
+  background: rgb(255 255 255 / .09);
+  box-shadow: inset 0 0 0 1.5px var(--orange);
+}
+.campo input[aria-invalid="true"],
+.campo textarea[aria-invalid="true"] { box-shadow: inset 0 0 0 1.5px #ff9f7a; }
+
+.campo textarea {
+  width: 100%; padding: .85rem 1rem;
+  border: 0; border-radius: 12px;
+  background: rgb(255 255 255 / .06);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .13);
+  color: var(--cream);
+  font-family: var(--f-body); font-size: .98rem; line-height: 1.55;
+  resize: vertical; min-height: 5.2em;
+  transition: background .3s var(--ease), box-shadow .3s var(--ease);
+}
+.campo textarea::placeholder { color: rgb(249 249 249 / .34); }
+.campo textarea:focus {
+  outline: none;
+  background: rgb(255 255 255 / .09);
+  box-shadow: inset 0 0 0 1.5px var(--orange);
+}
+.campo__facolt {
+  font-weight: 500; letter-spacing: .06em;
+  color: color-mix(in srgb, var(--cream) 36%, transparent);
+}
+
+/* la trappola non deve vedersi ne' ricevere il focus */
+.modulo__trappola { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+.modulo__invia { width: 100%; justify-content: center; }
+.modulo__msg { margin: .85rem 0 0; min-height: 1.2em; font-size: .88rem; line-height: 1.45; }
+.modulo__msg[data-stato="ok"]     { color: #7fdca4; }
+.modulo__msg[data-stato="errore"] { color: #ff9f7a; }
+.modulo__nota {
+  margin: .9rem 0 0;
+  font-size: .76rem; line-height: 1.5;
+  color: color-mix(in srgb, var(--cream) 48%, transparent);
+}
+.modulo__nota a { color: inherit; text-decoration: underline; }
+.modulo__nota a:hover { color: var(--orange); }
+
+/* a invio riuscito restano solo il titolo e il messaggio */
+.modulo[data-fatto="true"] .modulo__campi,
+.modulo[data-fatto="true"] .modulo__invia,
+.modulo[data-fatto="true"] .modulo__nota,
+.modulo[data-fatto="true"] .modulo__lead { display: none; }
