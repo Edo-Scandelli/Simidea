@@ -1874,6 +1874,71 @@ html.has-cursor * { cursor: none !important; }
 }
 
 /* --- chi c'e' dietro: stessa ossatura a due colonne delle altre pagine */
+/* --- rassegna stampa ----------------------------------------------------- */
+/* Elenco di articoli di terzi: data e testata a sinistra, titolo e sommario a
+   destra, la riga intera e' il collegamento. Niente arancione sui testi
+   piccoli, che sul fondo chiaro non arriverebbe al contrasto minimo: qui
+   l'arancione resta sulla freccia e sulla sottolineatura. */
+.stampa { background: var(--cream); padding: clamp(4.5rem, 11vh, 7.5rem) 0; }
+.stampa .shell { display: grid; gap: clamp(2rem, 4.5vw, 3rem); }
+.stampa__testa { display: grid; gap: 1.1rem; }
+.stampa__testa .section-title { font-size: clamp(1.75rem, 1rem + 2.4vw, 3.1rem); max-width: 14ch; }
+.stampa__testa .section-title em { font-style: normal; color: var(--orange); }
+
+.stampa__elenco {
+  margin: 0; padding: 0; list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+.stampa__elenco li { border-bottom: 1px solid var(--hairline); }
+
+.notizia {
+  display: grid;
+  grid-template-columns: minmax(0, clamp(150px, 18vw, 230px)) minmax(0, 1fr);
+  gap: clamp(.9rem, 3vw, 3rem);
+  padding: clamp(1.5rem, 3.5vw, 2.3rem) 0;
+  color: inherit; text-decoration: none;
+}
+@media (max-width: 760px) {
+  .notizia { grid-template-columns: 1fr; gap: .75rem; }
+}
+
+.notizia__quando { display: grid; gap: .3rem; align-content: start; }
+.notizia time {
+  font-family: var(--f-head); font-weight: 700;
+  font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
+}
+.notizia__testata { font-size: .85rem; color: var(--muted); }
+
+.notizia__corpo h3 {
+  margin: 0 0 .55rem;
+  font-family: var(--f-head); font-weight: 700;
+  font-size: clamp(1.12rem, .92rem + .9vw, 1.6rem);
+  line-height: 1.22; letter-spacing: -.02em;
+  transition: color .35s var(--ease);
+}
+.notizia:hover h3, .notizia:focus-visible h3 { color: var(--orange-deep); }
+.notizia__corpo p {
+  margin: 0 0 .8rem;
+  line-height: 1.65; color: var(--muted); max-width: 64ch;
+}
+.notizia__vai {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-family: var(--f-head); font-weight: 700; font-size: .82rem;
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: .1rem;
+  transition: border-color .35s var(--ease);
+}
+.notizia__vai .ico {
+  width: 1em; height: 1em; color: var(--orange);
+  transition: transform .45s var(--ease);
+}
+.notizia:hover .notizia__vai, .notizia:focus-visible .notizia__vai { border-bottom-color: var(--orange); }
+.notizia:hover .notizia__vai .ico, .notizia:focus-visible .notizia__vai .ico { transform: translateX(4px); }
+
+.stampa__coda { color: var(--muted); font-size: .95rem; line-height: 1.6; }
+.stampa__coda a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 3px; }
+.stampa__coda a:hover { color: var(--orange-deep); }
+
 /* --- la striscia dei progetti ------------------------------------------- */
 .striscia {
   background: var(--cream);
