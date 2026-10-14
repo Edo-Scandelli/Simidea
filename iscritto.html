@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Iscrizione confermata — Simidea</title>
+<meta name="description" content="La tua iscrizione alla newsletter di Simidea è confermata.">
+<!-- pagina di servizio: non deve finire nei risultati di ricerca -->
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#0a0908">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Archivo:wght@500;600;700;800&amp;family=Inter:wght@300;400;500&amp;display=swap">
+<style>
+  /* Pagina autoconsistente, come le pagine legali: vive in due copie, una nel
+     repo del sito e una in quello della landing, perche' simidea.it serve la
+     landing fino allo switch del 20 ottobre e il sito dopo. Nessun richiamo a
+     style.css e nessun link alle pagine interne: prima dello switch /servizi
+     e /progetti non esistono su questo dominio. */
+  :root{
+    --ink:#1c1c1c; --ink-deep:#0a0908; --cream:#f9f9f9; --orange:#ff9900;
+    --muted:color-mix(in srgb, var(--cream) 62%, transparent);
+    --f-display:"Anton","Archivo","Helvetica Neue",Arial,sans-serif;
+    --f-head:"Archivo","Helvetica Neue",Arial,sans-serif;
+    --f-body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; min-height:100svh;
+    display:grid; place-items:center;
+    padding:clamp(1.5rem,6vw,3rem);
+    padding-top:max(clamp(1.5rem,6vw,3rem), env(safe-area-inset-top,0px));
+    padding-bottom:max(clamp(1.5rem,6vw,3rem), env(safe-area-inset-bottom,0px));
+    background:var(--ink-deep); color:var(--cream);
+    font-family:var(--f-body); font-weight:300; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* l'alone caldo, come nel resto del marchio */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(60% 46% at 50% 108%, rgb(255 153 0 / .34) 0%, rgb(255 153 0 / 0) 64%),
+      radial-gradient(44% 38% at 6% 0%, rgb(255 122 0 / .16) 0%, rgb(255 122 0 / 0) 62%);
+  }
+  main{position:relative; z-index:1; width:min(620px,100%); text-align:center}
+
+  .marchio{
+    display:inline-block; margin:0 0 clamp(2rem,6vw,3rem);
+    font-family:var(--f-head); font-weight:800; font-size:1.15rem;
+    letter-spacing:-.03em; color:var(--cream); text-decoration:none;
+  }
+  .marchio em{color:var(--orange); font-style:normal}
+
+  .occhiello{
+    margin:0 0 1rem; font-family:var(--f-head); font-size:.7rem; font-weight:700;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--orange);
+  }
+  h1{
+    margin:0 0 1.1rem;
+    font-family:var(--f-display);
+    font-size:clamp(2.6rem,11vw,5.2rem); line-height:.9;
+    letter-spacing:-.01em; text-transform:uppercase;
+  }
+  h1 em{color:var(--orange); font-style:normal}
+  .lead{
+    margin:0 auto clamp(2rem,5vw,2.6rem); max-width:46ch;
+    font-size:clamp(1rem,.95rem+.3vw,1.12rem); color:var(--muted);
+  }
+
+  .vai{
+    display:inline-flex; align-items:center; gap:.6rem;
+    padding:1rem 1.8rem; border-radius:999px;
+    background:var(--orange); color:var(--ink);
+    font-family:var(--f-head); font-weight:700; font-size:.92rem;
+    text-decoration:none;
+    transition:background .35s var(--ease), transform .35s var(--ease);
+  }
+  .vai:hover{background:#ffb545; transform:translateY(-1px)}
+  .vai svg{width:1em; height:1em; transition:transform .35s var(--ease)}
+  .vai:hover svg{transform:translateX(3px)}
+
+  .fine{
+    margin:clamp(2.6rem,7vw,3.6rem) 0 0;
+    font-size:.74rem; line-height:1.55;
+    color:color-mix(in srgb, var(--cream) 40%, transparent);
+  }
+  .fine a{color:inherit; text-decoration:underline}
+  .fine a:hover{color:var(--orange)}
+</style>
+</head>
+<body>
+
+<main>
+  <a class="marchio" href="/">Simidea<em>.</em></a>
+
+  <p class="occhiello">Iscrizione confermata</p>
+  <h1>Ci sei<em>.</em></h1>
+  <p class="lead">
+    Il tuo indirizzo è registrato. Ti scriviamo quando il nuovo sito è online
+    e, ogni tanto, per i progetti nuovi. Niente altro — e puoi toglierti dalla
+    lista quando vuoi, con un clic.
+  </p>
+
+  <a class="vai" href="/">
+    Torna al sito
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6"/>
+    </svg>
+  </a>
+
+  <p class="fine">
+    Simidea di Simone Lorenti &middot; P.&nbsp;IVA 04159240128<br>
+    <a href="/privacy">Informativa privacy</a>
+  </p>
+</main>
+
+</body>
+</html>

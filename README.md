@@ -672,3 +672,18 @@ modulo si prova davvero senza chiavi e senza riempire la casella di prove.
 Il modulo è descritto al punto 2.3 di `/privacy` e al punto 8 di `/termini`.
 Se cambiano i campi raccolti o il fornitore che li recapita, **quei due documenti
 vanno aggiornati nello stesso momento** — in entrambi i repo.
+
+## /iscritto
+
+Pagina di arrivo dopo il clic di conferma nella mail di doppio opt-in. Sta in
+**due copie**, come le pagine legali, e per lo stesso motivo: `simidea.it` serve
+la landing fino allo switch del 20 ottobre e il sito dopo, mentre l'indirizzo di
+ritorno impostato su Brevo e' uno solo.
+
+E' autoconsistente (CSS in linea, nessun richiamo a `style.css`) e **non contiene
+link alle pagine interne**: prima dello switch `/servizi` e `/progetti` non
+esistono su quel dominio e darebbero 404. Ha `noindex`, perche' una pagina di
+servizio nei risultati di ricerca non serve a nessuno.
+
+Su Brevo l'indirizzo di ritorno del form va impostato a `https://simidea.it/iscritto`.
+Se cambia quello, va cambiata anche questa pagina, in entrambi i repo.
