@@ -687,3 +687,13 @@ servizio nei risultati di ricerca non serve a nessuno.
 
 Su Brevo l'indirizzo di ritorno del form va impostato a `https://simidea.it/iscritto`.
 Se cambia quello, va cambiata anche questa pagina, in entrambi i repo.
+
+> **Aggiornamento 14 ottobre 2026 — iscrizione a conferma singola.**
+> Il doppio opt-in e' stato abbandonato: il dominio spedisce da pochi giorni e
+> le email di conferma finivano in spam, facendo perdere il 36% delle iscrizioni
+> (25 inviate, 16 confermate). Con la conferma singola l'iscrizione si perfeziona
+> all'invio del modulo e l'email di benvenuto, se finisce in spam, non blocca
+> piu' niente. La prova del consenso e' la casella obbligatoria e non
+> preselezionata, piu' data e ora registrate da Brevo.
+> Di conseguenza **questa pagina non e' piu' raggiunta da nessun flusso**: resta
+> perche' torna utile se si tornasse al doppio opt-in.
