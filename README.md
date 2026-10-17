@@ -697,3 +697,41 @@ Se cambia quello, va cambiata anche questa pagina, in entrambi i repo.
 > preselezionata, piu' data e ora registrate da Brevo.
 > Di conseguenza **questa pagina non e' piu' raggiunta da nessun flusso**: resta
 > perche' torna utile se si tornasse al doppio opt-in.
+
+## Blog
+
+`/blog` ha sostituito `/news`: i tre articoli di VareseNews sono usciti e al loro
+posto ci sono quattro pezzi scritti da noi. `vercel.json` tiene un
+**reindirizzamento permanente** da `/news`, che era online qualche giorno.
+
+```
+blog/index.html          elenco: l'ultimo articolo in evidenza, gli altri a schede
+blog/<slug>.html         una pagina per articolo
+```
+
+Le pagine del blog stanno in una sottocartella, quindi i percorsi delle risorse
+sono **assoluti** (`/assets/...`): con quelli relativi punterebbero a
+`/blog/assets/...` e darebbero 404.
+
+### L'indice dentro l'articolo
+Non e' un componente nuovo: usa **le stesse classi e lo stesso `id="srvIndice"`
+della pagina servizi**, quindi lo muove il JS gia' esistente senza una riga in
+piu'. Gli `h2` del testo prendono un id ricavato dal titolo, e le voci
+dell'indice li puntano con `data-va`. Sotto i 900px si nasconde da se', per la
+regola che era gia' nel foglio di stile.
+
+### Immagini
+Foto dei progetti di Simidea, **non stock**: nessuna licenza da rispettare e il
+blog racconta lo studio a ogni articolo. Stanno **solo** in cima alla pagina
+articolo e nell'articolo in evidenza: le schede dell'elenco sono di solo testo,
+cosi' si capisce a colpo d'occhio qual e' il pezzo nuovo.
+
+Attenzione a una cosa: il manifesto `billboard-orange.jpg` e' di **Delizie di
+Sicilia**, non di Arancy. Era la foto piu' efficace per l'articolo
+sull'apertura, ma avrebbe fatto credere che quei manifesti fossero di Arancy.
+
+### Da validare
+I quattro articoli li ha scritti Claude. Quello su Arancy si appoggia all'unico
+fatto fornito dal cliente (apertura del 6 ottobre) e a cio' che la scheda
+progetto gia' dichiara; gli altri tre sono pezzi di metodo, senza fatti su
+clienti o eventi. **Vanno letti da Simone prima del lancio**: parlano a nome suo.

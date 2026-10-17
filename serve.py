@@ -43,8 +43,15 @@ class NoCache(http.server.SimpleHTTPRequestHandler):
         base = path.split("?", 1)[0].split("#", 1)[0]
         if base.endswith("/") or "." in base.rsplit("/", 1)[-1]:
             return path
-        candidato = os.path.join(os.path.dirname(os.path.abspath(__file__)), base.lstrip("/") + ".html")
-        return base + ".html" + path[len(base):] if os.path.isfile(candidato) else path
+        qui = os.path.dirname(os.path.abspath(__file__))
+        # /servizi -> servizi.html
+        if os.path.isfile(os.path.join(qui, base.lstrip("/") + ".html")):
+            return base + ".html" + path[len(base):]
+        # /blog -> blog/index.html, come fa Vercel: senza questo il server
+        # locale reindirizzerebbe a /blog/ e il comportamento differirebbe
+        if os.path.isfile(os.path.join(qui, base.lstrip("/"), "index.html")):
+            return base + "/index.html" + path[len(base):]
+        return path
 
     def end_headers(self):
         self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
