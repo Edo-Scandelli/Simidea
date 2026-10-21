@@ -698,6 +698,41 @@ Se cambia quello, va cambiata anche questa pagina, in entrambi i repo.
 > Di conseguenza **questa pagina non e' piu' raggiunta da nessun flusso**: resta
 > perche' torna utile se si tornasse al doppio opt-in.
 
+## Newsletter nel pie' di pagina
+
+Il blocco **Resta in contatto** (`#fnews`) sta nel footer delle quattro pagine e
+del blog. E' lo **stesso form Brevo della landing**, stessa lista e stessa
+conferma singola: cambia solo la grafica.
+
+```
+browser  ──POST (urlencoded)──►  endpoint pubblico del form Brevo  ──►  lista newsletter
+```
+
+Non passa da `/api` come il modulo contatti, perche' non c'e' niente da
+nascondere: l'indirizzo in `action` e' l'endpoint pubblico del form, non una
+chiave. L'invio lo fa `main.js` con `fetch`, cosi' la persona resta sulla pagina
+e legge l'esito sotto il campo; senza JS il form parte comunque verso Brevo, che
+risponde con la sua pagina.
+
+- i controlli (email valida, casella del consenso spuntata) stanno **nel
+  browser**, perche' Brevo risponde `{"success":true}` anche a un indirizzo che
+  non esiste;
+- a iscrizione fatta `data-fatto="true"` sul form nasconde campo e consenso e
+  resta solo il messaggio;
+- l'iscrizione **non viene ricordata** passando da una pagina all'altra: servirebbe
+  una chiave in piu' nello storage, e la cookie policy elenca quelle che ci sono.
+  Se la si aggiunge, va aggiornata prima la cookie policy, in entrambi i repo;
+- `email_address_check` e' la trappola anti-spam di Brevo e deve restare vuota.
+
+**In locale non si prova davvero**: l'invio va al Brevo vero e iscrive
+l'indirizzo. Per provare gli stati senza toccare la lista, sostituire `fetch`
+dalla console del browser prima di premere Iscriviti:
+
+```js
+fetch = async () => new Response('{"success":true}')                      // successo
+fetch = async () => { throw new TypeError('Failed to fetch') }             // errore
+```
+
 ## Blog
 
 `/blog` ha sostituito `/news`: i tre articoli di VareseNews sono usciti e al loro

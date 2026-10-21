@@ -710,6 +710,64 @@
     bottoniModulo.forEach(b => b.addEventListener('click', apri));
   }
 
+  /* ---------------------------------------- iscrizione nel pie' di pagina */
+  /* Stesso modulo e stessa lista della landing, e stesso invio: dritto
+     all'endpoint pubblico del form Brevo, senza passare da /api, perche' non
+     c'e' nessuna chiave da nascondere. Senza JS il form parte lo stesso verso
+     l'indirizzo in action, e Brevo risponde con la sua pagina.
+     L'iscrizione fatta non viene ricordata fra le pagine: servirebbe una
+     chiave in piu' nello storage, e la cookie policy elenca quelle che ci sono. */
+  const fnews = $('#fnews');
+  if (fnews) {
+    const mail      = $('.fnews__input', fnews);
+    const consenso  = $('.fnews__consenso input', fnews);
+    const invia     = $('.fnews__go', fnews);
+    const etichetta = $('span', invia);
+    const msg       = $('.fnews__msg', fnews);
+
+    const dillo = (testo, stato) => { msg.textContent = testo; msg.dataset.stato = stato || ''; };
+    mail.addEventListener('input', () => mail.removeAttribute('aria-invalid'));
+
+    fnews.addEventListener('submit', async e => {
+      e.preventDefault();
+      mail.removeAttribute('aria-invalid');
+
+      // controlli nostri, con messaggi in chiaro, come nel modulo contatti
+      if (!mail.value.trim() || !mail.checkValidity()) {
+        mail.setAttribute('aria-invalid', 'true');
+        mail.focus();
+        return dillo('Controlla l\'indirizzo email.', 'errore');
+      }
+      if (!consenso.checked) {
+        consenso.focus();
+        return dillo('Serve il consenso per poterti scrivere.', 'errore');
+      }
+
+      invia.disabled = true;
+      const testo = etichetta.textContent;
+      etichetta.textContent = 'Invio…';
+      dillo('');
+
+      try {
+        // Brevo accetta solo application/x-www-form-urlencoded e risponde
+        // {"success":true} a prescindere: non conferma che l'indirizzo
+        // esista, quindi il controllo vero resta quello qui sopra
+        const r = await fetch(fnews.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
+          body: new URLSearchParams(new FormData(fnews)).toString(),
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        fnews.dataset.fatto = 'true';
+        dillo('Ci sei. Ti abbiamo mandato una mail di benvenuto: se non la vedi, guarda nello spam.', 'ok');
+      } catch (err) {
+        dillo('Iscrizione non riuscita. Scrivici a info@simidea.it e ti aggiungiamo noi.', 'errore');
+        invia.disabled = false;
+        etichetta.textContent = testo;
+      }
+    });
+  }
+
   /* ------------------------------------------------ patti: la luce nella card */
   /* Solo due variabili CSS per card, aggiornate su pointermove e limitate al
      riquadro sotto il cursore. Niente stato da sincronizzare, niente rAF:

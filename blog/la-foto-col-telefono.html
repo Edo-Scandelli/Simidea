@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Archivo:wght@500;600;700;800;900&amp;family=Inter:wght@300;400;500;600&amp;display=swap">
-<link rel="stylesheet" href="/assets/css/style.css?v=100">
+<link rel="stylesheet" href="/assets/css/style.css?v=101">
 </head>
 
 <body>
@@ -286,6 +286,43 @@
       </div>
     </div>
 
+    <!-- Iscrizione alla newsletter. Stesso modulo e stessa lista della landing
+         (Brevo, conferma singola): l'iscrizione si perfeziona all'invio, la
+         mail di benvenuto arriva dopo e se finisce in spam non blocca niente.
+         La chiave e' l'endpoint pubblico del form, non una chiave API. -->
+    <div class="footer__news">
+      <div class="fnews__intro">
+        <h4>Resta in contatto</h4>
+        <p>Ti scriviamo quando esce un progetto nuovo o un articolo. Niente di più.</p>
+      </div>
+
+      <form class="fnews" id="fnews" action="https://d446ea5d.sibforms.com/serve/MUIFALr8abwGt7cq57a3OymNBc6a-45RUUFAIafOJiQNWuiokSSk3UKUjzJAC5A7xiq7F78wf4PZK-X1NWOrfSMqOovRLoXqFJhfhLDQdHzv_KHrri170Bwc8EWUhLYCqjxC5zPNqjWIOcWQJisxbda5hnhG-PkJBCh_t88nn7shVPogod-RskwryhNYwfAI3utD6kyhqvAOTjbOLA==" method="POST" novalidate>
+        <input type="hidden" name="locale" value="it">
+        <!-- trappola anti-spam di Brevo: deve restare vuota -->
+        <input class="fnews__trappola" type="text" name="email_address_check" value=""
+               tabindex="-1" aria-hidden="true" autocomplete="off">
+
+        <div class="fnews__riga">
+          <label class="sr-only" for="fnews-email">Il tuo indirizzo email</label>
+          <input class="fnews__input" id="fnews-email" type="email" name="EMAIL"
+                 placeholder="La tua email" autocomplete="email" required
+                 spellcheck="false" enterkeyhint="send">
+          <button class="fnews__go" type="submit">
+            <span>Iscriviti</span>
+            <svg class="ico" aria-hidden="true"><use href="#s-arrow"/></svg>
+          </button>
+        </div>
+
+        <label class="fnews__consenso">
+          <input type="checkbox" required>
+          <span>Acconsento a ricevere comunicazioni da <b>Simidea</b>, come descritto
+          nell'<a href="/privacy">informativa privacy</a>.</span>
+        </label>
+
+        <p class="fnews__msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
     <div class="footer__bottom">
       <span>© <span id="year">2026</span> Simidea — Tutti i diritti riservati</span>
       <span class="footer__legali">
@@ -298,6 +335,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=37" defer></script>
+<script src="/assets/js/main.js?v=38" defer></script>
 </body>
 </html>
