@@ -360,11 +360,16 @@ html.has-cursor * { cursor: none !important; }
 .btn:hover .ico { transform: translateX(4px); }
 
 /* -------------------------------------------------- 5. Nav */
+/* Le env(safe-area-*) valgono 0 quasi sempre: contano quando il telefono
+   disegna la pagina sotto la barra di stato o accanto alla tacca (web app a
+   tutto schermo, iPhone in orizzontale, viewport-fit=cover). Senza, il
+   banner finirebbe sotto l'orologio. */
 .nav {
-  position: fixed; inset: clamp(.75rem, 1.6vw, 1.25rem) 0 auto;
+  position: fixed;
+  inset: calc(clamp(.75rem, 1.6vw, 1.25rem) + env(safe-area-inset-top, 0px)) 0 auto;
   z-index: 100;
   display: flex; justify-content: center;
-  padding-inline: var(--pad);
+  padding-inline: max(var(--pad), env(safe-area-inset-left, 0px)) max(var(--pad), env(safe-area-inset-right, 0px));
   pointer-events: none;
 }
 
@@ -470,13 +475,14 @@ html.has-cursor * { cursor: none !important; }
 .menu {
   position: fixed; inset: 0; z-index: 99;
   display: grid; align-content: center; gap: .25rem;
-  padding: 6rem var(--pad) 3rem;
+  padding: calc(6rem + env(safe-area-inset-top, 0px)) var(--pad) calc(3rem + env(safe-area-inset-bottom, 0px));
   background: var(--ink-deep); color: var(--cream);
-  clip-path: circle(0% at calc(100% - 3.5rem) 2.6rem);
+  /* il cerchio parte dal bottone, che scende con la barra di stato */
+  clip-path: circle(0% at calc(100% - 3.5rem) calc(2.6rem + env(safe-area-inset-top, 0px)));
   transition: clip-path .8s var(--ease);
   visibility: hidden;
 }
-.menu[data-open="true"] { clip-path: circle(150% at calc(100% - 3.5rem) 2.6rem); visibility: visible; }
+.menu[data-open="true"] { clip-path: circle(150% at calc(100% - 3.5rem) calc(2.6rem + env(safe-area-inset-top, 0px))); visibility: visible; }
 .menu a {
   font-family: var(--f-display);
   font-size: clamp(2.4rem, 11vw, 4.5rem);

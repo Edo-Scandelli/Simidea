@@ -1,11 +1,12 @@
 {
+  "id": "/",
   "name": "Simidea",
   "short_name": "Simidea",
   "description": "Studio di branding e visual design.",
   "lang": "it",
   "start_url": "/",
   "scope": "/",
-  "display": "browser",
+  "display": "standalone",
   "background_color": "#0a0908",
   "theme_color": "#0a0908",
   "icons": [

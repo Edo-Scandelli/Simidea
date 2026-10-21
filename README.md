@@ -733,29 +733,46 @@ fetch = async () => new Response('{"success":true}')                      // suc
 fetch = async () => { throw new TypeError('Failed to fetch') }             // errore
 ```
 
-## Icona sulla schermata Home
+## Web app (schermata Home)
 
-Chi salva il sito sul telefono ("Aggiungi alla schermata Home") trova l'icona
-**Simidea** fra le app, ma toccandola si apre **il browser** sul sito: e' un
-collegamento, non una web app installata.
+Il sito si installa come **web app**: su Android Chrome propone "Installa app",
+su iPhone si aggiunge da Condividi → "Aggiungi alla schermata Home". Toccando
+l'icona **Simidea** il sito si apre a tutto schermo, senza barra degli indirizzi,
+con una sua finestra nel multitasking. Le pagine sono le stesse del sito.
 
 ```
-site.webmanifest          nome, colori, icone e "display": "browser"
+site.webmanifest          nome, colori, icone e "display": "standalone"
 assets/icone/icona-180.png   iPhone (apple-touch-icon)
 assets/icone/icona-192.png   Android
 assets/icone/icona-512.png   Android, anche come icona "maskable"
 ```
 
-- `"display": "browser"` e' la riga che decide: con `standalone` il sito si
-  aprirebbe a tutto schermo senza barra degli indirizzi, come un'app;
-- **niente** `apple-mobile-web-app-capable` per lo stesso motivo. C'e' solo
-  `apple-mobile-web-app-title`, che da' il nome sotto l'icona su iPhone;
+Nell'`<head>` delle nove pagine, oltre a manifest e icona:
+`apple-mobile-web-app-title` (il nome sotto l'icona), `mobile-web-app-capable` e
+`apple-mobile-web-app-capable` (tutto schermo, il secondo per gli iPhone meno
+recenti) e `apple-mobile-web-app-status-bar-style`.
+
+- la barra di stato su iPhone e' **`black`, non `black-translucent`**: con quella
+  trasparente la pagina scorrerebbe sotto l'orologio, che e' bianco, e sulle
+  sezioni chiare non si leggerebbe piu'. `black` e' quasi identica a `--ink-deep`;
+- header e menu mobile tengono conto di `env(safe-area-inset-*)`: valgono 0 quasi
+  sempre, ma se un telefono disegna la pagina sotto la barra di stato o accanto
+  alla tacca (le pagine hanno `viewport-fit=cover`) il banner scende quanto
+  serve e il cerchio del menu continua a partire dal bottone. Provato simulando
+  una barra di 47px;
+- a tutto schermo **non c'e' il tasto indietro** del browser: ogni pagina deve
+  avere una via per tornare al sito. Oggi ce l'hanno tutte, pagine legali e
+  `/iscritto` comprese (link a `/`). Una pagina nuova senza menu ne ha bisogno;
 - le icone sono **opache**: iOS riempie di nero le parti trasparenti. Fondo
   `--ink-deep`, lampadina `--orange`;
 - il marchio occupa il 58% del lato: Android ritaglia le icone "maskable" a
   cerchio e la lampadina deve restare dentro la zona sicura;
-- nessun service worker: non serve per il collegamento, e la sua cache andrebbe
-  dichiarata nella cookie policy.
+- **nessun service worker**: la web app carica sempre la versione online, senza
+  rischio di mostrare pagine vecchie dopo un aggiornamento, e non c'e' una cache
+  da dichiarare nella cookie policy. Il rovescio: senza rete non si apre.
+
+Per tornare al semplice collegamento che apre il browser: `"display": "browser"`
+nel manifest e via i due meta `*-web-app-capable`.
 
 Per rifare le icone dal marchio: lampadina di `simidea-mark.svg` alta il 58%
 del lato e centrata su un quadrato `#0a0908`, poi
