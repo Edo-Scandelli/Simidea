@@ -733,6 +733,34 @@ fetch = async () => new Response('{"success":true}')                      // suc
 fetch = async () => { throw new TypeError('Failed to fetch') }             // errore
 ```
 
+## Icona sulla schermata Home
+
+Chi salva il sito sul telefono ("Aggiungi alla schermata Home") trova l'icona
+**Simidea** fra le app, ma toccandola si apre **il browser** sul sito: e' un
+collegamento, non una web app installata.
+
+```
+site.webmanifest          nome, colori, icone e "display": "browser"
+assets/icone/icona-180.png   iPhone (apple-touch-icon)
+assets/icone/icona-192.png   Android
+assets/icone/icona-512.png   Android, anche come icona "maskable"
+```
+
+- `"display": "browser"` e' la riga che decide: con `standalone` il sito si
+  aprirebbe a tutto schermo senza barra degli indirizzi, come un'app;
+- **niente** `apple-mobile-web-app-capable` per lo stesso motivo. C'e' solo
+  `apple-mobile-web-app-title`, che da' il nome sotto l'icona su iPhone;
+- le icone sono **opache**: iOS riempie di nero le parti trasparenti. Fondo
+  `--ink-deep`, lampadina `--orange`;
+- il marchio occupa il 58% del lato: Android ritaglia le icone "maskable" a
+  cerchio e la lampadina deve restare dentro la zona sicura;
+- nessun service worker: non serve per il collegamento, e la sua cache andrebbe
+  dichiarata nella cookie policy.
+
+Per rifare le icone dal marchio: lampadina di `simidea-mark.svg` alta il 58%
+del lato e centrata su un quadrato `#0a0908`, poi
+`qlmanage -t -s <lato> -o . icona.svg` per ciascuna misura.
+
 ## Blog
 
 `/blog` ha sostituito `/news`: i tre articoli di VareseNews sono usciti e al loro
