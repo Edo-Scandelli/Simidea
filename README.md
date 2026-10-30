@@ -774,6 +774,60 @@ recenti) e `apple-mobile-web-app-status-bar-style`.
 Per tornare al semplice collegamento che apre il browser: `"display": "browser"`
 nel manifest e via i due meta `*-web-app-capable`.
 
+### Banner "installa l'app"
+
+Solo da telefono, `main.js` mostra **in cima alla pagina, sopra l'header**, una
+barra che invita ad aggiungere il sito alla schermata Home, con la ✕ a sinistra
+per chiuderla. E' fissa: `--barra-app` sull'`<html>` porta la sua altezza, e
+header e menu mobile scendono di altrettanto (e risalgono quando si chiude).
+Sta sopra all'header e sotto a intro, popup promo e modulo contatti, che la
+coprono finche' sono aperti. Le due piattaforme non funzionano allo stesso modo:
+
+- **Android (Chrome):** la barra compare quando arriva `beforeinstallprompt`, che
+  Chrome manda pochi istanti dopo il caricamento se il sito e' installabile, e il
+  bottone **Installa** apre la finestra vera di installazione. Se l'evento non
+  arriva (app gia' installata, browser che non lo supporta) la barra non esce;
+- **iPhone:** nessun browser permette di installare da codice, quindi la barra
+  c'e' da subito e spiega i due tocchi: Condividi, poi "Aggiungi alla schermata
+  Home".
+
+Non esce su tablet e computer, dentro la web app gia' installata e nei browser
+interni di Instagram e Facebook. Chiusa o installata, non torna per il
+resto della visita (`sessionStorage`, chiave `simidea:app-banner`, elencata nella
+cookie policy 1.1).
+
+`?app=ios` o `?app=android` in fondo alla URL lo mostrano comunque, anche da
+computer. In locale dal telefono (`http://<ip-del-mac>:4547`) su iPhone si vede;
+su Android no, perche' Chrome manda `beforeinstallprompt` solo su `https` o
+`localhost`: serve il port forwarding di `chrome://inspect` o il sito pubblicato.
+
+### Grafica solo nell'app
+
+Aperto dall'icona (`display-mode: standalone`, o `navigator.standalone` su
+iPhone) `main.js` mette `html.is-app`, e in fondo a `style.css` la sezione
+"WEB APP" cambia solo l'app; nel browser non vale niente:
+
+- barra in basso (`.tabbar`, costruita da `main.js`): Home, Servizi, Progetti,
+  Studio, Contatti (l'ancora `#contatti` della pagina). Header ridotto al marchio,
+  niente menu hamburger;
+- avvio corto: al posto del neon il marchio acceso compare e si dissolve, una
+  volta per sessione (stessa chiave `simidea:intro`). Niente popup della promo;
+- footer corto: tolti la frase, la colonna Servizi, `supporto@` e l'indirizzo;
+- niente selezione del testo sui link, niente evidenziazione al tocco, niente
+  rimbalzo, campi a 16px (iOS altrimenti ingrandisce);
+- dissolvenza tra le pagine: `main.js` sfuma la pagina (`is-uscita`) prima di
+  seguire un link interno; toccare la voce della pagina in cui si e' torna in cima.
+
+`?webapp` in fondo alla URL simula l'app da computer, e i link interni se lo
+portano dietro. Le pagine legali non caricano `main.js`: li' l'app resta com'e'.
+
+## Favicon delle pagine legali
+
+Privacy, termini, cookie policy e `/iscritto` cercano la favicon in `/favicon.svg`,
+il percorso della landing. Per non toccare quelle pagine, che devono restare
+identiche nei due repo, il sito ha una copia di `assets/svg/favicon.svg` anche
+nella radice. Se cambia il marchio, vanno aggiornate tutte e due.
+
 Per rifare le icone dal marchio: lampadina di `simidea-mark.svg` alta il 58%
 del lato e centrata su un quadrato `#0a0908`, poi
 `qlmanage -t -s <lato> -o . icona.svg` per ciascuna misura.
@@ -781,7 +835,7 @@ del lato e centrata su un quadrato `#0a0908`, poi
 ## Blog
 
 `/blog` ha sostituito `/news`: i tre articoli di VareseNews sono usciti e al loro
-posto ci sono quattro pezzi scritti da noi. `vercel.json` tiene un
+posto ci sono cinque pezzi scritti da noi. `vercel.json` tiene un
 **reindirizzamento permanente** da `/news`, che era online qualche giorno.
 
 ```
@@ -814,4 +868,7 @@ sull'apertura, ma avrebbe fatto credere che quei manifesti fossero di Arancy.
 I quattro articoli li ha scritti Claude. Quello su Arancy si appoggia all'unico
 fatto fornito dal cliente (apertura del 6 ottobre) e a cio' che la scheda
 progetto gia' dichiara; gli altri tre sono pezzi di metodo, senza fatti su
-clienti o eventi. **Vanno letti da Simone prima del lancio**: parlano a nome suo.
+clienti o eventi. Il quinto (`simidea-sul-telefono`, 30 ottobre
+2026) annuncia la web app: la copertina `web-app.jpg` sono tre schermate vere
+dell'app (`?webapp`) messe in cornici di telefono e fotografate con Chrome headless con
+`--force-prefers-reduced-motion`: senza, lo scatto coglie le animazioni a meta'. **Vanno letti da Simone prima del lancio**: parlano a nome suo.

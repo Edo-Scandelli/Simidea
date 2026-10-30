@@ -14,6 +14,41 @@
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const lerp  = (a, b, t) => a + (b - a) * t;
 
+  /* ----------------------------------------------- dentro la web app */
+  /* Aperto dall'icona sulla schermata Home il sito diventa "app": barra in
+     basso al posto del menu, avvio corto, footer ridotto, dissolvenza tra le
+     pagine. Tutto appeso a html.is-app: nel browser non cambia niente.
+     ?webapp in fondo alla URL simula l'app da computer; la dissolvenza tra
+     le pagine se lo porta dietro, cosi' l'anteprima regge la navigazione. */
+  const anteprimaWebapp = new URLSearchParams(location.search).has('webapp');
+  const inWebapp = anteprimaWebapp
+    || matchMedia('(display-mode: standalone)').matches
+    || navigator.standalone === true;
+  if (inWebapp) document.documentElement.classList.add('is-app');
+
+  if (inWebapp) {
+    const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+    const VOCI = [
+      { href: '/',         nome: 'Home',     d: '<path d="M4 10.5 12 4l8 6.5V20h-5.5v-6h-5v6H4z"/>' },
+      { href: '/servizi',  nome: 'Servizi',  d: '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>' },
+      { href: '/progetti', nome: 'Progetti', d: '<rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m3.5 16 5-4.5 4 3.5 3-2.5 5 4"/><circle cx="15.5" cy="9.5" r="1.4"/>' },
+      { href: '/studio',   nome: 'Studio',   d: '<circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/>' },
+      { href: '#contatti', nome: 'Contatti', d: '<path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12Z"/>' },
+    ];
+    const qui = location.pathname.replace(/\.html$/, '').replace(/\/index$/, '/') || '/';
+    const attiva = v => v.href === '/' ? qui === '/' : qui.startsWith(v.href);
+
+    const barra = document.createElement('nav');
+    barra.className = 'tabbar';
+    barra.setAttribute('aria-label', 'Navigazione');
+    barra.innerHTML = VOCI.map(v => `
+      <a class="tabbar__voce" href="${v.href}"${attiva(v) ? ' aria-current="page"' : ''}>
+        ${ico(v.d)}<span>${v.nome}</span>
+      </a>`).join('');
+    document.body.append(barra);
+  }
+
   /* ------------------------------------------------ intro neon al caricamento */
   /* Tre fasi: il tubo si traccia, si accende, lo strato si ritira.
      Un timeout di sicurezza smonta tutto comunque, così un'animazione
@@ -26,7 +61,19 @@
   let introGiaVista = false;
   try { introGiaVista = sessionStorage.getItem('simidea:intro') === '1'; } catch {}
 
-  if (intro && !reduced && !introGiaVista) {
+  if (intro && !reduced && !introGiaVista && inWebapp) {
+    /* nell'app il neon si vedrebbe a ogni apertura: solo il marchio gia'
+       acceso che compare e si dissolve, meno di un secondo */
+    try { sessionStorage.setItem('simidea:intro', '1'); } catch {}
+    const root = document.documentElement;
+    root.classList.add('intro-on', 'intro-app');
+    const smonta = () => {
+      root.classList.remove('intro-on', 'intro-app', 'intro-out');
+      intro.remove();
+    };
+    setTimeout(() => root.classList.add('intro-out'), 550);
+    setTimeout(smonta, 1150);
+  } else if (intro && !reduced && !introGiaVista) {
     try { sessionStorage.setItem('simidea:intro', '1'); } catch {}
     const root = document.documentElement;
     const T_TRACCIA = 1050;   // solo la lampadina: la scritta non c'e' piu'
@@ -485,7 +532,8 @@
      il 15 ottobre: e' solo un'anteprima, non cambia il comportamento normale. */
   const promoForzata = new URLSearchParams(location.search).has('promo');
 
-  if (PROMO.attiva && (promoForzata || (!promoFinita() && !promoGiaVista))) {
+  // nell'app niente popup all'apertura: si entra dritti nei contenuti
+  if (PROMO.attiva && (promoForzata || (!promoFinita() && !promoGiaVista && !inWebapp))) {
     // l'intro dura ~2,4s: il popup aspetta che abbia finito
     const introHaGiocato = !!intro && !reduced && !introGiaVista;
     const ritardo = introHaGiocato ? 3400 : 1300;
@@ -766,6 +814,128 @@
         etichetta.textContent = testo;
       }
     });
+  }
+
+  /* ----------------------------------------- banner "installa l'app" (telefono) */
+  /* Solo su telefono, solo nel browser (dentro la web app non serve) e mai
+     nei browser interni di Instagram e Facebook, da cui non si installa.
+     Android: Chrome manda beforeinstallprompt quando il sito e' installabile;
+     lo teniamo da parte e il bottone apre la finestra vera di installazione.
+     Se l'evento non arriva (app gia' installata, browser che non lo supporta)
+     il banner non esce. iPhone: nessun browser permette di installare da
+     codice, quindi il banner spiega i due tocchi da fare.
+     E' una barra fissa in cima, sopra l'header: --barra-app sull'<html> ne
+     porta l'altezza, e header e menu mobile scendono di altrettanto. Sta sotto
+     a intro, popup e modulo, che la coprono finche' sono aperti.
+     ?app=android o ?app=ios lo mostrano comunque, per provarlo da computer. */
+  const ua = navigator.userAgent;
+  const anteprimaApp = new URLSearchParams(location.search).get('app');
+  const suIphone  = anteprimaApp === 'ios' || (!anteprimaApp && /iPhone|iPod/.test(ua));
+  const suAndroid = anteprimaApp === 'android' || (!anteprimaApp && /Android/.test(ua) && /Mobile/.test(ua));
+  const giaApp    = inWebapp;    // anche nell'anteprima ?webapp
+  const inApp     = /Instagram|FBAN|FBAV|FB_IAB/.test(ua);
+  let bannerChiuso = false;
+  try { bannerChiuso = sessionStorage.getItem('simidea:app-banner') === '1'; } catch {}
+
+  if ((suIphone || suAndroid) && !giaApp && !inApp && (anteprimaApp || !bannerChiuso)) {
+    let richiesta = null;      // l'evento beforeinstallprompt di Chrome
+    let banner = null;
+
+    const ricorda = () => { try { sessionStorage.setItem('simidea:app-banner', '1'); } catch {} };
+    const togli = () => {
+      if (!banner) return;
+      banner.classList.remove('is-aperto');
+      document.documentElement.style.removeProperty('--barra-app');
+      const vecchio = banner;
+      banner = null;
+      setTimeout(() => vecchio.remove(), reduced ? 0 : 500);
+    };
+
+    const condividi = `<svg class="appbanner__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5v10h14V11h-1"/></svg>`;
+
+    const mostra = () => {
+      if (banner) return;
+      banner = document.createElement('aside');
+      banner.className = 'appbanner';
+      banner.setAttribute('aria-label', "Installa l'app di Simidea");
+      banner.dataset.surface = 'dark';
+      banner.innerHTML = `
+        <img class="appbanner__icona" src="/assets/icone/icona-192.png" alt="" width="48" height="48">
+        <div class="appbanner__testo">
+          <p class="appbanner__titolo">Simidea sul telefono</p>
+          <p class="appbanner__sotto">${suIphone
+            ? `Tocca ${condividi} <b>Condividi</b>, poi <b>Aggiungi alla schermata Home</b>.`
+            : 'Un tocco dalla schermata Home, a tutto schermo.'}</p>
+        </div>
+        ${suIphone ? '' : '<button class="appbanner__go" type="button">Installa</button>'}
+        <button class="appbanner__chiudi" type="button" aria-label="Non ora">&#10005;</button>`;
+      document.body.prepend(banner);     // primo nella pagina, come si vede
+
+      $('.appbanner__chiudi', banner).addEventListener('click', () => { ricorda(); togli(); });
+      const go = $('.appbanner__go', banner);
+      if (go) go.addEventListener('click', async () => {
+        // in anteprima l'evento non c'e': si spiega la strada a mano
+        if (!richiesta) {
+          $('.appbanner__sotto', banner).innerHTML =
+            'Apri il menu <b>⋮</b> del browser e scegli <b>Installa app</b>.';
+          go.remove();
+          return;
+        }
+        richiesta.prompt();
+        const { outcome } = await richiesta.userChoice;
+        richiesta = null;
+        if (outcome === 'accepted') { ricorda(); togli(); }
+      });
+
+      // l'altezza vera (cambia con la barra di stato e con il testo che va a
+      // capo), poi la barra scende e l'header si sposta sotto
+      const misura = () => banner && document.documentElement.style
+        .setProperty('--barra-app', banner.offsetHeight + 'px');
+      // offsetHeight ha gia' fatto calcolare la posizione di partenza, fuori
+      // schermo: aggiungendo la classe adesso la discesa si anima, senza
+      // dipendere da requestAnimationFrame (fermo nelle schede in secondo piano)
+      misura();
+      onResize(misura);
+      banner.classList.add('is-aperto');
+    };
+
+    addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();      // niente mini-barra di Chrome: c'e' gia' la nostra
+      richiesta = e;
+      mostra();
+    });
+    addEventListener('appinstalled', () => { ricorda(); togli(); });
+    // iPhone non manda nessun evento: la barra c'e' da subito
+    if (suIphone || anteprimaApp) mostra();
+  }
+
+  /* ------------------------------------------ app: dissolvenza tra le pagine */
+  /* Al tocco su un link interno la pagina sfuma e solo dopo si naviga; la
+     nuova entra in dissolvenza dal CSS. Le ancore della stessa pagina, i
+     link esterni, mail, telefono e WhatsApp restano come sono. */
+  if (inWebapp) {
+    const ESCI = reduced ? 0 : 170;
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href]');
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      if (a.target === '_blank' || a.hasAttribute('download')) return;
+      const url = new URL(a.href, location.href);
+      if (url.origin !== location.origin) return;
+      if (url.pathname === location.pathname && url.hash) return;   // ancora qui
+      e.preventDefault();
+      // la voce della pagina in cui si e' gia': si torna in cima, come nelle app
+      if (url.pathname === location.pathname) {
+        window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+        return;
+      }
+      if (anteprimaWebapp) url.searchParams.set('webapp', '');
+      document.documentElement.classList.add('is-uscita');
+      setTimeout(() => { location.href = url.href; }, ESCI);
+    });
+    // tornando indietro la pagina puo' uscire dalla cache gia' sfumata
+    addEventListener('pageshow', () => document.documentElement.classList.remove('is-uscita'));
   }
 
   /* ------------------------------------------------ patti: la luce nella card */
