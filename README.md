@@ -381,7 +381,13 @@ Seconda pagina interna, a URL pulita `/progetti`.
 > Verificato che nelle tre pagine non resti **nessun** riferimento a
 > `/lavori`, `#lavori` o "Lavori".
 
-**Dodici progetti** (erano sei): Arancy, Aria, Patty Burger, Chiara Moroni,
+**Diciassette progetti** (12 novembre 2026: aggiunti in testa Red Shift,
+GS Fashion Show, LA Studio, A&S Club e GS; in home il carosello resta a sei e
+mostra i sei piu' recenti; testi scritti da noi, da far validare a Simone).
+**Galleria nella scheda** (`[data-galleria]`, oggi solo Red Shift): piu' foto
+per lo stesso progetto in una pista a scroll-snap, pallini, frecce solo con il
+mouse, scorrimento automatico ogni 3,5 s finche' la scheda e' in vista; si ferma
+al primo gesto dell'utente e non parte con `prefers-reduced-motion`. Prima erano dodici: Arancy, Aria, Patty Burger, Chiara Moroni,
 Jamile., Simoa, Pexo, Lillium, Saporito, aureo., Rusty, LM.
 
 **Impaginazione a griglia.** La prima versione erano righe alternate con la foto

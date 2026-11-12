@@ -1197,6 +1197,69 @@
     disegnaPunti();
   });
 
+  /* ------------------------------------- galleria nella scheda progetto */
+  /* Piu' foto per lo stesso lavoro (pagina progetti). Scorrono da sole ogni
+     3,5 secondi finche' la scheda e' in vista; al primo gesto dell'utente
+     (swipe, freccia, pallino) il comando passa a lui e non ripartono. */
+  $$('[data-galleria]').forEach(gal => {
+    const pista = $('.galleria__pista', gal);
+    const foto  = pista ? $$('img', pista) : [];
+    const punti = $('.galleria__punti', gal);
+    if (foto.length < 2) return;
+
+    const ora = () => clamp(Math.round(pista.scrollLeft / pista.clientWidth), 0, foto.length - 1);
+    const vaiA = (i, liscio = true) => pista.scrollTo({
+      left: i * pista.clientWidth,
+      behavior: liscio && !reduced ? 'smooth' : 'instant',
+    });
+
+    let timer = null, inVista = false, congelato = false;
+    const pausa = () => { clearInterval(timer); timer = null; };
+    const avvia = () => {
+      if (reduced || timer || congelato || !inVista) return;
+      timer = setInterval(() => vaiA((ora() + 1) % foto.length), 3500);
+    };
+    const congela = () => { congelato = true; pausa(); };
+
+    const bottoni = foto.map((_, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', `Foto ${i + 1} di ${foto.length}`);
+      b.addEventListener('click', () => { vaiA(i); congela(); });
+      punti.append(b);
+      return b;
+    });
+    const segna = () => {
+      const i = ora();
+      bottoni.forEach((b, j) => b.setAttribute('aria-current', j === i ? 'true' : 'false'));
+    };
+
+    $$('.galleria__freccia', gal).forEach(f => f.addEventListener('click', () => {
+      vaiA((ora() + Number(f.dataset.dir) + foto.length) % foto.length);
+      congela();
+    }));
+
+    let attesa = false;
+    pista.addEventListener('scroll', () => {
+      if (attesa) return;
+      attesa = true;
+      requestAnimationFrame(() => { segna(); attesa = false; });
+    }, { passive: true });
+    ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(e =>
+      pista.addEventListener(e, congela, { passive: true, once: true }));
+
+    gal.addEventListener('mouseenter', pausa);
+    gal.addEventListener('mouseleave', avvia);
+    document.addEventListener('visibilitychange', () => document.hidden ? pausa() : avvia());
+    new IntersectionObserver(es => {
+      inVista = es[0].isIntersecting;
+      inVista ? avvia() : pausa();
+    }, { threshold: 0.5 }).observe(gal);
+
+    onResize(() => vaiA(ora(), false));
+    segna();
+  });
+
   function onScroll(fn) {
     let ticking = false;
     const handler = () => {
