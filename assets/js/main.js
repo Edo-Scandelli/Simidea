@@ -1197,6 +1197,31 @@
     disegnaPunti();
   });
 
+  /* ------------------------------------------------------ buoni regalo */
+  /* Il buono finto nella sezione mostra a turno i tagli in vendita su SumUp;
+     passando su un importo si ferma su quello. */
+  const buonoOut = $('#buonoImporto');
+  const tagli = $$('.regalo__tagli li').filter(li => /\d/.test(li.textContent));
+  if (buonoOut && tagli.length) {
+    let i = tagli.findIndex(li => li.textContent.startsWith(buonoOut.textContent));
+    let timer = null;
+    const mostra = j => {
+      i = j;
+      buonoOut.textContent = tagli[j].textContent.replace(/\D/g, '');
+      tagli.forEach((li, k) => li.classList.toggle('is-on', k === j));
+    };
+    const pausa = () => { clearInterval(timer); timer = null; };
+    const avvia = () => {
+      if (reduced || timer) return;
+      timer = setInterval(() => mostra((i + 1) % tagli.length), 2200);
+    };
+    tagli.forEach((li, j) => li.addEventListener('mouseenter', () => { pausa(); mostra(j); }));
+    $('.regalo__tagli').addEventListener('mouseleave', avvia);
+    mostra(Math.max(i, 0));
+    new IntersectionObserver(es => (es[0].isIntersecting ? avvia() : pausa()),
+      { threshold: 0.3 }).observe($('.regalo'));
+  }
+
   /* ------------------------------------- galleria nella scheda progetto */
   /* Piu' foto per lo stesso lavoro (pagina progetti). Scorrono da sole ogni
      3,5 secondi finche' la scheda e' in vista; al primo gesto dell'utente

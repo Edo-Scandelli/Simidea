@@ -878,3 +878,19 @@ clienti o eventi. Il quinto (`simidea-sul-telefono`, 30 ottobre
 2026) annuncia la web app: la copertina `web-app.jpg` sono tre schermate vere
 dell'app (`?webapp`) messe in cornici di telefono e fotografate con Chrome headless con
 `--force-prefers-reduced-motion`: senza, lo scatto coglie le animazioni a meta'. **Vanno letti da Simone prima del lancio**: parlano a nome suo.
+
+## Buoni regalo (home, `#buoni-regalo`)
+
+Aggiunta il 13 novembre 2026. I buoni si vendono su **SumUp**
+(https://giftcards.sumup.com/order/MKK0R97Z, creata da Simone): tagli da 50, 75,
+100, 150, 300 e 500 € piu' importo libero. SumUp non si lascia incorporare
+(risponde 403 / niente iframe), quindi sul sito c'e' solo la vetrina con un
+pulsante che apre la loro pagina in una nuova scheda.
+
+- Sezione fra "Dicono di noi" e la CTA dei contatti; link "Buoni regalo" nel
+  footer di home, servizi, progetti e studio.
+- Il buono disegnato a destra mostra a turno i tagli (ogni 2,2 s, fermo con
+  `prefers-reduced-motion`); passando su un importo si ferma su quello.
+- Testi scritti da noi, da far approvare a Simone. Da confermare: su quali
+  servizi si usa il buono, scadenza, come arriva a chi lo riceve. Resta da
+  sentire il commercialista (buono multiuso, IVA al momento dell'uso).
