@@ -498,40 +498,50 @@
   });
 
   /* ------------------------------------------------------------- utilities */
-  /* ------------------------------------------------ popup promo SIMIDEALS */
-  /* Costruito qui e non nel markup: cosi' sta in un posto solo e compare su
-     tutte le pagine. Senza JS non appare, ed e' giusto — e' promozione, non
-     contenuto.
+  /* ------------------------------------------------------- popup avvisi */
+  /* Il popup che compare all'apertura (prima la promo Simideals, ora i buoni
+     regalo). Costruito qui e non nel markup: cosi' sta in un posto solo e
+     compare su tutte le pagine. Senza JS non appare, ed e' giusto — e'
+     promozione, non contenuto.
 
-     DA AGGIORNARE QUANDO LA PROMO CAMBIA: basta toccare questo oggetto.
-     Si vede DA SUBITO: prima dell'inizio annuncia la promo come in arrivo,
-     dal primo giorno dice che e' attiva. Dopo la fine non esce piu' — un
-     popup che annuncia uno sconto scaduto fa piu' danni che bene. */
-  // Simideals finita il 15/11/2026 e spenta su richiesta: per una nuova
-  // promo rimettere attiva a true e aggiornare date, titolo e scaglioni.
+     DA AGGIORNARE QUANDO CAMBIA L'AVVISO: basta toccare questo oggetto.
+     - dal/al: date di inizio e fine (al: null = nessuna scadenza). Prima di
+       "dal" esce con eyebrowPrima, dopo "al" non esce piu'.
+     - chiave: una per ogni avviso, cosi' chi ha chiuso il vecchio vede il
+       nuovo. Va elencata nella cookie policy (qui e nella landing).
+     - righe: le pillole in vetro; ogni riga e' un elenco di pezzi separati
+       da un punto. L'ultima riga e' la piu' "accesa".
+     Simideals (15/10 - 15/11/2026): vedi git, commit 6675ee9. */
+  const SUMUP_BUONI = 'https://giftcards.sumup.com/order/MKK0R97Z';
   const PROMO = {
-    attiva:  false,
-    dal:     '2026-10-15',
-    al:      '2026-11-15',
-    chiave:  'simidea:promo-simideals',
-    titolo:  'Simideals.',
-    periodo: 'Dal 15 ottobre al 15 novembre',
-    scaglioni: [
-      { quanti: '1 servizio', sconto: '20% off' },
-      { quanti: '2 servizi',  sconto: '25% off' },
-      { quanti: '3 servizi',  sconto: '30% off' },
+    attiva:  true,
+    dal:     '2026-11-16',
+    al:      null,
+    chiave:  'simidea:popup-buoni',
+    eyebrow: 'Novità',
+    eyebrowPrima: 'In arrivo',
+    titolo:  'Buoni regalo.',
+    periodo: "Regala un'idea a chi vuoi",
+    righe: [
+      ['50 €', '75 €', '100 €'],
+      ['150 €', '300 €', '500 €'],
+      ['Importo libero'],
+    ],
+    azioni: [
+      { testo: 'Regala un buono', href: SUMUP_BUONI, esterno: true, classe: 'btn--orange' },
+      { testo: 'Scopri di più',   href: '/#buoni-regalo',            classe: 'btn--ghost' },
     ],
   };
 
-  const promoFinita  = () => new Date() > new Date(PROMO.al + 'T23:59:59');
+  const promoFinita   = () => !!PROMO.al && new Date() > new Date(PROMO.al + 'T23:59:59');
   const promoInArrivo = () => new Date() < new Date(PROMO.dal + 'T00:00:00');
 
   let promoGiaVista = false;
   try { promoGiaVista = sessionStorage.getItem(PROMO.chiave) === '1'; } catch {}
 
   /* ?promo in fondo alla URL lo mostra comunque, anche fuori dalle date e anche
-     se e' gia' stato chiuso. Serve per farlo vedere al cliente senza aspettare
-     il 15 ottobre: e' solo un'anteprima, non cambia il comportamento normale. */
+     se e' gia' stato chiuso. Serve per farlo vedere al cliente: e' solo
+     un'anteprima, non cambia il comportamento normale. */
   const promoForzata = new URLSearchParams(location.search).has('promo');
 
   // nell'app niente popup all'apertura: si entra dritti nei contenuti
@@ -543,13 +553,18 @@
     setTimeout(() => {
       if (!promoForzata) { try { sessionStorage.setItem(PROMO.chiave, '1'); } catch {} }
 
-      const righe = PROMO.scaglioni.map((x, i) => `
-        <li class="promo__riga" style="--f:${(i / (PROMO.scaglioni.length - 1)).toFixed(2)}">
+      const n = PROMO.righe.length;
+      const righe = PROMO.righe.map((pezzi, i) => `
+        <li class="promo__riga" style="--f:${n > 1 ? (i / (n - 1)).toFixed(2) : 1}">
           <span class="promo__stella" aria-hidden="true">✦</span>
-          <span>${x.quanti}</span>
-          <span class="promo__freccia" aria-hidden="true">→</span>
-          <span class="promo__sconto">${x.sconto}</span>
+          ${pezzi.map(x => `<span>${x}</span>`).join('<span class="promo__freccia" aria-hidden="true">·</span>')}
         </li>`).join('');
+
+      const azioni = PROMO.azioni.map(a => `
+        <a class="btn ${a.classe}" href="${a.href}"${a.esterno ? ' target="_blank" rel="noopener"' : ''}>
+          ${a.testo}
+          ${a.classe === 'btn--orange' ? '<svg class="ico" aria-hidden="true"><use href="#s-arrow"/></svg>' : ''}
+        </a>`).join('');
 
       const strato = document.createElement('div');
       strato.className = 'promo';
@@ -557,17 +572,12 @@
         <div class="promo__riquadro" role="dialog" aria-modal="true" aria-labelledby="promoTitolo">
           <button class="promo__chiudi" type="button" aria-label="Chiudi">✕</button>
           <div class="promo__testa">
-            <p class="eyebrow">${promoInArrivo() ? 'Promozione in arrivo' : 'Promozione attiva'}</p>
+            <p class="eyebrow">${promoInArrivo() ? PROMO.eyebrowPrima : PROMO.eyebrow}</p>
             <p class="promo__titolo" id="promoTitolo">${PROMO.titolo}</p>
             <p class="promo__periodo">${PROMO.periodo}</p>
           </div>
           <ul class="promo__scaglioni">${righe}</ul>
-          <div class="promo__azioni">
-            <a class="btn btn--orange" href="#contatti">
-              Parliamone
-              <svg class="ico" aria-hidden="true"><use href="#s-arrow"/></svg>
-            </a>
-          </div>
+          <div class="promo__azioni">${azioni}</div>
         </div>`;
       document.body.append(strato);
 
@@ -595,7 +605,7 @@
       };
 
       $('.promo__chiudi', strato).addEventListener('click', chiudi);
-      $('.promo__azioni a', strato).addEventListener('click', chiudi);
+      $$('.promo__azioni a', strato).forEach(a => a.addEventListener('click', chiudi));
       strato.addEventListener('click', e => { if (e.target === strato) chiudi(); });
       addEventListener('keydown', tasti);
 

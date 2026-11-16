@@ -2616,8 +2616,10 @@ html.has-cursor * { cursor: none !important; }
 .promo__freccia { color: color-mix(in srgb, var(--cream) 55%, transparent); text-shadow: none; }
 .promo__sconto { color: #fff0d6; }
 
-.promo__azioni { display: flex; justify-content: center; margin-bottom: .2rem; }
+.promo__azioni { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-bottom: .2rem; }
 .promo__azioni .btn { justify-content: center; }
+/* il ghost su fondo nero: bordo e testo chiari, si riempie di panna */
+.promo .btn--ghost { color: var(--cream); --btn-fill: var(--cream); --btn-fill-fg: var(--ink-deep); }
 
 
 @media (prefers-reduced-motion: reduce) {
