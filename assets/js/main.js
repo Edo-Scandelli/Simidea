@@ -507,8 +507,10 @@
      Si vede DA SUBITO: prima dell'inizio annuncia la promo come in arrivo,
      dal primo giorno dice che e' attiva. Dopo la fine non esce piu' — un
      popup che annuncia uno sconto scaduto fa piu' danni che bene. */
+  // Simideals finita il 15/11/2026 e spenta su richiesta: per una nuova
+  // promo rimettere attiva a true e aggiornare date, titolo e scaglioni.
   const PROMO = {
-    attiva:  true,
+    attiva:  false,
     dal:     '2026-10-15',
     al:      '2026-11-15',
     chiave:  'simidea:promo-simideals',
