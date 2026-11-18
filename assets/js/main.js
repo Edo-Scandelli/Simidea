@@ -42,10 +42,21 @@
     const barra = document.createElement('nav');
     barra.className = 'tabbar';
     barra.setAttribute('aria-label', 'Navigazione');
-    barra.innerHTML = VOCI.map(v => `
+    barra.innerHTML = '<span class="tabbar__luce" aria-hidden="true"></span>' + VOCI.map(v => `
       <a class="tabbar__voce" href="${v.href}"${attiva(v) ? ' aria-current="page"' : ''}>
         ${ico(v.d)}<span>${v.nome}</span>
       </a>`).join('');
+    // la pillola sta sotto la voce della pagina; sulle pagine senza voce
+    // (blog, legali) non c'e'
+    const acceso = VOCI.findIndex(attiva);
+    if (acceso >= 0) barra.style.setProperty('--i', acceso);
+    // al tocco scivola subito verso la voce scelta, mentre la pagina sfuma
+    $$('.tabbar__voce', barra).forEach((a, i) => a.addEventListener('click', () => {
+      if (VOCI[i].href.startsWith('#')) return;
+      barra.style.setProperty('--i', i);
+      $$('.tabbar__voce', barra).forEach((x, k) => k === i
+        ? x.setAttribute('aria-current', 'page') : x.removeAttribute('aria-current'));
+    }));
     document.body.append(barra);
   }
 
@@ -754,7 +765,9 @@
           strato.dataset.fatto = 'true';
           dillo('Ricevuto. Ti ricontattiamo entro un giorno lavorativo.', 'ok');
         } catch (err) {
-          dillo('Invio non riuscito. Scrivici a info@simidea.it e ti rispondiamo subito.', 'errore');
+          dillo(navigator.onLine
+            ? 'Invio non riuscito. Scrivici a info@simidea.it e ti rispondiamo subito.'
+            : 'Sei offline: il messaggio non è partito. Riprova quando torna la connessione.', 'errore');
           invia.disabled = false;
           invia.firstChild.textContent = etichetta;
         }
@@ -821,7 +834,9 @@
         fnews.dataset.fatto = 'true';
         dillo('Ci sei. Ti abbiamo mandato una mail di benvenuto: se non la vedi, guarda nello spam.', 'ok');
       } catch (err) {
-        dillo('Iscrizione non riuscita. Scrivici a info@simidea.it e ti aggiungiamo noi.', 'errore');
+        dillo(navigator.onLine
+          ? 'Iscrizione non riuscita. Scrivici a info@simidea.it e ti aggiungiamo noi.'
+          : 'Sei offline: riprova quando torna la connessione.', 'errore');
         invia.disabled = false;
         etichetta.textContent = testo;
       }
@@ -1296,6 +1311,32 @@
     onResize(() => vaiA(ora(), false));
     segna();
   });
+
+  /* ------------------------------------------------- funziona offline */
+  /* sw.js salva pagine e file man mano (vedi le note li' dentro). Dentro
+     l'app gli chiediamo anche di scaricare subito tutte le foto, cosi' il
+     portfolio si sfoglia anche in aereo. Nessun dato personale: solo copie
+     dei file del sito, elencate nella cookie policy. */
+  if ('serviceWorker' in navigator) {
+    addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').then(() => navigator.serviceWorker.ready)
+        .then(reg => { if (inWebapp && reg.active) reg.active.postMessage('scarica-tutto'); })
+        .catch(() => {});
+    });
+  }
+
+  /* nell'app, un avviso discreto quando manca la rete */
+  if (inWebapp) {
+    const avviso = document.createElement('p');
+    avviso.className = 'offline-avviso';
+    avviso.setAttribute('role', 'status');
+    avviso.textContent = 'Sei offline · stai vedendo le pagine salvate';
+    document.body.append(avviso);
+    const segna = () => avviso.classList.toggle('is-visibile', !navigator.onLine);
+    addEventListener('online', segna);
+    addEventListener('offline', segna);
+    segna();
+  }
 
   function onScroll(fn) {
     let ticking = false;

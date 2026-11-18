@@ -2801,32 +2801,82 @@ body[data-preview] .stack { padding-bottom: clamp(5rem, 12vh, 9rem); }
    ========================================================================== */
 
 /* --- barra di navigazione in basso -------------------------------------- */
+/* Capsula di vetro scuro che galleggia sopra la pagina, staccata dai bordi
+   come nelle app di oggi. La voce attiva sta dentro una "pillola" arancione
+   tenue (.tabbar__luce) che scivola verso la voce toccata prima del cambio
+   pagina. Vetro scuro su qualsiasi sezione: sopra il chiaro e sopra il nero
+   resta leggibile, grazie al bordo chiaro e all'ombra. */
 .tabbar { display: none; }
 html.is-app .tabbar {
+  --pad-barra: .35rem;
   position: fixed; z-index: 100;
-  left: 0; right: 0; bottom: 0;
+  left:  max(.75rem, env(safe-area-inset-left, 0px));
+  right: max(.75rem, env(safe-area-inset-right, 0px));
+  bottom: max(.75rem, env(safe-area-inset-bottom, 0px));
+  max-width: 30rem; margin-inline: auto;
   display: grid; grid-template-columns: repeat(5, 1fr);
-  padding: .35rem max(.5rem, env(safe-area-inset-right, 0px))
-           calc(.35rem + env(safe-area-inset-bottom, 0px))
-           max(.5rem, env(safe-area-inset-left, 0px));
-  background: color-mix(in srgb, var(--ink-deep) 82%, transparent);
-  backdrop-filter: blur(24px) saturate(1.6);
-  -webkit-backdrop-filter: blur(24px) saturate(1.6);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / .1);
+  padding: var(--pad-barra);
+  border-radius: 999px;
+  background: color-mix(in srgb, #15120f 70%, transparent);
+  backdrop-filter: blur(22px) saturate(1.8);
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / .09),
+    inset 0 1px 0 rgb(255 255 255 / .12),
+    0 14px 34px -12px rgb(0 0 0 / .6),
+    0 2px 8px rgb(0 0 0 / .22);
+  isolation: isolate;
 }
+.tabbar__luce {
+  position: absolute; z-index: -1;
+  top: var(--pad-barra); bottom: var(--pad-barra); left: var(--pad-barra);
+  width: calc((100% - 2 * var(--pad-barra)) / 5);
+  border-radius: 999px;
+  background: rgb(255 153 0 / .16);
+  box-shadow: inset 0 0 0 1px rgb(255 153 0 / .22);
+  transform: translateX(calc(var(--i, 0) * 100%));
+  transition: transform .45s cubic-bezier(.3, 1.35, .5, 1), opacity .25s var(--ease);
+}
+.tabbar:not([style*="--i"]) .tabbar__luce { opacity: 0; }
 .tabbar__voce {
-  display: grid; justify-items: center; gap: .2rem;
-  padding: .45rem 0 .3rem;
-  font-family: var(--f-head); font-size: .66rem; font-weight: 600; letter-spacing: .01em;
-  color: color-mix(in srgb, var(--cream) 55%, transparent);
-  transition: color .25s var(--ease), transform .2s var(--ease);
+  display: grid; justify-items: center; align-content: center; gap: .18rem;
+  min-height: 3.3rem;
+  border-radius: 999px;
+  font-family: var(--f-head); font-size: .62rem; font-weight: 600; letter-spacing: .02em;
+  color: color-mix(in srgb, var(--cream) 62%, transparent);
+  transition: color .3s var(--ease), transform .25s var(--ease);
 }
-.tabbar__voce svg { width: 24px; height: 24px; }
+.tabbar__voce svg { width: 22px; height: 22px; transition: transform .35s var(--ease); }
+.tabbar__voce svg :is(path, rect, circle) { transition: fill .3s var(--ease); }
 .tabbar__voce[aria-current="page"] { color: var(--orange); }
-.tabbar__voce:active { transform: scale(.92); }
+/* l'icona attiva si "riempie" appena, come nelle app di sistema */
+.tabbar__voce[aria-current="page"] svg :is(path, rect, circle) { fill: rgb(255 153 0 / .22); }
+.tabbar__voce[aria-current="page"] svg { transform: translateY(-1px); }
+.tabbar__voce:active { transform: scale(.9); }
+
+/* --- avviso "sei offline" (main.js), appena sopra la barra -------------- */
+.offline-avviso { display: none; }
+html.is-app .offline-avviso {
+  display: block; position: fixed; z-index: 101;
+  left: 50%; bottom: calc(max(.75rem, env(safe-area-inset-bottom, 0px)) + 4.6rem);
+  margin: 0; padding: .45rem .95rem; border-radius: 999px;
+  background: color-mix(in srgb, #15120f 82%, transparent);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  box-shadow: inset 0 0 0 1px rgb(255 153 0 / .3), 0 8px 20px -10px rgb(0 0 0 / .6);
+  font-family: var(--f-head); font-size: .7rem; font-weight: 600; white-space: nowrap;
+  color: var(--cream);
+  opacity: 0; pointer-events: none;
+  transform: translate(-50%, .5rem);
+  transition: opacity .3s var(--ease), transform .4s var(--ease);
+}
+html.is-app .offline-avviso.is-visibile { opacity: 1; transform: translate(-50%, 0); }
 
 /* il fondo pagina non deve finire sotto la barra */
-html.is-app body { padding-bottom: calc(4.1rem + env(safe-area-inset-bottom, 0px)); }
+html.is-app body { padding-bottom: calc(5.4rem + env(safe-area-inset-bottom, 0px)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tabbar__luce, .tabbar__voce, .tabbar__voce svg { transition: none; }
+}
 
 /* --- header: resta solo il marchio --------------------------------------- */
 html.is-app .nav__links,
